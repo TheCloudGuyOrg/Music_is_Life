@@ -12,6 +12,7 @@ Project Objectives:
     Integrate existing API endpoints with DynamoDB database layer
     Deploy app to AWS using API Gateway and Lambda
     Fully Serverless Backend App
+    Setup AWS Code Tools for CI/CD Pipeline and Code Management
 
 
 ### Running the server
@@ -39,6 +40,17 @@ You will be working with a database for this project so be sure to setup DynamoD
 
 
 
+## ToDo List
+Setup Cloudformation Template to deploy S3 Bucket
+Setup Cloudformation Template to deploy DynamoDB
+Populate S3 bucket and DynamoDB with inital data
+Setup Express and Sessions
+setup test code using Mocha
+Build API endpoints 
+Setup Lambda and API Gateway
+Setup Cognito for Auth
+Setup Caching
+Setup CI/CD Pipeline
 
 
 
