@@ -2,13 +2,13 @@
   "name": "music_is_life",
   "version": "1.0.0",
   "description": "Music Upload Service",
-  "main": "index.js",
+  "main": "app.js",
    "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "mocha",
-    "start": "node index.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
