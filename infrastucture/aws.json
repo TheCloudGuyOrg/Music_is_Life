@@ -1,0 +1,22 @@
+{
+"AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Infrastucture for Music is Life App",
+    "Metadata": {
+
+    },
+    "Parameters": {
+    
+    },
+    "Mappings": {
+
+    },
+    "Conditions": {
+
+    },
+    "Resources": {
+
+    },
+    "Outputs": {
+
+    }
+}
