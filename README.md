@@ -41,10 +41,11 @@ You will be working with a database for this project so be sure to setup DynamoD
 
 
 ## ToDo List
-Setup Cloudformation Template to deploy S3 Bucket
 Setup Cloudformation Template to deploy DynamoDB
 Populate S3 bucket and DynamoDB with inital data
 Setup Express and Sessions
+Connect S3 with AWS JS SDK
+Connect DynamoDB with AWS JS SDK
 setup test code using Mocha
 Build API endpoints 
 Setup Lambda and API Gateway
