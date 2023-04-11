@@ -14,9 +14,9 @@ const {
 
 //Photo API Routes
 s3MusicApi.get('/', listS3Music);
-s3MusicApi.get('/:id', getS3Music);
+s3MusicApi.get('/:name', getS3Music);
 s3MusicApi.post('/', putS3Music);
-s3MusicApi.delete('/:id', deleteS3Music);
+s3MusicApi.delete('/:name', deleteS3Music);
 
 //Export API
 module.exports = s3MusicApi;
