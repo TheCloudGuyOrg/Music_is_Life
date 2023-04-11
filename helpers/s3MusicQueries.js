@@ -9,7 +9,7 @@ const {
     DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
 
-const s3MusicClient = new S3Client({ region: 'us-east-1'});
+const client = new S3Client({ region: 'us-east-1'});
 
 
 //List S3 Music Objects
@@ -22,7 +22,7 @@ const getS3Music = async (request,response) => {
     
 }
 
-//Put S3 Music
+//Put S3 Music 
 const putS3Music = async (request,response) => {
     
 }
