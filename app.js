@@ -1,19 +1,19 @@
 'use strict';
 
-//Import Varables
+// Import Varables
 const dotenv = require('dotenv');
 dotenv.config();
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
-//Use Express
+// Use Express
 const express = require('express');
 const app = express();
 
-//Use Helmet
+// Use Helmet
 const helmet = require('helmet');
 app.use(helmet());
 
-//Defining User Sessions 
+// Defining User Sessions 
 const session = require('express-session');
 const storeSession = new session.MemoryStore(); //Dev Only Move to DB for Prod Sessions
 
@@ -31,11 +31,11 @@ app.use(
 	})
 );
 
-//Service Routers
+// Service Routers
 const s3MusicRouter = require('./routes/s3MusicRoutes.js');
 app.use('/musicrepo', s3MusicRouter);
 
-//Define Port
+// Define Port
 const serverPort = process.env.PORT || 3000;
 
 // Initialize Server
@@ -43,5 +43,5 @@ app.listen(serverPort, () => {
 	console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort); 
 });
 
-//Export App
+// Export App
 module.exports = app;
