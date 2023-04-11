@@ -30,6 +30,10 @@ app.use(
 	})
 );
 
+//Service Routers
+const s3MusicRouter = require('./routes/s3MusicRoutes.js');
+app.use('/musicrepo', s3MusicRouter);
+
 //Define Port
 const serverPort = process.env.PORT || 3000;
 
