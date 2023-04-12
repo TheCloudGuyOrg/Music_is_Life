@@ -15,9 +15,7 @@ const {
     DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
 
-const {
-    getSignedUrl,
-} = require('@aws-sdk/s3-request-presigner')
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
 
 // Defining S3 Client
 const client = new S3Client({ 
@@ -27,7 +25,6 @@ const client = new S3Client({
     },
     region: 'us-east-1',
 });
-
 
 //List S3 Music Objects
 const listS3Music = async (request,response) => {
@@ -49,7 +46,6 @@ const listS3Music = async (request,response) => {
         });
     }
 };
-
 
 //Get S3 Music Signed URL 
 const GetS3ObjectSignedUrl = async (request,response) => {
