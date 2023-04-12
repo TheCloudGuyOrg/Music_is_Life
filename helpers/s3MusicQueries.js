@@ -59,7 +59,7 @@ const GetS3ObjectSignedUrl = async (request,response) => {
         const url = await getSignedUrl(
             client, 
             getObject, { 
-                expiresIn: 60 * 60 * 4 
+                expiresIn: 60 * 60 * 6 //seconds * minutes * hours
             })
         response.status(200).send({
             status: 'Success',
