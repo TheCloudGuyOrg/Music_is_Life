@@ -10,10 +10,14 @@ const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 const {
     S3Client, 
     ListObjectsCommand,
-    GetS3ObjectSignedUrl,
+    GetObjectCommand,
     PutObjectCommand,
     DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
+
+const {
+    getSignedUrl,
+} = require('@aws-sdk/s3-request-presigner')
 
 // Defining S3 Client
 const client = new S3Client({ 
@@ -24,10 +28,11 @@ const client = new S3Client({
     region: 'us-east-1',
 });
 
+
 //List S3 Music Objects
 const listS3Music = async (request,response) => {
     const listObjects = new ListObjectsCommand({
-        Bucket: "music-is-life-music-repo-s3bucket-aq1gdzky3rt9", 
+        Bucket: "music-is-life-bucket-s3bucket-f1nzdqyqv0cc", 
     });
 
     try {
@@ -45,22 +50,25 @@ const listS3Music = async (request,response) => {
     }
 };
 
-/*
+
 //Get S3 Music Signed URL 
 const GetS3ObjectSignedUrl = async (request,response) => {
     const name = request.params.name
-    const getObject = new HeadObjectCommand({
-        Bucket: "music-is-life-music-repo-s3bucket-aq1gdzky3rt9", 
+    const getObject = new GetObjectCommand({
+        Bucket: "music-is-life-bucket-s3bucket-f1nzdqyqv0cc", 
         Key: name,
     });
-    
+
     try {
-        const data = await client.send(getObject);
-        console.log(data)
+        const url = await getSignedUrl(
+            client, 
+            getObject, { 
+                expiresIn: 60 * 60 * 4 
+            })
         response.status(200).send({
             status: 'Success',
             message: 'Music information retrieved',
-            data: data
+            data: url
         })
     } 
     catch (error) {
@@ -70,6 +78,7 @@ const GetS3ObjectSignedUrl = async (request,response) => {
     }
 }; 
 
+/*
 //Put S3 Music 
 const putS3Music = async (request,response) => {
     try {
@@ -98,7 +107,7 @@ const deleteS3Music = async (request,response) => {
 //Export Queries
 module.exports = {
 	listS3Music,
-	//GetS3ObjectSignedUrl,
+	GetS3ObjectSignedUrl,
 	//putS3Music,
 	//deleteS3Music
   };
