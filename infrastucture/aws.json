@@ -30,7 +30,13 @@
             "LoggingConfiguration": {
                 "DestinationBucketName": "thecloudguy-logs",
                 "LogFilePrefix": "Music-is-Life-Bucket/"
-              }
+            },
+            "PublicAccessBlockConfiguration": {
+                "BlockPublicAcls" : "true",
+                "BlockPublicPolicy" : "true",
+                "IgnorePublicAcls" : "true",
+                "RestrictPublicBuckets" : "true"
+            }
           }
         }
       },   

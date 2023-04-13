@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+const bucket = 'music-is-life-bucket-s3bucket-1p1cgsnuuvm73'
 
 // Import S3 Modules
 const {
@@ -29,7 +30,7 @@ const client = new S3Client({
 //List S3 Music Objects
 const listS3Music = async (request,response) => {
     const listObjects = new ListObjectsCommand({
-        Bucket: "music-is-life-bucket-s3bucket-f1nzdqyqv0cc", 
+        Bucket: bucket, 
     });
 
     try {
@@ -51,7 +52,7 @@ const listS3Music = async (request,response) => {
 const GetS3ObjectSignedUrl = async (request,response) => {
     const name = request.params.name
     const getObject = new GetObjectCommand({
-        Bucket: "music-is-life-bucket-s3bucket-f1nzdqyqv0cc", 
+        Bucket: bucket, 
         Key: name,
     });
 
