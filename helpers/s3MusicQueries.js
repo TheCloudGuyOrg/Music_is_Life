@@ -12,7 +12,6 @@ const {
     S3Client, 
     ListObjectsCommand,
     GetObjectCommand,
-    PutObjectCommand,
     DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
 
@@ -80,6 +79,10 @@ const GetS3ObjectSignedUrl = async (request,response) => {
 const putS3Music = async (request,response) => {
     try {
         const data = await client.send(postObject);
+            response.status(201).send({
+            status: 'Success',
+            message: 'Music file uploaded',
+            data: url
     } 
     catch (error) {
         response.status(500).send({
