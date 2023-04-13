@@ -48,6 +48,14 @@
           "Arn"
         ]
       }
+    },
+    "S3BucketUrl": {
+      "Value": {
+        "Fn::GetAtt": [
+          "S3Bucket",
+          "WebsiteURL"
+        ]
+      }
     }
   }
 }
