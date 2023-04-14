@@ -76,13 +76,13 @@ const GetS3ObjectSignedUrl = async (request,response) => {
 
 /*
 //Put S3 Music 
-const putS3Music = async (request,response) => {
+const postS3Music = async (request,response) => {
     try {
         const data = await client.send(postObject);
             response.status(201).send({
             status: 'Success',
             message: 'Music file uploaded',
-            data: url
+            data: data
     } 
     catch (error) {
         response.status(500).send({
@@ -108,7 +108,7 @@ const deleteS3Music = async (request,response) => {
 module.exports = {
 	listS3Music,
 	GetS3ObjectSignedUrl,
-	//putS3Music,
+	//postS3Music,
 	//deleteS3Music
   };
   
