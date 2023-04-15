@@ -36,6 +36,15 @@
                 "BlockPublicPolicy" : "true",
                 "IgnorePublicAcls" : "true",
                 "RestrictPublicBuckets" : "true"
+            },
+            "LifecycleConfiguration": {
+                "Rules": [
+                {
+                  "Status": "Enabled",
+                  "AbortIncompleteMultipartUpload": {
+                      "DaysAfterInitiation": 1
+                  }
+                }]
             }
           }
         }
