@@ -31,7 +31,8 @@ const client = new S3Client({
 });
 
 //List S3 Music Objects
-const listS3Music = async (request,response) => {
+const listS3Music = async (request,response) => {  
+    console.log(request)
     const listObjects = new ListObjectsCommand({
         Bucket: bucket, 
     });
@@ -81,6 +82,7 @@ const GetS3ObjectSignedUrl = async (request,response) => {
 
 //Put S3 Music 
 const postS3Music = async (request,response) => {
+
     const fileName = request.params.name
     const filePath = './' + fileName //FIX PATH
     const fileKey = fileName

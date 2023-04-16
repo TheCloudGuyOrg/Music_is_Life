@@ -9,6 +9,11 @@ const SESSION_SECRET = process.env.SESSION_SECRET;
 const express = require('express');
 const app = express();
 
+// Use Body Parser
+var bodyParser = require('body-parser')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Use Helmet
 const helmet = require('helmet');
 app.use(helmet());
