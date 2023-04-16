@@ -16,7 +16,7 @@ const {
 s3MusicApi.get('/', listS3Music);
 s3MusicApi.get('/:name', GetS3ObjectSignedUrl);
 s3MusicApi.post('/upload/:name', postS3Music);
-//s3MusicApi.delete('/:name', deleteS3Music);
+s3MusicApi.delete('/:name', deleteS3Music);
 
 // Export API
 module.exports = s3MusicApi;

@@ -32,7 +32,6 @@ const client = new S3Client({
 
 //List S3 Music Objects
 const listS3Music = async (request,response) => {  
-    console.log(request)
     const listObjects = new ListObjectsCommand({
         Bucket: bucket, 
     });
@@ -83,7 +82,7 @@ const GetS3ObjectSignedUrl = async (request,response) => {
 const postS3Music = async (request,response) => {
 
     const fileName = request.params.name
-    const filePath = './Music-Files/' + fileName //FIX PATH
+    const filePath = './Music-Files/' + fileName 
     const fileKey = fileName
     const fileStream = fs.createReadStream(filePath)
 
@@ -111,11 +110,22 @@ const postS3Music = async (request,response) => {
     }
 }; 
 
-/*
+
 //Delete S3 Music
 const deleteS3Music = async (request,response) => {
+    const name = request.params.name
+    const deleteObject = new DeleteObjectCommand({
+        Bucket: bucket, 
+        Key: name,
+    });
+
     try {
         const data = await client.send(deleteObject);
+        response.status(200).send({
+            status: 'Success',
+            message: 'Music information deleted',
+            data: data
+        })
     } 
     catch (error) {
         response.status(500).send({
@@ -123,13 +133,13 @@ const deleteS3Music = async (request,response) => {
         });
     }
 }; 
-*/
+
 
 //Export Queries
 module.exports = {
 	listS3Music,
 	GetS3ObjectSignedUrl,
 	postS3Music,
-	//deleteS3Music
+	deleteS3Music
   };
   
