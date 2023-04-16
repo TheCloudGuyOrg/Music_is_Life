@@ -79,12 +79,11 @@ const GetS3ObjectSignedUrl = async (request,response) => {
     }
 }; 
 
-
 //Put S3 Music 
 const postS3Music = async (request,response) => {
 
     const fileName = request.params.name
-    const filePath = './' + fileName //FIX PATH
+    const filePath = './Music-Files/' + fileName //FIX PATH
     const fileKey = fileName
     const fileStream = fs.createReadStream(filePath)
 
