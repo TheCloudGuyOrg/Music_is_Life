@@ -52,7 +52,12 @@ const multiPartUpload = async (file, path) => {
         Bucket: bucket,
     })
 
-    const upload = async (body, UploadId, partNumber) => {
+    const abort = new AbortMultipartUploadCommand({
+        Key: fileKey,
+        Bucket: bucket,
+    })
+
+    const upload = async (body, MPUploadId, partNumber) => {
         const partParams = {
             Key: fileKey,
             Bucket: bucket,
@@ -75,27 +80,35 @@ const multiPartUpload = async (file, path) => {
         })
     }
 
-    const abort = new AbortMultipartUploadCommand({
-        Key: fileKey,
-        Bucket: bucket,
-    })
+    const complete = async (MPUploadId, CompletedParts) => {
 
-    const complete = new CompleteMultipartUploadCommand({
-        Key: fileKey,
-        Bucket: bucket,
-        UploadId: MPUploadId,
-        MultipartUpload: { Parts: CompletedParts},
-    }) 
+        const partParams = {
+            Key: fileKey,
+            Bucket: bucket,
+            UploadId: MPUploadId,
+            MultipartUpload: { Parts: CompletedParts},
+        }
+
+        try {
+            await client.send(new CompleteMultipartUploadCommand(partParams))
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
 
     const init = await client.send(initiate);
     MPUploadId = init.UploadId
 
+    console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
+
     for (let index = 1; index <= numParts; index++) {
         let start = (index - 1) * chunkSize
         let end = index * chunkSize;
+        let body = (index < numParts) ? file.slice(start, end) : file.slice(start)
 
         promise.push(upload(
-            (index < numParts) ? file.slice(start, end) : file.slice(start), 
+            body, 
             MPUploadId, 
             index
         ))
@@ -104,12 +117,13 @@ const multiPartUpload = async (file, path) => {
             PartNumber: index, 
             buffer: Buffer.from(file.slice(start, end + 1)) 
         });
-    
+
+
         Parts = await Promise.allSettled(promise);
 
         FailedUploads = Parts.filter(f => f.status == "rejected");
     }
-
+    
     if(FailedUploads.length){
         for (let i = 0; i < FailedUploads.length; i++) {
             let [data] = slicedData.filter(f => f.PartNumber == FailedUploads[i].value.PartNumber)
@@ -122,11 +136,13 @@ const multiPartUpload = async (file, path) => {
         }
     }
 
-    CompletedParts = Parts.map(m => m.value);
     
-    const finish = await client.send(complete);
-    console.log(finish);
+/*
+    CompletedParts = Parts.map(m => m.value);
 
+    const finish = complete(MPUploadId, CompletedParts);
+    finish.then((data) => console.log(data))
+*/
 }
 
 multiPartUpload(file, path)
