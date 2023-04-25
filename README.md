@@ -17,8 +17,24 @@ npm start
 npm install 
 ```
 
+## Software Components
+### Node Express
 
-## Notes
+### GIT and GITHUB
+
+
+### AWS S3
+- ListObject
+- GetObject
+- DeleteObject
+- MultiPartUpload
+
+### AWS DynamoDB
+
+
+
+
+## Project Requirements
 setup multi-part upload
 Add if/else Error Checks
 -   validate file is an audio file before upload
