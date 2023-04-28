@@ -37,10 +37,9 @@ const client = new S3Client({
 // File Uploads
 // NEED API PATH
 
-const multiPartUpload = async (file, path) => {
+const multiPartUpload = async (request, response) => {
     const form = new IncomingForm({ multiples: true});
-    form.parse(async (error, fields, files) => { 
-       
+    form.parse(request, async (error, fields, files) => { 
         const fileName = file
         const filePath = path + fileName
         const fileSize = fs.statSync(filePath).size
@@ -180,9 +179,4 @@ const complete = async (MPUploadId, CompletedParts) => {
     }
 }
 
-
-
-
-multiPartUpload(file, path)
-
-module.exports = multiPartUpload;
+module.exports ={ multiPartUpload };
