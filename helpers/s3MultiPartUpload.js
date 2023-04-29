@@ -33,11 +33,14 @@ const multiPartUpload = async (request, response) => {
     const fileName = request.body.name
     const filePath = request.body.path + fileName 
     const fileKey = fileName
-    const fileStream = fs.createReadStream(filePath) //Use fs.readFileSync(filePath)
+    const fileStream = fs.readFileSync(filePath)
+    const fileSize = fs.statSync(filePath).size
+    const chunkSize = 1024 * 1024 * 5 // 5 MB
+    const numParts = Math.ceil(fileSize / chunkSize)
     const promise = []
     let Parts = []
+    let slicedData = []
     let CompletedParts = []
-
 
     //Initialize Upload
     const initiate = new CreateMultipartUploadCommand({
@@ -47,7 +50,6 @@ const multiPartUpload = async (request, response) => {
 
     const init = await client.send(initiate);
     const MPUploadId = init.UploadId
-    //console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
 
     //Abort Upload 
     const abort = new AbortMultipartUploadCommand({
@@ -81,20 +83,24 @@ const multiPartUpload = async (request, response) => {
         })
     }
 
+    for (let index = 1; index <= numParts; index++) {
+        let start = (index -1) * chunkSize
+        let end = index * chunkSize
 
-    //SLICE AND DICE FILE
-    let body = fileStream //Temp
-    let index = 1 //Temp
+        promise.push(upload(
+            (index < numParts) ? fileStream.slice(start, end) : fileStream.slice(start), 
+            MPUploadId, 
+            index
+        ))
+      
+        slicedData.push({ PartNumber: index, 
+            buffer: Buffer.from(fileStream.slice(start, end + 1)) 
+        });   
+    }
 
-    //Push Individual Part to S3 upload function
-    promise.push(upload(
-        body, 
-        MPUploadId, 
-        index
-    ))
+    Parts = await Promise.allSettled(promise);
 
     //Complete Multipart Upload
-    Parts = await Promise.allSettled(promise);
     CompletedParts = Parts.map(m => m.value);
 
     const complete = new CompleteMultipartUploadCommand({
@@ -117,50 +123,5 @@ const multiPartUpload = async (request, response) => {
         client.send(abort)
     }
 }
-
-/*
-File Slicing Logic
-    const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
-
-    const numParts = Math.ceil(fileSize / chunkSize)
-    const fileSize = fs.statSync(filePath).size
-    const chunkSize = 1024 * 1024 * 5 // 5 MB
-    const slicedData = []
-    let FailedUploads = []
-
-
-
-        for (let index = 1; index <= numParts; index++) {
-            let start = (index - 1) * chunkSize
-            let end = index * chunkSize;
-            let body = (index < numParts) ? fileStream.slice(start, end) : fileStream.slice(start)
-
-            slicedData.push({ 
-                PartNumber: index, 
-                buffer: Buffer.from(file.slice(start, end + 1)) 
-            })
-
-            FailedUploads = Parts.filter(f => f.status == "rejected");
-
-            try {
-                if(!FailedUploads.length){
-                    for (let i = 0; i < FailedUploads.length; i++) {
-                        let [data] = slicedData.filter(f => f.PartNumber == FailedUploads[i].value.PartNumber)
-                        let s = await uploadPart(data.buffer, MPUploadId, data.PartNumber, key);
-                        RetryPromise.push(s);
-                    }
-                }
-        
-                
-                CompletedParts.push(...RetryPromise)
-                    
-                } catch (error) {
-                    await client.send(abort)
-                    console.log(error)
-                }
-            }
-        }
-    }
-*/
 
 module.exports = { multiPartUpload };
