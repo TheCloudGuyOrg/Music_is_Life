@@ -44,6 +44,7 @@ const multiPartUpload = async (request, response) => {
     let Parts = []
     let CompletedParts = []
 
+
     //Initialize Upload
     const initiate = new CreateMultipartUploadCommand({
         Key: fileKey,
@@ -54,6 +55,14 @@ const multiPartUpload = async (request, response) => {
     const MPUploadId = init.UploadId
     console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
 
+    //Abort Upload 
+    const abort = new AbortMultipartUploadCommand({
+        Key: fileKey,
+        Bucket: bucket,
+        UploadId: MPUploadId,
+    })
+
+    //Upload Parts to S3
     const upload = async (body, MPUploadId, partNumber) => {
         const partParams = {
             Key: fileKey,
@@ -73,15 +82,17 @@ const multiPartUpload = async (request, response) => {
             }
             catch (error) {
                 console.log(error)
+                client.send(abort)
             }
         })
     }
+
 
     //SLICE AND DICE FILE
     let body = fileStream //Temp
     let index = 1 //Temp
 
-    //Push Upload to S3
+    //Push Individual Part to S3 upload function
     promise.push(upload(
         body, 
         MPUploadId, 
@@ -109,6 +120,7 @@ const multiPartUpload = async (request, response) => {
     }
     catch (error) {
         console.log(error)
+        client.send(abort)
     }
 }
 
@@ -150,18 +162,7 @@ const multiPartUpload = async (request, response) => {
         }
     }
 
-    const abort = async (fileKey) => {
-    const abortParams = {
-        Key: fileKey,
-        Bucket: bucket,
-    }
 
-    try {
-        await client.send(new AbortMultipartUploadCommand(abortParams))
-    }
-    catch (error) {
-        console.log(error)
-    }
 }
     */
 
