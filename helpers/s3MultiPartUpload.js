@@ -77,7 +77,6 @@ const multiPartUpload = async (request, response) => {
                     PartNumber: partNumber, 
                     ETag: part.ETag
                 })
-                console.log(part)
             }
             catch (error) {
                 console.log(error)
@@ -95,13 +94,12 @@ const multiPartUpload = async (request, response) => {
 
     Parts = await Promise.allSettled(promise);
     CompletedParts = Parts.map(m => m.value);
-    console.log(CompletedParts)
 
     const complete = new CompleteMultipartUploadCommand({
         Key: fileKey,
         Bucket: bucket,
         UploadId: MPUploadId,
-        MultipartUpload: { Parts: CompletedParts},
+        MultipartUpload: {Parts: CompletedParts},
     })
 
     try{
