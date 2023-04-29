@@ -33,7 +33,7 @@ const multiPartUpload = async (request, response) => {
     const fileName = request.body.name
     const filePath = request.body.path + fileName 
     const fileKey = fileName
-    const fileStream = fs.createReadStream(filePath)
+    const fileStream = fs.createReadStream(filePath) //Use fs.readFileSync(filePath)
     const promise = []
     let Parts = []
     let CompletedParts = []
@@ -121,7 +121,7 @@ const multiPartUpload = async (request, response) => {
 /*
 File Slicing Logic
     const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
-    
+
     const numParts = Math.ceil(fileSize / chunkSize)
     const fileSize = fs.statSync(filePath).size
     const chunkSize = 1024 * 1024 * 5 // 5 MB
