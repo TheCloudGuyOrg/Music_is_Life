@@ -94,8 +94,19 @@ const multiPartUpload = async (request, response) => {
     ))
 
     Parts = await Promise.allSettled(promise);
-    console.log(Parts)
+    CompletedParts = Parts.map(m => m.value);
+    console.log(CompletedParts)
 
+    const complete = new CompleteMultipartUploadCommand({
+        Key: fileKey,
+        Bucket: bucket,
+        UploadId: MPUploadId,
+        MultipartUpload: { Parts: CompletedParts},
+    })
+
+    const finish = await client.send(complete)
+    console.log(finish)
+}
 
 /*
         for (let index = 1; index <= numParts; index++) {
@@ -103,14 +114,10 @@ const multiPartUpload = async (request, response) => {
             let end = index * chunkSize;
             let body = (index < numParts) ? fileStream.slice(start, end) : fileStream.slice(start)
 
-
-
             slicedData.push({ 
                 PartNumber: index, 
                 buffer: Buffer.from(file.slice(start, end + 1)) 
             })
-
-            
 
             FailedUploads = Parts.filter(f => f.status == "rejected");
 
@@ -123,7 +130,7 @@ const multiPartUpload = async (request, response) => {
                     }
                 }
         
-                CompletedParts = Parts.map(m => m.value);
+                
                 CompletedParts.push(...RetryPromise)
                     
                 } catch (error) {
@@ -132,33 +139,8 @@ const multiPartUpload = async (request, response) => {
                 }
         }
     }
-    */
 
-}
-
-//S3 Functions
-
-
-
-
-const complete = async (MPUploadId, CompletedParts) => {
-
-    const partParams = {
-        Key: fileKey,
-        Bucket: bucket,
-        UploadId: MPUploadId,
-        MultipartUpload: { Parts: CompletedParts},
-    }
-
-    try {
-        await client.send(new CompleteMultipartUploadCommand(partParams))
-    }
-    catch (error) {
-        console.log(` Status 400: ${error}`)
-    }
-}
-
-const abort = async (fileKey) => {
+    const abort = async (fileKey) => {
     const abortParams = {
         Key: fileKey,
         Bucket: bucket,
@@ -171,5 +153,29 @@ const abort = async (fileKey) => {
         console.log(error)
     }
 }
+    */
+
+
+
+//S3 Functions
+
+
+
+
+const completed = async (MPUploadId, CompletedParts) => {
+
+    const partParams = {
+
+    }
+
+    try {
+        await client.send(new CompleteMultipartUploadCommand(partParams))
+    }
+    catch (error) {
+        console.log(` Status 400: ${error}`)
+    }
+}
+
+
 
 module.exports = { multiPartUpload };
