@@ -36,7 +36,6 @@ const client = new S3Client({
 
 // Multi-Part File Upload Logic 
 const multiPartUpload = async (request, response) => {
-    //Variables
     const fileName = request.body.name
     const filePath = request.body.path + fileName 
     const fileKey = fileName
