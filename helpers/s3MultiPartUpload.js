@@ -34,22 +34,15 @@ const client = new S3Client({
     region: 'us-east-1',
 });
 
-// File Uploads
-// NEED API PATH
-
+// Multi-Part File Upload Logic 
 const multiPartUpload = async (request, response) => {
+    //Variables
     const fileName = request.body.name
     const filePath = request.body.path + fileName 
-    const fileSize = fs.statSync(filePath).size
     const fileKey = fileName
     const fileStream = fs.createReadStream(filePath)
-    const chunkSize = 1024 * 1024 * 5 // 5 MB
-    const numParts = Math.ceil(fileSize / chunkSize)
     const promise = []
-    const slicedData = []
     let Parts = []
-    let MPUploadId = null
-    let FailedUploads = []
     let CompletedParts = []
 
     const initiate = new CreateMultipartUploadCommand({
@@ -57,8 +50,9 @@ const multiPartUpload = async (request, response) => {
         Bucket: bucket,
     })  
     
+    //Initialize Upload
     const init = await client.send(initiate);
-    MPUploadId = init.UploadId
+    const MPUploadId = init.UploadId
     console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
 
     const upload = async (body, MPUploadId, partNumber) => {
@@ -84,14 +78,18 @@ const multiPartUpload = async (request, response) => {
         })
     }
 
-    let body = fileStream
-    let index = 1
+    //SLICE AND DICE FILE
+    let body = fileStream //Temp
+    let index = 1 //Temp
+
+    //Push Upload to S3
     promise.push(upload(
         body, 
         MPUploadId, 
         index
     ))
 
+    //Complete Multipart Upload
     Parts = await Promise.allSettled(promise);
     CompletedParts = Parts.map(m => m.value);
 
@@ -116,6 +114,12 @@ const multiPartUpload = async (request, response) => {
 }
 
 /*
+    const numParts = Math.ceil(fileSize / chunkSize)
+    const fileSize = fs.statSync(filePath).size
+    const chunkSize = 1024 * 1024 * 5 // 5 MB
+    const slicedData = []
+    let FailedUploads = []
+
         for (let index = 1; index <= numParts; index++) {
             let start = (index - 1) * chunkSize
             let end = index * chunkSize;
