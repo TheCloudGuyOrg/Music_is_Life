@@ -2,7 +2,7 @@
 
 // Import Varables
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({ path: './../config/.env' });
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 const bucket = 'music-is-life-bucket-s3bucket-1p1cgsnuuvm73'
