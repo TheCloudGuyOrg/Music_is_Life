@@ -35,7 +35,6 @@ npm install
 
 
 ## Project Requirements
-setup multi-part upload
 Error Handling
 -   validate file is an audio file before upload
 setup test code using Mocha for S3

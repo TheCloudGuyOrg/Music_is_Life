@@ -15,7 +15,6 @@ const {
     S3Client, 
     ListObjectsCommand,
     GetObjectCommand,
-    PutObjectCommand,
     DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
 
@@ -78,38 +77,6 @@ const GetS3ObjectSignedUrl = async (request,response) => {
     }
 }; 
 
-//Put S3 Music 
-const postS3Music = async (request,response) => {
-    const fileName = request.body.name
-    const filePath = request.body.path + fileName 
-    const fileKey = fileName
-    const fileStream = fs.createReadStream(filePath)
-
-    const postObject = new PutObjectCommand({
-        Body: fileStream,
-        Key: fileKey,
-        Bucket: bucket,
-        Metadata: {
-            "Content-Type": "audio/mpeg"
-        }
-    })
-    
-    try {
-        const data = await client.send(postObject);
-            response.status(201).send({
-            status: 'Success',
-            message: 'Music file uploaded',
-            data: data
-        }) 
-    }
-    catch (error) {
-        response.status(500).send({
-            error: error.message
-        });
-    }
-}; 
-
-
 //Delete S3 Music
 const deleteS3Music = async (request,response) => {
     const name = request.params.name
@@ -138,7 +105,6 @@ const deleteS3Music = async (request,response) => {
 module.exports = {
 	listS3Music,
 	GetS3ObjectSignedUrl,
-	postS3Music,
 	deleteS3Music
   };
   
