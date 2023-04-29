@@ -61,27 +61,56 @@ const multiPartUpload = async (request, response) => {
     MPUploadId = init.UploadId
     console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
 
-    
+    const upload = async (body, MPUploadId, partNumber) => {
+        const partParams = {
+            Key: fileKey,
+            Bucket: bucket,
+            Body: body,
+            UploadId: MPUploadId,
+            PartNumber: partNumber,
+        }
+        
+        return new Promise(async (resolve, reject) => {
+            try {
+                let part = await client.send(new UploadPartCommand(partParams))
+                resolve({ 
+                    PartNumber: partNumber, 
+                    ETag: part.ETag
+                })
+                console.log(part)
+            }
+            catch (error) {
+                console.log(error)
+            }
+        })
+    }
+
+    let body = fileStream
+    let index = 1
+    promise.push(upload(
+        body, 
+        MPUploadId, 
+        index
+    ))
+
+    Parts = await Promise.allSettled(promise);
+    console.log(Parts)
+
+
 /*
         for (let index = 1; index <= numParts; index++) {
             let start = (index - 1) * chunkSize
             let end = index * chunkSize;
             let body = (index < numParts) ? fileStream.slice(start, end) : fileStream.slice(start)
 
-            promise.push(upload(
-                fileKey,
-                bucket,
-                body, 
-                MPUploadId, 
-                index
-            ))
+
 
             slicedData.push({ 
                 PartNumber: index, 
                 buffer: Buffer.from(file.slice(start, end + 1)) 
             })
 
-            Parts = await Promise.allSettled(promise);
+            
 
             FailedUploads = Parts.filter(f => f.status == "rejected");
 
@@ -110,28 +139,7 @@ const multiPartUpload = async (request, response) => {
 //S3 Functions
 
 
-const upload = async (body, MPUploadId, partNumber) => {
-    const partParams = {
-        Key: fileKey,
-        Bucket: bucket,
-        Body: body,
-        UploadId: MPUploadId,
-        PartNumber: partNumber,
-    }
-    
-    return new Promise(async (resolve, reject) => {
-        try {
-            let part = await client.send(new UploadPartCommand(partParams))
-            resolve({ 
-                PartNumber: partNumber, 
-                ETag: part.ETag
-            })
-        }
-        catch (error) {
-            console.log(error)
-        }
-    })
-}
+
 
 const complete = async (MPUploadId, CompletedParts) => {
 
