@@ -104,8 +104,17 @@ const multiPartUpload = async (request, response) => {
         MultipartUpload: { Parts: CompletedParts},
     })
 
-    const finish = await client.send(complete)
-    console.log(finish)
+    try{
+        const finish = await client.send(complete)
+            response.status(201).send({
+                status: 'Success',
+                Message: 'Music file Uploaded',
+                data: finish
+            })
+    }
+    catch (error) {
+        console.log(error)
+    }
 }
 
 /*
