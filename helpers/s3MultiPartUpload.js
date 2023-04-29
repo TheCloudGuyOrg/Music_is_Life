@@ -38,8 +38,8 @@ const client = new S3Client({
 // NEED API PATH
 
 const multiPartUpload = async (request, response) => {
-    const fileName = file
-    const filePath = path + fileName
+    const fileName = request.body.name
+    const filePath = request.body.path + fileName 
     const fileSize = fs.statSync(filePath).size
     const fileKey = fileName
     const fileStream = fs.createReadStream(filePath)
@@ -52,12 +52,21 @@ const multiPartUpload = async (request, response) => {
     let FailedUploads = []
     let CompletedParts = []
 
+    const initiate = new CreateMultipartUploadCommand({
+        Key: fileKey,
+        Bucket: bucket,
+    })  
+    
     try {
         const init = await client.send(initiate);
         MPUploadId = init.UploadId
         console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
-
-
+    }
+    catch (error) {
+        await client.send(abort)
+        console.log(error)
+    }
+/*
         for (let index = 1; index <= numParts; index++) {
             let start = (index - 1) * chunkSize
             let end = index * chunkSize;
@@ -98,42 +107,12 @@ const multiPartUpload = async (request, response) => {
                 }
         }
     }
-    catch (error) {
-        await client.send(abort)
-        console.log(error)
-    }
+    */
+
 }
 
 //S3 Functions
-const initiate = async (fileKey) => {
-    const initParams = {
-        Key: fileKey,
-        Bucket: bucket,
-    }
 
-    try {
-        await client.send(new CreateMultipartUploadCommand(initParams))
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
-
-
-const abort = async (fileKey) => {
-    const abortParams = {
-        Key: fileKey,
-        Bucket: bucket,
-    }
-
-    try {
-        await client.send(new AbortMultipartUploadCommand(abortParams))
-    }
-    catch (error) {
-        console.log(error)
-    }
-
-}
 
 const upload = async (body, MPUploadId, partNumber) => {
     const partParams = {
@@ -175,4 +154,18 @@ const complete = async (MPUploadId, CompletedParts) => {
     }
 }
 
-module.exports ={ multiPartUpload };
+const abort = async (fileKey) => {
+    const abortParams = {
+        Key: fileKey,
+        Bucket: bucket,
+    }
+
+    try {
+        await client.send(new AbortMultipartUploadCommand(abortParams))
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = { multiPartUpload };
