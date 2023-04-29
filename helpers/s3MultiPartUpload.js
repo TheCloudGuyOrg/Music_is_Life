@@ -57,15 +57,11 @@ const multiPartUpload = async (request, response) => {
         Bucket: bucket,
     })  
     
-    try {
-        const init = await client.send(initiate);
-        MPUploadId = init.UploadId
-        console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
-    }
-    catch (error) {
-        await client.send(abort)
-        console.log(error)
-    }
+    const init = await client.send(initiate);
+    MPUploadId = init.UploadId
+    console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
+
+    
 /*
         for (let index = 1; index <= numParts; index++) {
             let start = (index - 1) * chunkSize
