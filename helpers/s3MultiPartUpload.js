@@ -7,12 +7,8 @@ const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 const bucket = 'music-is-life-bucket-s3bucket-1p1cgsnuuvm73'
 
-const file = 'High_Contrast_2007_Essential_Mix.mp3'
-const path = '/Users/dercox/Documents/Code/Music_is_Life/Music-Files/'
-
 // Import File Systen
 const fs = require('fs');
-const { IncomingForm } = require('formidable');
 
 // Import S3 Modules
 const {
@@ -22,8 +18,6 @@ const {
     AbortMultipartUploadCommand,
     CompleteMultipartUploadCommand,
 } = require('@aws-sdk/client-s3');
-
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
 // Defining S3 Client
 const client = new S3Client({ 
@@ -126,12 +120,15 @@ const multiPartUpload = async (request, response) => {
 
 /*
 File Slicing Logic
-
+    const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+    
     const numParts = Math.ceil(fileSize / chunkSize)
     const fileSize = fs.statSync(filePath).size
     const chunkSize = 1024 * 1024 * 5 // 5 MB
     const slicedData = []
     let FailedUploads = []
+
+
 
         for (let index = 1; index <= numParts; index++) {
             let start = (index - 1) * chunkSize
