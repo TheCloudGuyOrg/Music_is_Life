@@ -44,12 +44,12 @@ const multiPartUpload = async (request, response) => {
     let Parts = []
     let CompletedParts = []
 
+    //Initialize Upload
     const initiate = new CreateMultipartUploadCommand({
         Key: fileKey,
         Bucket: bucket,
     })  
-    
-    //Initialize Upload
+
     const init = await client.send(initiate);
     const MPUploadId = init.UploadId
     console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
