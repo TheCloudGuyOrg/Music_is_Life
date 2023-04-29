@@ -47,7 +47,7 @@ const multiPartUpload = async (request, response) => {
 
     const init = await client.send(initiate);
     const MPUploadId = init.UploadId
-    console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
+    //console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
 
     //Abort Upload 
     const abort = new AbortMultipartUploadCommand({
