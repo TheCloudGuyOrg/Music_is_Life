@@ -125,6 +125,8 @@ const multiPartUpload = async (request, response) => {
 }
 
 /*
+File Slicing Logic
+
     const numParts = Math.ceil(fileSize / chunkSize)
     const fileSize = fs.statSync(filePath).size
     const chunkSize = 1024 * 1024 * 5 // 5 MB
@@ -159,34 +161,9 @@ const multiPartUpload = async (request, response) => {
                     await client.send(abort)
                     console.log(error)
                 }
+            }
         }
     }
-
-
-}
-    */
-
-
-
-//S3 Functions
-
-
-
-
-const completed = async (MPUploadId, CompletedParts) => {
-
-    const partParams = {
-
-    }
-
-    try {
-        await client.send(new CompleteMultipartUploadCommand(partParams))
-    }
-    catch (error) {
-        console.log(` Status 400: ${error}`)
-    }
-}
-
-
+*/
 
 module.exports = { multiPartUpload };
