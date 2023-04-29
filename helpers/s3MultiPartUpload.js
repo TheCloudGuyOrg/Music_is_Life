@@ -38,74 +38,70 @@ const client = new S3Client({
 // NEED API PATH
 
 const multiPartUpload = async (request, response) => {
-    const form = new IncomingForm({ multiples: true});
-    form.parse(request, async (error, fields, files) => { 
-        const fileName = file
-        const filePath = path + fileName
-        const fileSize = fs.statSync(filePath).size
-        const fileKey = fileName
-        const fileStream = fs.createReadStream(filePath)
-        const chunkSize = 1024 * 1024 * 5 // 5 MB
-        const numParts = Math.ceil(fileSize / chunkSize)
-        const promise = []
-        const slicedData = []
-        let Parts = []
-        let MPUploadId = null
-        let FailedUploads = []
-        let CompletedParts = []
-       
+    const fileName = file
+    const filePath = path + fileName
+    const fileSize = fs.statSync(filePath).size
+    const fileKey = fileName
+    const fileStream = fs.createReadStream(filePath)
+    const chunkSize = 1024 * 1024 * 5 // 5 MB
+    const numParts = Math.ceil(fileSize / chunkSize)
+    const promise = []
+    const slicedData = []
+    let Parts = []
+    let MPUploadId = null
+    let FailedUploads = []
+    let CompletedParts = []
 
-        try {
-            const init = await client.send(initiate);
-            MPUploadId = init.UploadId
-            console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
+    try {
+        const init = await client.send(initiate);
+        MPUploadId = init.UploadId
+        console.log(`Initialized Upload with UploadId: ${MPUploadId}`)
 
 
-            for (let index = 1; index <= numParts; index++) {
-                let start = (index - 1) * chunkSize
-                let end = index * chunkSize;
-                let body = (index < numParts) ? fileStream.slice(start, end) : fileStream.slice(start)
+        for (let index = 1; index <= numParts; index++) {
+            let start = (index - 1) * chunkSize
+            let end = index * chunkSize;
+            let body = (index < numParts) ? fileStream.slice(start, end) : fileStream.slice(start)
 
-                promise.push(upload(
-                    fileKey,
-                    bucket,
-                    body, 
-                    MPUploadId, 
-                    index
-                ))
+            promise.push(upload(
+                fileKey,
+                bucket,
+                body, 
+                MPUploadId, 
+                index
+            ))
 
-                slicedData.push({ 
-                    PartNumber: index, 
-                    buffer: Buffer.from(file.slice(start, end + 1)) 
-                })
+            slicedData.push({ 
+                PartNumber: index, 
+                buffer: Buffer.from(file.slice(start, end + 1)) 
+            })
 
-                Parts = await Promise.allSettled(promise);
+            Parts = await Promise.allSettled(promise);
 
-                FailedUploads = Parts.filter(f => f.status == "rejected");
+            FailedUploads = Parts.filter(f => f.status == "rejected");
 
-                try {
-                    if(!FailedUploads.length){
-                        for (let i = 0; i < FailedUploads.length; i++) {
-                            let [data] = slicedData.filter(f => f.PartNumber == FailedUploads[i].value.PartNumber)
-                            let s = await uploadPart(data.buffer, MPUploadId, data.PartNumber, key);
-                            RetryPromise.push(s);
-                        }
+            try {
+                if(!FailedUploads.length){
+                    for (let i = 0; i < FailedUploads.length; i++) {
+                        let [data] = slicedData.filter(f => f.PartNumber == FailedUploads[i].value.PartNumber)
+                        let s = await uploadPart(data.buffer, MPUploadId, data.PartNumber, key);
+                        RetryPromise.push(s);
                     }
-            
-                    CompletedParts = Parts.map(m => m.value);
-                    CompletedParts.push(...RetryPromise)
-                        
-                    } catch (error) {
-                        await client.send(abort)
-                        console.log(error)
-                    }
-            }
+                }
+        
+                CompletedParts = Parts.map(m => m.value);
+                CompletedParts.push(...RetryPromise)
+                    
+                } catch (error) {
+                    await client.send(abort)
+                    console.log(error)
+                }
         }
-        catch (error) {
-            await client.send(abort)
-            console.log(error)
-        }
-    })
+    }
+    catch (error) {
+        await client.send(abort)
+        console.log(error)
+    }
 }
 
 //S3 Functions
