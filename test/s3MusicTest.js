@@ -3,17 +3,83 @@ const request = require('supertest');
 const assert = require('assert');
 const app = require('../app.js');
 
+//Test: Post /route/musicrepo/upload
+describe('POST /route/photos/:id', () => {
+	it('status_code: 201', async () => { 
+		// Setup
+		const excerciseUrl = '/musicrepo/upload'
+        const file = 'Test.m4a'
+        const path = './Music-Files/'
+		const expected = 200;
 
-fetch('http://localhost:3000/musicrepo/upload', {
-    method: 'POST',
-    headers:{
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
+		// Exercise
+        const response = await request(app)
+            .post(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+              'name': file,
+              'path': path
+            });    
 
-    body: new URLSearchParams({
-        'name': 'Test.m4a',
-        'path': './Music-Files/'
-    })
+		const result = response.status;
+
+		// Verify
+		assert.equal(result, expected);
+
+		//Teardown
+		const teardownUrl = `/musicrepo/${file}`;
+        
+
+		await request(app)
+			.delete(teardownUrl);
+
+	}).timeout(5000);
+
+    /*
+	it('Status: Success', async () => {  
+		// Setup
+		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
+		const expected = 'Success';
+
+		// Exercise
+		const response = await request(app)
+			.post(excerciseUrl);
+
+		const result = response._body.status;
+		const photoId = response._body.data.id;
+
+		// Verify
+		assert.equal(result, expected);
+
+		//Teardown
+		const teardownUrl = `/route/photos/${photoId}`;
+ 
+		await request(app)
+			.delete(teardownUrl);
+	});  
+  
+	it('Validate: Database Retrieval', async () => { 
+		// Setup
+		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
+		const expected = 'Photo_Test';
+
+		// Exercise
+		const response = await request(app)
+			.post(excerciseUrl);
+
+		const result = response._body.data.name;
+		const photoId = response._body.data.id;
+
+		// Verify
+		assert.equal(result, expected);
+
+		//Teardown
+		const teardownUrl = `/route/photos/${photoId}`;
+ 
+		await request(app)
+			.delete(teardownUrl);
+	});
+    */
 });
 
 /*
@@ -139,74 +205,7 @@ describe('GET /route/photos/:id', () => {
 	});
 });
 
-//Test: Post /route/musicrepo/upload
-describe('POST /route/photos/:id', () => {
-	it('status_code: 201', async () => { 
-		// Setup
-		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-		const expected = 201;
 
-		// Exercise
-		const response = await request(app)
-			.post(excerciseUrl);
-
-		const result = response.status;
-		const photoId = response._body.data.id;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-	});
-
-	it('Status: Success', async () => {  
-		// Setup
-		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-		const expected = 'Success';
-
-		// Exercise
-		const response = await request(app)
-			.post(excerciseUrl);
-
-		const result = response._body.status;
-		const photoId = response._body.data.id;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-	});  
-  
-	it('Validate: Database Retrieval', async () => { 
-		// Setup
-		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-		const expected = 'Photo_Test';
-
-		// Exercise
-		const response = await request(app)
-			.post(excerciseUrl);
-
-		const result = response._body.data.name;
-		const photoId = response._body.data.id;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-	});
-});
 
 //Test: DELETE /musicrepo/:name
 describe('DELETE /route/photos/:id', () => {
