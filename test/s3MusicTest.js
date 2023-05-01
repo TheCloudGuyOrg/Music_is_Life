@@ -3,36 +3,19 @@ const request = require('supertest');
 const assert = require('assert');
 const app = require('../app.js');
 
-//Test: Post /musicrepo/upload
-describe('POST /musicrepo/upload', () => {
-	it('status_code: 200', function (done) { 
-		// Setup
-        this.timeout(5000);
-        setTimeout(done, 3000);
 
-		const excerciseUrl = '/musicrepo/upload';
-		const expected = 200;
+fetch('http://localhost:3000/musicrepo/upload', {
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
 
-		// Exercise
-		const response = request(app)
-			.post(excerciseUrl)
-            .field('name', 'Test.m4a')
-            .field('path', './')
-            .attach('Test.m4a', './Test.m4a')
+    body: new URLSearchParams({
+        'name': 'Test.m4a',
+        'path': './Music-Files/'
+    })
 
-		const result = response;
-		//console.log(result)
-
-		// Verify
-		//assert.equal(result, expected);
-
-		//Teardown
-		//const teardownUrl = `/musicrepo/Test.m4a`;
- 
-		//await request(app)
-		//	.delete(teardownUrl);
-	})
-})
+});
 
 /*
 //Test: GET /musicrepo/
