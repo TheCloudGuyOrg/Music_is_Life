@@ -33,7 +33,7 @@ describe('POST /route/photos/:id', () => {
 		await request(app)
 			.delete(teardownUrl);
 
-	}).timeout(5000);
+	}).timeout(10000);
 
     /*
 	it('Status: Success', async () => {  
