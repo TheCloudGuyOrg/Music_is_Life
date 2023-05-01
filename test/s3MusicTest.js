@@ -3,9 +3,9 @@ const request = require('supertest');
 const assert = require('assert');
 const app = require('../app.js');
 
-//Test: Post /route/musicrepo/upload
-describe('POST /route/photos/:id', () => {
-	it('status_code: 201', async () => { 
+//Test: Post /musicrepo/upload
+describe('POST /musicrepo/upload', () => {
+	it('status_code: 200', async () => { 
 		// Setup
 		const excerciseUrl = '/musicrepo/upload'
         const file = 'Test.m4a'
@@ -33,53 +33,69 @@ describe('POST /route/photos/:id', () => {
 		await request(app)
 			.delete(teardownUrl);
 
-	}).timeout(10000);
+	}).timeout(5000);
 
-    /*
-	it('Status: Success', async () => {  
+	it('Status: OK', async () => {  
 		// Setup
-		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
+		const excerciseUrl = '/musicrepo/upload'
+        const file = 'Test.m4a'
+        const path = './Music-Files/'
+		const expected = 'OK';
+
+		// Exercise
+        const response = await request(app)
+            .post(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+              'name': file,
+              'path': path
+            });    
+
+		const result = response.res.statusMessage;
+
+		// Verify
+		assert.equal(result, expected);
+
+		//Teardown
+		const teardownUrl = `/musicrepo/${file}`;
+ 
+		await request(app)
+			.delete(teardownUrl);
+
+	}).timeout(5000);  
+
+	it('Validate: File Upload to S3', async () => { 
+		// Setup
+        const file = 'Test.m4a'
+        const path = './Music-Files/'
+        const setupUrl = '/musicrepo/upload'
+        const excerciseUrl = `/musicrepo/${file}`
 		const expected = 'Success';
 
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+            'name': file,
+            'path': path
+        });    
+
 		// Exercise
 		const response = await request(app)
-			.post(excerciseUrl);
+			.get(excerciseUrl);
 
 		const result = response._body.status;
-		const photoId = response._body.data.id;
 
 		// Verify
 		assert.equal(result, expected);
 
 		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
+		const teardownUrl = `/musicrepo/${file}`;
  
 		await request(app)
 			.delete(teardownUrl);
-	});  
-  
-	it('Validate: Database Retrieval', async () => { 
-		// Setup
-		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-		const expected = 'Photo_Test';
 
-		// Exercise
-		const response = await request(app)
-			.post(excerciseUrl);
-
-		const result = response._body.data.name;
-		const photoId = response._body.data.id;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-	});
-    */
+	}).timeout(5000);
 });
 
 /*
