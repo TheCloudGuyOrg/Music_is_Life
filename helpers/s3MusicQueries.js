@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-const bucket = 'music-is-life-bucket-s3bucket-1p1cgsnuuvm73'
+const BUCKET = process.env.BUCKET;
 
 // Import File Systen
 const fs = require('fs');
@@ -32,7 +32,7 @@ const client = new S3Client({
 //List S3 Music Objects
 const listS3Music = async (request,response) => {  
     const listObjects = new ListObjectsCommand({
-        Bucket: bucket, 
+        Bucket: BUCKET, 
     });
 
     try {
@@ -54,7 +54,7 @@ const listS3Music = async (request,response) => {
 const GetS3ObjectSignedUrl = async (request,response) => {
     const name = request.params.name
     const getObject = new GetObjectCommand({
-        Bucket: bucket, 
+        Bucket: BUCKET, 
         Key: name,
     });
 
@@ -81,7 +81,7 @@ const GetS3ObjectSignedUrl = async (request,response) => {
 const deleteS3Music = async (request,response) => {
     const name = request.params.name
     const deleteObject = new DeleteObjectCommand({
-        Bucket: bucket, 
+        Bucket: BUCKET, 
         Key: name,
     });
 

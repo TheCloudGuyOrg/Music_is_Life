@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-const bucket = 'music-is-life-bucket-s3bucket-1p1cgsnuuvm73'
+const BUCKET = process.env.BUCKET;
 
 // Import File Systen
 const fs = require('fs');
@@ -45,7 +45,7 @@ const multiPartUpload = async (request, response) => {
     //Initialize Upload
     const initiate = new CreateMultipartUploadCommand({
         Key: fileKey,
-        Bucket: bucket,
+        Bucket: BUCKET,
     })  
 
     const init = await client.send(initiate);
@@ -54,7 +54,7 @@ const multiPartUpload = async (request, response) => {
     //Abort Upload 
     const abort = new AbortMultipartUploadCommand({
         Key: fileKey,
-        Bucket: bucket,
+        Bucket: BUCKET,
         UploadId: MPUploadId,
     })
 
@@ -62,7 +62,7 @@ const multiPartUpload = async (request, response) => {
     const upload = async (body, MPUploadId, partNumber) => {
         const partParams = {
             Key: fileKey,
-            Bucket: bucket,
+            Bucket: BUCKET,
             Body: body,
             UploadId: MPUploadId,
             PartNumber: partNumber,
@@ -105,7 +105,7 @@ const multiPartUpload = async (request, response) => {
 
     const complete = new CompleteMultipartUploadCommand({
         Key: fileKey,
-        Bucket: bucket,
+        Bucket: BUCKET,
         UploadId: MPUploadId,
         MultipartUpload: {Parts: CompletedParts},
     })
