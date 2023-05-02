@@ -37,7 +37,6 @@ npm install
 ## Project Requirements
 Error Handling
 -   validate file is an audio file before upload
-setup test code using Mocha for S3
 
 Setup Cloudformation Template to deploy DynamoDB
 Populate DynamoDB with inital data
