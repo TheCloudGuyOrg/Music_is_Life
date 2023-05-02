@@ -45,7 +45,7 @@ npm install
     - DeleteObject
     - AbortMultiPartUpload
     - MultiPartUpload
--s3-request-presigner
+- s3-request-presigner
     - getSignedUrl
 
 ### AWS DynamoDB
