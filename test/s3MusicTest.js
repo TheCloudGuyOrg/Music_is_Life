@@ -41,7 +41,7 @@ describe('GET /musicrepo/:name', () => {
 	it('status_code: 200', async () => { 
 		// Setup
         const file = 'Test.m4a'
-        const path = './Music-Files/'
+        const path = './test/'
         const setupUrl = '/musicrepo/upload'
         const excerciseUrl = `/musicrepo/${file}`
 		const expected = '200';
@@ -74,7 +74,7 @@ describe('GET /musicrepo/:name', () => {
 	it('Status: Success', async () => { 
 		// Setup
         const file = 'Test.m4a'
-        const path = './Music-Files/'
+        const path = './test/'
         const setupUrl = '/musicrepo/upload'
         const excerciseUrl = `/musicrepo/${file}`
 		const expected = 'Success';
@@ -107,7 +107,7 @@ describe('GET /musicrepo/:name', () => {
 	it('Validate Returning PreSigned URL', async () => { 
 		// Setup
         const file = 'Test.m4a'
-        const path = './Music-Files/'
+        const path = './test/'
         const setupUrl = '/musicrepo/upload'
         const excerciseUrl = `/musicrepo/${file}`
 		const expected = 'https://music-is-life-bucket-s3bucket-1p1cgsnuuvm73.s3.us-east-1.amazonaws.com/Test.m4a';
@@ -145,7 +145,7 @@ describe('POST /musicrepo/upload', () => {
 		// Setup
 		const excerciseUrl = '/musicrepo/upload'
         const file = 'Test.m4a'
-        const path = './Music-Files/'
+        const path = './test/'
 		const expected = 200;
 
 		// Exercise
@@ -174,7 +174,7 @@ describe('POST /musicrepo/upload', () => {
 		// Setup
 		const excerciseUrl = '/musicrepo/upload'
         const file = 'Test.m4a'
-        const path = './Music-Files/'
+        const path = './test/'
 		const expected = 'OK';
 
 		// Exercise
@@ -205,7 +205,7 @@ describe('DELETE /route/photos/:id', () => {
 	it('status_code: 200', async () => { 
 		// Setup
         const file = 'Test.m4a'
-        const path = './Music-Files/'
+        const path = './test/'
         const setupUrl = '/musicrepo/upload'
         const excerciseUrl = `/musicrepo/${file}`
 
@@ -232,7 +232,7 @@ describe('DELETE /route/photos/:id', () => {
 	it('Status: Success', async () => {  
 		// Setup
         const file = 'Test.m4a'
-        const path = './Music-Files/'
+        const path = './test/'
         const setupUrl = '/musicrepo/upload'
         const excerciseUrl = `/musicrepo/${file}`
 
