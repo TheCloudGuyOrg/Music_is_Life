@@ -35,9 +35,6 @@ npm install
 
 
 ## Project Requirements
-Error Handling
--   validate file is an audio file before upload
-
 Setup Cloudformation Template to deploy DynamoDB
 Populate DynamoDB with inital data
 Build API endpoints for DynamoDB
