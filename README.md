@@ -19,7 +19,7 @@ npm install
 
 ## Software Components
 ### GitHub
-- https://github.com/TheCloudGuyOrg/Music_is_Life#readme
+- https://github.com/TheCloudGuyOrg/Music_is_Life
 
 ### Node Express
 - express
