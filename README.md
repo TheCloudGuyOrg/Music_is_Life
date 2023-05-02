@@ -18,16 +18,35 @@ npm install
 ```
 
 ## Software Components
+### GitHub
+- https://github.com/TheCloudGuyOrg/Music_is_Life#readme
+
 ### Node Express
+- express
+- express-session
+- dotenv
+- body-parser
+- helmet
+- fs
 
-### GIT and GITHUB
+### Mocha Test Suite
+- mocha 
+    - supertest
+    - assert
 
+### AWS Cloudformation
+- S3 Bucket
+- DynamoDB
 
 ### AWS S3
-- ListObject
-- GetObject
-- DeleteObject
-- MultiPartUpload
+- client-S3
+    - ListObject
+    - GetObject
+    - DeleteObject
+    - AbortMultiPartUpload
+    - MultiPartUpload
+-s3-request-presigner
+    - getSignedUrl
 
 ### AWS DynamoDB
 
@@ -49,6 +68,8 @@ Setup Caching
 Setup CI/CD Pipeline
 Break out CFN into Stacks
 S3 Deep Dive with A Cloud Guru
+S3 Setup Signed URL for Uploads
+
 
 
 
