@@ -40,6 +40,7 @@ Populate DynamoDB with inital data
 Build API endpoints for DynamoDB
 Connect DynamoDB with AWS JS SDK
 setup test code using Mocha for DynamoDB
+Move Session Data into DynamoDB
 
 
 Setup Lambda and API Gateway
@@ -47,6 +48,7 @@ Setup Cognito for Auth
 Setup Caching
 Setup CI/CD Pipeline
 Break out CFN into Stacks
+S3 Deep Dive with A Cloud Guru
 
 
 
