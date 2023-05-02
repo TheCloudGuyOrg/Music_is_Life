@@ -3,6 +3,142 @@ const request = require('supertest');
 const assert = require('assert');
 const app = require('../app.js');
 
+//Test: GET /musicrepo
+describe('GET /musicrepo', () => {
+	it('status_code: 200', async () => {
+		// Setup
+		const excerciseUrl = '/musicrepo';
+		const expected = 200;
+
+		// Exercise
+		const response = await request(app)
+			.get(excerciseUrl);
+
+		const result = response.status;
+
+		// Verify
+		assert.equal(result, expected);
+	});
+
+	it('Status: Success', async () => {    
+		// Setup
+		const excerciseUrl = '/musicrepo';
+		const expected = 'Success';
+
+		// Exercise
+		const response = await request(app)
+			.get(excerciseUrl);
+
+		const result = response._body.status;
+
+		// Verify
+		assert.equal(result, expected);
+	});
+});
+
+//Test: GET /musicrepo/:name 
+describe('GET /musicrepo/:name', () => {
+	it('status_code: 200', async () => { 
+		// Setup
+        const file = 'Test.m4a'
+        const path = './Music-Files/'
+        const setupUrl = '/musicrepo/upload'
+        const excerciseUrl = `/musicrepo/${file}`
+		const expected = '200';
+
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+            'name': file,
+            'path': path
+        });    
+
+		// Exercise
+		const response = await request(app)
+			.get(excerciseUrl);
+
+		const result = response.status;
+
+		// Verify
+		assert.equal(result, expected);
+
+		//Teardown
+		const teardownUrl = `/musicrepo/${file}`;
+ 
+		await request(app)
+			.delete(teardownUrl);
+
+	}).timeout(5000);
+
+	it('Status: Success', async () => { 
+		// Setup
+        const file = 'Test.m4a'
+        const path = './Music-Files/'
+        const setupUrl = '/musicrepo/upload'
+        const excerciseUrl = `/musicrepo/${file}`
+		const expected = 'Success';
+
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+            'name': file,
+            'path': path
+        });    
+
+		// Exercise
+		const response = await request(app)
+			.get(excerciseUrl);
+
+			const result = response._body.status;
+
+		// Verify
+		assert.equal(result, expected);
+
+		//Teardown
+		const teardownUrl = `/musicrepo/${file}`;
+ 
+		await request(app)
+			.delete(teardownUrl);
+
+	}).timeout(5000);
+
+	it('Validate Returning PreSigned URL', async () => { 
+		// Setup
+        const file = 'Test.m4a'
+        const path = './Music-Files/'
+        const setupUrl = '/musicrepo/upload'
+        const excerciseUrl = `/musicrepo/${file}`
+		const expected = 'https://music-is-life-bucket-s3bucket-1p1cgsnuuvm73.s3.us-east-1.amazonaws.com/Test.m4a';
+		const regex = /https:\/\/music-is-life-bucket-s3bucket-1p1cgsnuuvm73\.s3\.us-east-1\.amazonaws\.com\/Test\.m4a/i
+
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+            'name': file,
+            'path': path
+        });    
+
+		// Exercise
+		const response = await request(app)
+			.get(excerciseUrl);
+
+			const result = response._body.data;
+
+		// Verify
+		assert.match(result, regex, expected);
+
+		//Teardown
+		const teardownUrl = `/musicrepo/${file}`;
+ 
+		await request(app)
+			.delete(teardownUrl);
+
+	}).timeout(5000);
+});
+
 //Test: Post /musicrepo/upload
 describe('POST /musicrepo/upload', () => {
 	it('status_code: 200', async () => { 
@@ -29,7 +165,6 @@ describe('POST /musicrepo/upload', () => {
 		//Teardown
 		const teardownUrl = `/musicrepo/${file}`;
         
-
 		await request(app)
 			.delete(teardownUrl);
 
@@ -63,14 +198,16 @@ describe('POST /musicrepo/upload', () => {
 			.delete(teardownUrl);
 
 	}).timeout(5000);  
+});
 
-	it('Validate: File Upload to S3', async () => { 
+//Test: DELETE /musicrepo/:name
+describe('DELETE /route/photos/:id', () => {
+	it('status_code: 200', async () => { 
 		// Setup
         const file = 'Test.m4a'
         const path = './Music-Files/'
         const setupUrl = '/musicrepo/upload'
         const excerciseUrl = `/musicrepo/${file}`
-		const expected = 'Success';
 
         await request(app)
             .post(setupUrl)
@@ -80,161 +217,6 @@ describe('POST /musicrepo/upload', () => {
             'path': path
         });    
 
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
-
-		const result = response._body.status;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/musicrepo/${file}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-
-	}).timeout(5000);
-});
-
-/*
-//Test: GET /musicrepo/
-describe('GET /route/photos', () => {
-	it('status_code: 200', async () => {
-		// Setup
-		const excerciseUrl = '/route/photos';
-		const expected = 200;
-
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
-
-		const result = response.status;
-
-		// Verify
-		assert.equal(result, expected);
-	});
-
-	it('Status: Success', async () => {    
-		// Setup
-		const excerciseUrl = '/route/photos';
-		const expected = 'Success';
-
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
-
-		const result = response._body.status;
-
-		// Verify
-		assert.equal(result, expected);
-	});
-
-	it('Validate: Database Retrieval', async () => {
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-   
-		const idResponse = await request(app)
-			.post(setupUrl);
-
-		const photoId = idResponse._body.data.id;
-
-		const excerciseUrl = `/route/photos/${photoId}`;
-		const expected = 'Photo_Test';
-
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
-
-		const result = response._body.data[0].name;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-	});
-});
-
-//Test: GET /musicrepo/:id PreSigned URL
-describe('GET /route/photos/:id', () => {
-	it('status_code: 200', async () => {
-		// Setup
-		const excerciseUrl = '/route/photos/1';
-		const expected = 200;
-
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
-
-		const result = response.status;
-
-		// Verify
-		assert.equal(result, expected);
-	});
-
-	it('Status: Sucess', async () => {  
-		// Setup
-		const excerciseUrl = '/route/photos/1';
-		const expected = 'Success';
-
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
-
-		const result = response._body.status;
-
-		// Verify
-		assert.equal(result, expected);
-	});
-
-	it('Validate: Database Retrieval', async () => {
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-   
-		const idResponse = await request(app)
-			.post(setupUrl);
-
-		const photoId = idResponse._body.data.id;
-
-		const excerciseUrl = `/route/photos/${photoId}`;
-		const expected = 'Photo_Test';
-
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
-
-		const result = response._body.data[0].name;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-	});
-});
-
-
-
-//Test: DELETE /musicrepo/:name
-describe('DELETE /route/photos/:id', () => {
-	it('status_code: 200', async () => { 
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-    
-		const idResponse = await request(app)
-			.post(setupUrl);
-
-		const photoId = idResponse._body.data.id;
-
-		const excerciseUrl = `/route/photos/${photoId}?name=Photo_Test_2&url=file://Photo_Test_2&citation=Daisy Rue Cox`;
 		const expected = 200;
 
 		// Exercise
@@ -245,18 +227,23 @@ describe('DELETE /route/photos/:id', () => {
 
 		// Verify
 		assert.equal(result, expected);
-	});
+	}).timeout(5000);
 
 	it('Status: Success', async () => {  
 		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-    
-		const idResponse = await request(app)
-			.post(setupUrl);
+        const file = 'Test.m4a'
+        const path = './Music-Files/'
+        const setupUrl = '/musicrepo/upload'
+        const excerciseUrl = `/musicrepo/${file}`
 
-		const photoId = idResponse._body.data.id;
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+            'name': file,
+            'path': path
+        });    
 
-		const excerciseUrl = `/route/photos/${photoId}?name=Photo_Test_2&url=file://Photo_Test_2&citation=Daisy Rue Cox`;
 		const expected = 'Success';
 
 		// Exercise
@@ -267,29 +254,5 @@ describe('DELETE /route/photos/:id', () => {
 
 		// Verify
 		assert.equal(result, expected);
-	});
-
-	it('Validate: Database Retrieval', async () => {
-        
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-    
-		const idResponse = await request(app)
-			.post(setupUrl);
-
-		const photoId = idResponse._body.data.id;
-
-		const excerciseUrl = `/route/photos/${photoId}?name=Photo_Test_2&url=file://Photo_Test_2&citation=Daisy Rue Cox`;
-		const expected = '1';
-
-		// Exercise
-		const response = await request(app)
-			.delete(excerciseUrl);
-
-		const result = response._body.data;
-
-		// Verify
-		assert.equal(result, expected);
-	});
+	}).timeout(5000);
 });
-*/
