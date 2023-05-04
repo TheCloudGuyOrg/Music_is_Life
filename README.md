@@ -68,6 +68,7 @@ npm install
 - Setup CI/CD Pipeline
 - Break out CFN into Stacks
 - S3 Deep Dive with A Cloud Guru
+- Cloudformation Deep Dive with A Cloud Guru
 - S3 Setup Signed URL for Uploads
 
 
