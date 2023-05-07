@@ -20,20 +20,20 @@ const client = new S3Client({
     region: 'us-east-1',
 });
 
-const listMusic = () => {
-    console.log(client);
+const listMusic = async (request, response) => {
+    console.log(client, request, response);
 };
 
-const getMusic = () => {
-    console.log(client);
+const getMusic = async (request, response) => {
+    console.log(client, request, response);
 };
 
-const postMusic = () => {
-    console.log(client);
+const postMusic = async (request, response) => {
+    console.log(client, request, response);
 };
 
-const deleteMusic = () => {
-    console.log(client);
+const deleteMusic = async (request, response) => {
+    console.log(client, request, response);
 };
 
 //Export Queries
