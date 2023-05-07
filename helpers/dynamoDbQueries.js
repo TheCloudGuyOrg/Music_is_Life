@@ -20,4 +20,26 @@ const client = new S3Client({
     region: 'us-east-1',
 });
 
-console.log(client);
+const listMusic = () => {
+    console.log(client);
+};
+
+const getMusic = () => {
+    console.log(client);
+};
+
+const postMusic = () => {
+    console.log(client);
+};
+
+const deleteMusic = () => {
+    console.log(client);
+};
+
+//Export Queries
+module.exports = {
+    listMusic,
+    getMusic,
+    postMusic,
+    deleteMusic
+};

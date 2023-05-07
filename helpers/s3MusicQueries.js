@@ -15,7 +15,7 @@ const {
     DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
 
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
 // Defining S3 Client
 const client = new S3Client({ 
@@ -38,7 +38,7 @@ const listS3Music = async (request,response) => {
             status: 'Success',
             message: 'Music information retrieved',
             data: data.Contents
-        })
+        });
     } 
     catch (error) {
         response.status(500).send({
@@ -49,7 +49,7 @@ const listS3Music = async (request,response) => {
 
 //Get S3 Music Signed URL 
 const GetS3ObjectSignedUrl = async (request,response) => {
-    const name = request.params.name
+    const name = request.params.name;
     const getObject = new GetObjectCommand({
         Bucket: BUCKET, 
         Key: name,
@@ -60,12 +60,12 @@ const GetS3ObjectSignedUrl = async (request,response) => {
             client, 
             getObject, { 
                 expiresIn: 60 * 60 * 6 //seconds * minutes * hours
-            })
+            });
         response.status(200).send({
             status: 'Success',
             message: 'Music information retrieved',
             data: url
-        })
+        });
     } 
     catch (error) {
         response.status(500).send({
@@ -76,7 +76,7 @@ const GetS3ObjectSignedUrl = async (request,response) => {
 
 //Delete S3 Music
 const deleteS3Music = async (request,response) => {
-    const name = request.params.name
+    const name = request.params.name;
     const deleteObject = new DeleteObjectCommand({
         Bucket: BUCKET, 
         Key: name,
@@ -88,7 +88,7 @@ const deleteS3Music = async (request,response) => {
             status: 'Success',
             message: 'Music information deleted',
             data: data
-        })
+        });
     } 
     catch (error) {
         response.status(500).send({
@@ -100,8 +100,8 @@ const deleteS3Music = async (request,response) => {
 
 //Export Queries
 module.exports = {
-	listS3Music,
-	GetS3ObjectSignedUrl,
-	deleteS3Music
-  };
+    listS3Music,
+    GetS3ObjectSignedUrl,
+    deleteS3Music
+};
   
