@@ -16,7 +16,7 @@ const {
 // Photo API Routes
 ddbMusicApi.get('/', listMusic);
 ddbMusicApi.get('/:name', getMusic);
-ddbMusicApi.post('/upload', postMusic);
+ddbMusicApi.post('/', postMusic);
 ddbMusicApi.delete('/:name', deleteMusic);
 
 // Export API
