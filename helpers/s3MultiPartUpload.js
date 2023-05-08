@@ -30,33 +30,33 @@ const client = new S3Client({
 
 // Multi-Part File Upload Logic 
 const multiPartUpload = async (request, response) => {
-    const fileName = request.body.name
-    const filePath = request.body.path + fileName 
-    const fileKey = fileName
-    const fileStream = fs.readFileSync(filePath)
-    const fileSize = fs.statSync(filePath).size
-    const chunkSize = 1024 * 1024 * 5 // 5 MB
-    const numParts = Math.ceil(fileSize / chunkSize)
-    const promise = []
-    let Parts = []
-    let slicedData = []
-    let CompletedParts = []
+    const fileName = request.body.name;
+    const filePath = request.body.path + fileName; 
+    const fileKey = fileName;
+    const fileStream = fs.readFileSync(filePath);
+    const fileSize = fs.statSync(filePath).size;
+    const chunkSize = 1024 * 1024 * 5; // 5 MB
+    const numParts = Math.ceil(fileSize / chunkSize);
+    const promise = [];
+    let Parts = [];
+    let slicedData = [];
+    let CompletedParts = [];
 
     //Initialize Upload
     const initiate = new CreateMultipartUploadCommand({
         Key: fileKey,
         Bucket: BUCKET,
-    })  
+    });  
 
     const init = await client.send(initiate);
-    const MPUploadId = init.UploadId
+    const MPUploadId = init.UploadId;
 
     //Abort Upload 
     const abort = new AbortMultipartUploadCommand({
         Key: fileKey,
         Bucket: BUCKET,
         UploadId: MPUploadId,
-    })
+    });
 
     //Upload Parts to S3
     const upload = async (body, MPUploadId, partNumber) => {
@@ -66,32 +66,32 @@ const multiPartUpload = async (request, response) => {
             Body: body,
             UploadId: MPUploadId,
             PartNumber: partNumber,
-        }
+        };
         
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve) => {
             try {
-                let part = await client.send(new UploadPartCommand(partParams))
+                let part = await client.send(new UploadPartCommand(partParams));
                 resolve({ 
                     PartNumber: partNumber, 
                     ETag: part.ETag
-                })
+                });
             }
             catch (error) {
-                console.log(error)
-                client.send(abort)
+                console.log(error);
+                client.send(abort);
             }
-        })
-    }
+        });
+    };
 
     for (let index = 1; index <= numParts; index++) {
-        let start = (index -1) * chunkSize
-        let end = index * chunkSize
+        let start = (index -1) * chunkSize;
+        let end = index * chunkSize;
 
         promise.push(upload(
             (index < numParts) ? fileStream.slice(start, end) : fileStream.slice(start), 
             MPUploadId, 
             index
-        ))
+        ));
       
         slicedData.push({ PartNumber: index, 
             buffer: Buffer.from(fileStream.slice(start, end + 1)) 
@@ -108,20 +108,20 @@ const multiPartUpload = async (request, response) => {
         Bucket: BUCKET,
         UploadId: MPUploadId,
         MultipartUpload: {Parts: CompletedParts},
-    })
+    });
 
     try{
-        const finish = await client.send(complete)
-            response.status(200).send({
-                status: 'Success',
-                Message: 'Music file Uploaded',
-                data: finish
-            })
+        const finish = await client.send(complete);
+        response.status(200).send({
+            status: 'Success',
+            Message: 'Music file Uploaded',
+            data: finish
+        });
     }
     catch (error) {
-        console.log(error)
-        client.send(abort)
+        console.log(error);
+        client.send(abort);
     }
-}
+};
 
 module.exports = { multiPartUpload };
