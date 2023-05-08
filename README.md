@@ -54,11 +54,11 @@ npm install
 
 
 ## Project Requirements
-- Setup Cloudformation Template to deploy DynamoDB
 - Populate DynamoDB with inital data
 - Build API endpoints for DynamoDB
 - Connect DynamoDB with AWS JS SDK
 - setup test code using Mocha for DynamoDB
+- connect DynamoDB and S3 API's to work as a unit 
 - Move Session Data into DynamoDB
 
 
@@ -69,7 +69,6 @@ npm install
 - Break out CFN into Stacks
 - S3 Deep Dive with A Cloud Guru
 - Cloudformation Deep Dive with A Cloud Guru
-- S3 Setup Signed URL for Uploads
 
 
 
