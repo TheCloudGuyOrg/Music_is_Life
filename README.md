@@ -59,6 +59,7 @@ npm install
 - Connect DynamoDB with AWS JS SDK
 - setup test code using Mocha for DynamoDB
 - connect DynamoDB and S3 API's to work as a unit 
+- Implement Exponential Backup
 - Move Session Data into DynamoDB
 
 

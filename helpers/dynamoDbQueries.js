@@ -8,11 +8,11 @@ const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 
 // Import S3 Modules
 const {
-    S3Client, 
-} = require('@aws-sdk/client-s3');
+    DynamoDBClient, 
+} = require('@aws-sdk/client-dynamodb');
 
 // Defining S3 Client
-const client = new S3Client({ 
+const client = new DynamoDBClient({ 
     credentials: {
         accessKeyId: AWS_ACCESS_KEY,
         secretAccessKey: AWS_SECRET_KEY,
