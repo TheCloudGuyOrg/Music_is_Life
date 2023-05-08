@@ -56,7 +56,6 @@ npm install
 ## Project Requirements
 - Populate DynamoDB with inital data
 - Build API endpoints for DynamoDB
-- Connect DynamoDB with AWS JS SDK
 - setup test code using Mocha for DynamoDB
 - connect DynamoDB and S3 API's to work as a unit 
 - Implement Exponential Backup
