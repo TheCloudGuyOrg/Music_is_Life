@@ -63,7 +63,7 @@ describe('GET /musicrepo/:name', () => {
         // Verify
         assert.equal(result, expected);
     
-	    //Teardown
+        //Teardown
         const teardownUrl = `/musicrepo/${file}`;
  
         await request(app)
@@ -115,9 +115,9 @@ describe('GET /musicrepo/:name', () => {
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-            	'name': file,
-            	'path': path
-        	});    
+                'name': file,
+                'path': path
+            });    
 
         // Exercise
         const response = await request(app)
@@ -150,8 +150,8 @@ describe('POST /musicrepo/upload', () => {
             .post(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-        		'name': file,
-            	'path': path
+                'name': file,
+                'path': path
             });    
 
         const result = response.status;
@@ -178,8 +178,8 @@ describe('POST /musicrepo/upload', () => {
             .post(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-        		'name': file,
-            	'path': path
+                'name': file,
+                'path': path
             });    
 
         const result = response.res.statusMessage;
@@ -208,9 +208,9 @@ describe('DELETE /route/photos/:id', () => {
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-            	'name': file,
-            	'path': path
-        	});    
+                'name': file,
+                'path': path
+            });    
 
         const expected = 200;
 
@@ -235,9 +235,9 @@ describe('DELETE /route/photos/:id', () => {
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-            	'name': file,
-            	'path': path
-        	});    
+                'name': file,
+                'path': path
+            });    
 
         const expected = 'Success';
 
