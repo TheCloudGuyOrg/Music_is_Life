@@ -6,9 +6,9 @@ const s3MusicApi = express.Router();
 
 // Import Queries
 const {
-	listS3Music,
-	GetS3ObjectSignedUrl,
-	deleteS3Music,
+    listS3Music,
+    GetS3ObjectSignedUrl,
+    deleteS3Music,
 } = require('../helpers/s3MusicQueries.js');
 
 const { multiPartUpload } = require('../helpers/s3MultiPartUpload.js');
