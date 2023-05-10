@@ -5,12 +5,13 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+const consistentRead = false;
 
 // Import S3 Modules
 const {
     DynamoDBClient, 
     QueryCommand,
-    BatchGetItemCommand
+    ScanCommand
 } = require('@aws-sdk/client-dynamodb');
 
 // Defining S3 Client
@@ -22,11 +23,12 @@ const client = new DynamoDBClient({
     region: 'us-east-1',
 });
 
+
+
 const listMusic = async (request, response) => {
-    const listObjects = new QueryCommand({
+    const listObjects = new ScanCommand({
         'TableName': 'Music-Is-Life',
-        'Select': 'ALL_ATTRIBUTES',
-        ConsistentRead: false,
+        'ConsistentRead': consistentRead,
     });
 
     try {
@@ -56,7 +58,7 @@ const getMusic = async (request, response) => {
             }
         },
         'KeyConditionExpression': 'Artist = :v1',
-        ConsistentRead: false,
+        'ConsistentRead': consistentRead,
     });
 
     try {
