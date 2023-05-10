@@ -55,18 +55,17 @@ npm install
 
 ## Project Requirements
 - setup test code using Mocha for DynamoDB
-- connect DynamoDB and S3 API's to work as a unit 
-- Implement Exponential Backup
 - Move Session Data into DynamoDB
-
-
+- S3 Deep Dive with A Cloud Guru
+    - connect DynamoDB and S3 API's to work as a unit 
+    - Implement Exponential Backup
+- Cloudformation Deep Dive with A Cloud Guru
+    - Break out CFN into Stacks
 - Setup Lambda and API Gateway
 - Setup Cognito for Auth
 - Setup Caching
 - Setup CI/CD Pipeline
-- Break out CFN into Stacks
-- S3 Deep Dive with A Cloud Guru
-- Cloudformation Deep Dive with A Cloud Guru
+
 
 
 
