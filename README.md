@@ -57,9 +57,12 @@ npm install
     - DeleteItemCommand
 
 ## Project Requirements
-- setup test code using Mocha for DynamoDB
-- Move Session Data into DynamoDB
+- Setup DynamoDB
+    - setup test code using Mocha for DynamoDB
+    - Add DynamoDB Error Checks
+    - Move Session Data into DynamoDB
 - S3 Deep Dive with A Cloud Guru
+    - Add S3 Error Checks
     - connect DynamoDB and S3 API's to work as a unit 
     - Implement Exponential Backup
 - Cloudformation Deep Dive with A Cloud Guru
