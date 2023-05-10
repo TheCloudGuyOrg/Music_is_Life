@@ -23,8 +23,6 @@ const client = new DynamoDBClient({
     region: 'us-east-1',
 });
 
-
-
 const listMusic = async (request, response) => {
     const listObjects = new ScanCommand({
         'TableName': 'Music-Is-Life',
