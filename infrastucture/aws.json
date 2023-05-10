@@ -55,20 +55,12 @@
               {
                 "AttributeName": "Artist",
                 "AttributeType": "S"
-              },
-              {
-                "AttributeName": "Track",
-                "AttributeType": "S"
               }
             ],
             "KeySchema": [
               {
                 "AttributeName": "Artist",
                 "KeyType": "HASH"
-              },
-              {
-                "AttributeName": "Track",
-                "KeyType": "RANGE"
               }],
             "BillingMode": "PAY_PER_REQUEST",
             "TableName": "Music-Is-Life",

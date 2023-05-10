@@ -11,7 +11,8 @@ const consistentRead = false;
 const {
     DynamoDBClient, 
     QueryCommand,
-    ScanCommand
+    ScanCommand,
+    DeleteItemCommand
 } = require('@aws-sdk/client-dynamodb');
 
 // Defining S3 Client
@@ -79,7 +80,29 @@ const postMusic = async (request, response) => {
 };
 
 const deleteMusic = async (request, response) => {
-    console.log(client, request, response);
+    const name = request.params.name;
+    const deleteObject = new DeleteItemCommand({
+        'TableName': 'Music-Is-Life',
+        'Key': {
+            'Artist': {
+                'S': name
+            }
+        }
+    });
+
+    try {
+        const data = await client.send(deleteObject);
+        response.status(200).send({
+            status: 'Success',
+            message: 'Music information deleted',
+            data: data
+        });
+    } 
+    catch (error) {
+        response.status(500).send({
+            error: error.message
+        });
+    }
 };
 
 //Export Queries
