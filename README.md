@@ -49,9 +49,12 @@ npm install
     - getSignedUrl
 
 ### AWS DynamoDB
-
-
-
+- client-DynamoDB
+    - DynamoDBClient
+    - QueryCommand
+    - ScanCommand
+    - PutItemCommand
+    - DeleteItemCommand
 
 ## Project Requirements
 - setup test code using Mocha for DynamoDB
