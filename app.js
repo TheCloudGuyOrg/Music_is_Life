@@ -41,7 +41,7 @@ const s3MusicRouter = require('./routes/s3MusicRoutes.js');
 app.use('/musicrepo', s3MusicRouter);
 
 const ddbMusicRouter = require('./routes/ddbMusicRoutes.js');
-app.use('/route', ddbMusicRouter);
+app.use('/db', ddbMusicRouter);
 
 // Define Port
 const serverPort = process.env.PORT || 3000;

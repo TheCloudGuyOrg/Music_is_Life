@@ -9,6 +9,8 @@ const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 // Import S3 Modules
 const {
     DynamoDBClient, 
+    QueryCommand,
+    BatchGetItemCommand
 } = require('@aws-sdk/client-dynamodb');
 
 // Defining S3 Client
@@ -21,11 +23,55 @@ const client = new DynamoDBClient({
 });
 
 const listMusic = async (request, response) => {
-    console.log(client, request, response);
+    const listObjects = new QueryCommand({
+        'TableName': 'Music-Is-Life',
+        'Select': 'ALL_ATTRIBUTES',
+        ConsistentRead: false,
+    });
+
+    try {
+        const data = await client.send(listObjects);
+        response.status(200).send({
+            status: 'Success',
+            message: 'Music information retrieved',
+            data: data
+        });
+    }
+    catch (error) {
+        response.status(500).send({
+            error: error.message
+        });
+    }
 };
 
 const getMusic = async (request, response) => {
-    console.log(client, request, response);
+    const name = request.params.name;
+    
+    const getObject = new QueryCommand({
+        'TableName': 'Music-Is-Life',
+        'Select': 'ALL_ATTRIBUTES',
+        'ExpressionAttributeValues': {
+            ':v1': {
+                'S': name
+            }
+        },
+        'KeyConditionExpression': 'Artist = :v1',
+        ConsistentRead: false,
+    });
+
+    try {
+        const data = await client.send(getObject);
+        response.status(200).send({
+            status: 'Success',
+            message: 'Music information retrieved',
+            data: data
+        });
+    }
+    catch (error) {
+        response.status(500).send({
+            error: error.message
+        });
+    }
 };
 
 const postMusic = async (request, response) => {
