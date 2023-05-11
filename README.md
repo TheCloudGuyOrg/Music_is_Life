@@ -58,13 +58,12 @@ npm install
 
 ## Project Requirements
 - Setup DynamoDB
-    - setup test code using Mocha for DynamoDB
+    - connect DynamoDB and S3 API's to work as a unit 
     - Add DynamoDB Error Checks
     - Move Session Data into DynamoDB
 - S3 Deep Dive with A Cloud Guru
     - Add S3 Error Checks
     - remove bucket name from S3 Tests
-    - connect DynamoDB and S3 API's to work as a unit 
     - Implement Exponential Backup
 - Cloudformation Deep Dive with A Cloud Guru
     - Break out CFN into Stacks
