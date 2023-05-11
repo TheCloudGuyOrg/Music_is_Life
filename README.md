@@ -60,12 +60,13 @@ npm install
 - Setup DynamoDB
     - connect DynamoDB and S3 API's to work as a unit 
     - Add DynamoDB Error Checks
+    - Implement Exponential Retries
     - Move Session Data into DynamoDB
     - Setup Caching (DB Cache)
 - S3 Deep Dive with A Cloud Guru
     - Add S3 Error Checks
     - remove bucket name from S3 Tests
-    - Implement Exponential Backup
+    - Implement Exponential Retries
     - Setup Caching (CloudFront)
 - Cloudformation Deep Dive with A Cloud Guru
     - Break out CFN into Stacks
