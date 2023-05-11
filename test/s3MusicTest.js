@@ -196,7 +196,7 @@ describe('POST /musicrepo/upload', () => {
 });
 
 //Test: DELETE /musicrepo/:name
-describe('DELETE /route/photos/:id', () => {
+describe('DELETE /musicrepo/:name', () => {
     it('status_code: 200', async () => { 
         // Setup
         const file = 'Test.m4a';

@@ -242,8 +242,8 @@ describe('POST /db', () => {
     });
 });
 
-//Test: DELETE /route/photos/:id
-describe('DELETE /route/photos/:id', () => {
+//Test: DELETE /db/:name
+describe('DELETE /db/:name', () => {
     it('status_code: 200', async () => { 
         // Setup
         const setupUrl = '/db';
