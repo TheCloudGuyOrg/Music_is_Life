@@ -1,358 +1,304 @@
 //Import Modules
 const request = require('supertest');
 const assert = require('assert');
-const app = require('../index.js');
+const app = require('../app.js');
 
-//Test: GET /route/photos
+//Test: GET /db
 describe('GET /db', () => {
-/*  
-	it('status_code: 200', async () => {
-		// Setup
-		const excerciseUrl = '/route/photos';
-		const expected = 200;
+    it('status_code: 200', async () => {
+        // Setup
+        const excerciseUrl = '/db';
+        const expected = 200;
 
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
+        // Exercise
+        const response = await request(app)
+            .get(excerciseUrl);
 
-		const result = response.status;
+        const result = response.status;
 
-		// Verify
-		assert.equal(result, expected);
-	});
+        // Verify
+        assert.equal(result, expected);
+    });
 
-	it('Status: Success', async () => {    
-		// Setup
-		const excerciseUrl = '/route/photos';
-		const expected = 'Success';
+    it('Status: Success', async () => {    
+        // Setup
+        const excerciseUrl = '/db';
+        const expected = 'Success';
 
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
+        // Exercise
+        const response = await request(app)
+            .get(excerciseUrl);
 
-		const result = response._body.status;
+        const result = response._body.status;
 
-		// Verify
-		assert.equal(result, expected);
-	});
+        // Verify
+        assert.equal(result, expected);
+    });
+});
 
-    
-	it('Validate: Database Retrieval', async () => {
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
+//Test: GET /db/:name
+describe('GET /db/:name', () => {
+    it('status_code: 200', async () => {
+        // Setup
+        const setupUrl = '/db';
+        const name = 'Test';
+        const year = 1900;
    
-		const idResponse = await request(app)
-			.post(setupUrl);
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name,
+                'year': year,
+                's3_uri': name
+            });  
+		
+        const excerciseUrl = `/db/${name}`;
+        const expected = '200';
 
-		const photoId = idResponse._body.data.id;
+        // Exercise
+        const response = await request(app)
+            .get(excerciseUrl);
 
-		const excerciseUrl = `/route/photos/${photoId}`;
-		const expected = 'Photo_Test';
+        const result = response.status;
 
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
+        // Verify
+        assert.equal(result, expected);
 
-		const result = response._body.data[0].name;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
+        //Teardown
+        const teardownUrl = `/db/${name}`;
  
-		await request(app)
-			.delete(teardownUrl);
-	});
-*/
-});
+        await request(app)
+            .delete(teardownUrl);
+    });
 
-/*
-
-//Test: GET /route/photos/:id
-describe('GET /route/photos/:id', () => {
-	it('status_code: 200', async () => {
-		// Setup
-		const excerciseUrl = '/route/photos/1';
-		const expected = 200;
-
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
-
-		const result = response.status;
-
-		// Verify
-		assert.equal(result, expected);
-	});
-
-	it('Status: Sucess', async () => {  
-		// Setup
-		const excerciseUrl = '/route/photos/1';
-		const expected = 'Success';
-
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
-
-		const result = response._body.status;
-
-		// Verify
-		assert.equal(result, expected);
-	});
-
-	it('Validate: Database Retrieval', async () => {
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
+    it('Status: Sucess', async () => {  
+        // Setup
+        const setupUrl = '/db';
+        const name = 'Test';
+        const year = 1900;
    
-		const idResponse = await request(app)
-			.post(setupUrl);
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name,
+                'year': year,
+                's3_uri': name
+            });  
+		
+        const excerciseUrl = `/db/${name}`;
+        const expected = 'Success';
 
-		const photoId = idResponse._body.data.id;
+        // Exercise
+        const response = await request(app)
+            .get(excerciseUrl);
 
-		const excerciseUrl = `/route/photos/${photoId}`;
-		const expected = 'Photo_Test';
+        const result = response._body.status;
 
-		// Exercise
-		const response = await request(app)
-			.get(excerciseUrl);
+        // Verify
+        assert.equal(result, expected);
 
-		const result = response._body.data[0].name;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
+        //Teardown
+        const teardownUrl = `/db/${name}`;
  
-		await request(app)
-			.delete(teardownUrl);
-	});
+        await request(app)
+            .delete(teardownUrl);
+    });
+
+    it('Validate: Database Retrieval', async () => {
+        // Setup
+        const setupUrl = '/db';
+        const name = 'Test';
+        const year = 1900;
+   
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name,
+                'year': year,
+                's3_uri': name
+            });  
+
+        const excerciseUrl = '/db/';
+        const expected = 'Test';
+
+        // Exercise
+        const response = await request(app)
+            .get(excerciseUrl);
+		
+        const output = response._body.data.Items;
+        for (i = 0; i < output.length; i++) {
+            if (output[i].Artist.S === name) {
+                result = output[i].Artist.S;
+            }	
+        }
+
+        // Verify
+        assert.equal(result, expected);
+
+        //Teardown
+        const teardownUrl = `/db/${name}`;
+ 
+        await request(app)
+            .delete(teardownUrl);
+    });
 });
 
-//Test: Post /route/photos/:id
-describe('POST /route/photos/:id', () => {
-	it('status_code: 201', async () => { 
-		// Setup
-		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-		const expected = 201;
+//Test: Post /db
+describe('POST /db', () => {
+    it('status_code: 200', async () => { 
+        // Setup
+        const name = 'Test';
+        const year = 1900;
+        const excerciseUrl = '/db';
+        const expected = 200;
 
-		// Exercise
-		const response = await request(app)
-			.post(excerciseUrl);
+        // Exercise
+        const response = await request(app)
+            .post(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name,
+                'year': year,
+                's3_uri': name
+            });  
 
-		const result = response.status;
-		const photoId = response._body.data.id;
+        const result = response.statusCode;
 
-		// Verify
-		assert.equal(result, expected);
+        // Verify
+        assert.equal(result, expected);
 
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
+        //Teardown
+        const teardownUrl = `/db/${name}`;
  
-		await request(app)
-			.delete(teardownUrl);
-	});
+        await request(app)
+            .delete(teardownUrl);
+    });
 
-	it('Status: Success', async () => {  
-		// Setup
-		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-		const expected = 'Success';
+    it('Status: Success', async () => {  
+        // Setup
+        const name = 'Test';
+        const year = 1900;
+        const excerciseUrl = '/db';
+        const expected = 'Success';
 
-		// Exercise
-		const response = await request(app)
-			.post(excerciseUrl);
+        // Exercise
+        const response = await request(app)
+            .post(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name,
+                'year': year,
+                's3_uri': name
+            });  
 
-		const result = response._body.status;
-		const photoId = response._body.data.id;
+        const result = response._body.status;
 
-		// Verify
-		assert.equal(result, expected);
+        // Verify
+        assert.equal(result, expected);
 
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
+        //Teardown
+        const teardownUrl = `/db/${name}`;
  
-		await request(app)
-			.delete(teardownUrl);
-	});  
-  
-	it('Validate: Database Retrieval', async () => { 
-		// Setup
-		const excerciseUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-		const expected = 'Photo_Test';
+        await request(app)
+            .delete(teardownUrl);
+    });
 
-		// Exercise
-		const response = await request(app)
-			.post(excerciseUrl);
+    it('Validate: Database Retrieval', async () => { 
+    // Setup
+        const name = 'Test';
+        const year = 1900;
+        const excerciseUrl = '/db';
+        const expected = 'Test';
 
-		const result = response._body.data.name;
-		const photoId = response._body.data.id;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-	});
-});
-
-//Test: PUT /route/photos/:id
-describe('PUT /route/photos/:id', () => {
-	it('status_code: 200', async () => { 
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
+        // Exercise
+        const response = await request(app)
+            .post(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name,
+                'year': year,
+                's3_uri': name
+            });  
+		
+        const result = response.request._data.name;
     
-		const idResponse = await request(app)
-			.post(setupUrl);
+        // Verify
+        assert.equal(result, expected);
 
-		const photoId = idResponse._body.data.id;
-
-		const excerciseUrl = `/route/photos/${photoId}?name=Photo_Test_2&url=file://Photo_Test_2&citation=Daisy Rue Cox`;
-		const expected = 200;
-
-		// Exercise
-		const response = await request(app)
-			.put(excerciseUrl);
-
-		const result = response.status;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
+        //Teardown
+        const teardownUrl = `/db/${name}`;
  
-		await request(app)
-			.delete(teardownUrl);
-	});
-
-	it('Status: Success', async () => {    
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-    
-		const idResponse = await request(app)
-			.post(setupUrl);
-
-		const photoId = idResponse._body.data.id;
-
-		const excerciseUrl = `/route/photos/${photoId}?name=Photo_Test_2&url=file://Photo_Test_2&citation=Daisy Rue Cox`;
-		const expected = 'Success';
-
-		// Exercise
-		const response = await request(app)
-			.put(excerciseUrl);
-
-		const result = response._body.status;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-	});
-
-	it('Validate: Database Retrieval', async () => {     
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-    
-		const idResponse = await request(app)
-			.post(setupUrl);
-
-		const photoId = idResponse._body.data.id;
-
-		const excerciseUrl = `/route/photos/${photoId}?name=Photo_Test_2&url=file://Photo_Test_2&citation=Daisy Rue Cox`;
-		const expected = 1;
-
-		// Exercise
-		const response = await request(app)
-			.put(excerciseUrl);
-
-		const result = response._body.data;
-
-		// Verify
-		assert.equal(result, expected);
-
-		//Teardown
-		const teardownUrl = `/route/photos/${photoId}`;
- 
-		await request(app)
-			.delete(teardownUrl);
-	});
+        await request(app)
+            .delete(teardownUrl);
+    });
 });
 
 //Test: DELETE /route/photos/:id
 describe('DELETE /route/photos/:id', () => {
-	it('status_code: 200', async () => { 
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-    
-		const idResponse = await request(app)
-			.post(setupUrl);
+    it('status_code: 200', async () => { 
+        // Setup
+        const setupUrl = '/db';
+        const name = 'Test';
+        const year = 1900;
 
-		const photoId = idResponse._body.data.id;
+        await request(app)
+	        .post(setupUrl)
+	        .set('Content-Type', 'application/x-www-form-urlencoded')
+	        .send({
+		        'name': name,
+		        'track': name,
+		        'year': year,
+		        's3_uri': name
+	        });  
 
-		const excerciseUrl = `/route/photos/${photoId}?name=Photo_Test_2&url=file://Photo_Test_2&citation=Daisy Rue Cox`;
-		const expected = 200;
+        const excerciseUrl = `/db/${name}`;
+        const expected = '200';
 
-		// Exercise
-		const response = await request(app)
-			.delete(excerciseUrl);
+        // Exercise
+        const response = await request(app)
+            .delete(excerciseUrl);
 
-		const result = response.status;
+        const result = response.status;
 
-		// Verify
-		assert.equal(result, expected);
-	});
+        // Verify
+        assert.equal(result, expected);
+    });
 
-	it('Status: Success', async () => {  
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-    
-		const idResponse = await request(app)
-			.post(setupUrl);
+    it('Status: Success', async () => {  
+        // Setup
+        const setupUrl = '/db';
+        const name = 'Test';
+        const year = 1900;
 
-		const photoId = idResponse._body.data.id;
+        await request(app)
+	        .post(setupUrl)
+	        .set('Content-Type', 'application/x-www-form-urlencoded')
+	        .send({
+		        'name': name,
+		        'track': name,
+		        'year': year,
+		        's3_uri': name
+	        });  
 
-		const excerciseUrl = `/route/photos/${photoId}?name=Photo_Test_2&url=file://Photo_Test_2&citation=Daisy Rue Cox`;
-		const expected = 'Success';
+        const excerciseUrl = `/db/${name}`;
+        const expected = 'Success';
 
-		// Exercise
-		const response = await request(app)
-			.delete(excerciseUrl);
+        // Exercise
+        const response = await request(app)
+            .delete(excerciseUrl);
 
-		const result = response._body.status;
+        const result = response._body.status;
 
-		// Verify
-		assert.equal(result, expected);
-	});
-
-	it('Validate: Database Retrieval', async () => {
-        
-		// Setup
-		const setupUrl = '/route/photos/?name=Photo_Test&url=file://Photo_Test&citation=Daisy Rue Cox';
-    
-		const idResponse = await request(app)
-			.post(setupUrl);
-
-		const photoId = idResponse._body.data.id;
-
-		const excerciseUrl = `/route/photos/${photoId}?name=Photo_Test_2&url=file://Photo_Test_2&citation=Daisy Rue Cox`;
-		const expected = '1';
-
-		// Exercise
-		const response = await request(app)
-			.delete(excerciseUrl);
-
-		const result = response._body.data;
-
-		// Verify
-		assert.equal(result, expected);
-	});
+        // Verify
+        assert.equal(result, expected);
+    });
 });
-*/

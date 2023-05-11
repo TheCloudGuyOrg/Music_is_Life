@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Music Upload Service",
   "main": "app.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "mocha",
     "start": "node app.js"
