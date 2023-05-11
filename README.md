@@ -68,6 +68,7 @@ npm install
 - Cloudformation Deep Dive with A Cloud Guru
     - Break out CFN into Stacks
 - Setup Lambda and API Gateway
+    - Setup Paramater Store 
 - Setup Cognito for Auth
 - Setup Caching
 - Setup CI/CD Pipeline

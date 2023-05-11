@@ -7,7 +7,7 @@ const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 const consistentRead = false;
 
-// Import S3 Modules
+// Import DynamoDB Modules
 const {
     DynamoDBClient, 
     QueryCommand,
@@ -16,7 +16,7 @@ const {
     DeleteItemCommand
 } = require('@aws-sdk/client-dynamodb');
 
-// Defining S3 Client
+// Defining DynamoDB Client
 const client = new DynamoDBClient({ 
     credentials: {
         accessKeyId: AWS_ACCESS_KEY,
