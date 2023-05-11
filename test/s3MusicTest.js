@@ -108,8 +108,8 @@ describe('GET /musicrepo/:name', () => {
         const path = './test/';
         const setupUrl = '/musicrepo/upload';
         const excerciseUrl = `/musicrepo/${file}`;
-        const expected = 'https://music-is-life-bucket-s3bucket-1p1cgsnuuvm73.s3.us-east-1.amazonaws.com/Test.m4a';
-        const regex = /https:\/\/music-is-life-bucket-s3bucket-1p1cgsnuuvm73\.s3\.us-east-1\.amazonaws\.com\/Test\.m4a/i;
+        const expected = 'https://music-is-life-s3bucket-mkqpsuorwz66.s3.us-east-1.amazonaws.com/Test.m4a';
+        const regex = /https:\/\/music-is-life-s3bucket-mkqpsuorwz66\.s3\.us-east-1\.amazonaws\.com\/Test\.m4a/i;
 
         await request(app)
             .post(setupUrl)
