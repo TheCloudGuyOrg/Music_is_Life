@@ -81,6 +81,24 @@ const getMusic = async (request, response) => {
     }
 };
 
+const getMusicUrl = async (request, response) => {
+
+
+    try {
+        const data = await client.send(getObject);
+        response.status(200).send({
+            status: 'Success',
+            message: 'Music information retrieved',
+            data: data
+        });
+    }
+    catch (error) {
+        response.status(500).send({
+            error: error.message
+        });
+    }
+};
+
 const postMusic = async (request, response) => {
 
 
@@ -101,7 +119,7 @@ const postMusic = async (request, response) => {
 
 const deleteMusic = async (request, response) => {
 
-    
+
     try {
         const data = await client.send(deleteObject);
         response.status(200).send({
@@ -121,6 +139,7 @@ const deleteMusic = async (request, response) => {
 module.exports = {
     listMusic,
     getMusic,
+    getMusicUrl,
     postMusic,
     deleteMusic
 };

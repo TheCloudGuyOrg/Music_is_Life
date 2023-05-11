@@ -8,6 +8,7 @@ const musicApi = express.Router();
 const {
     listMusic,
     getMusic,
+    getMusicUrl,
     postMusic,
     deleteMusic,
 } = require('../helpers/musicQueries.js');
@@ -16,6 +17,7 @@ const {
 // Music API Routes
 musicApi.get('/', listMusic);
 musicApi.get('/:name', getMusic);
+musicApi.get('/url/:name', getMusicUrl);
 musicApi.post('/', postMusic);
 musicApi.delete('/:name', deleteMusic);
 
