@@ -13,7 +13,6 @@ const {
     deleteMusic,
 } = require('../api/musicAPIs.js');
 
-
 // Music API Routes
 musicApi.get('/', listMusic);
 musicApi.get('/:name', getMusic);
