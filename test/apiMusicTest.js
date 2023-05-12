@@ -7,7 +7,7 @@ const app = require('../app.js');
 describe('GET /api', () => {
     it('status_code: 200', async () => {
         // Setup
-        const excerciseUrl = '/db';
+        const excerciseUrl = '/api';
         const expected = 200;
 
         // Exercise
@@ -22,7 +22,7 @@ describe('GET /api', () => {
 
     it('Status: Success', async () => {    
         // Setup
-        const excerciseUrl = '/db';
+        const excerciseUrl = '/api';
         const expected = 'Success';
 
         // Exercise
