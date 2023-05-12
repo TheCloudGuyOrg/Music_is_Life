@@ -72,9 +72,11 @@ npm install
     - Break out CFN into Stacks
 - Setup Cognito for Auth
 - Setup Lambda and API Gateway
-    - Setup CI/CD Pipeline
     - SAM Templates
     - Setup Paramater Store 
+- Setup CI/CD Pipeline
+    - Define DEV, QA, and Prod Env
+    - Setup Code Tools
 
 
 
