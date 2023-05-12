@@ -51,6 +51,7 @@ const ddbClient = new DynamoDBClient({
     region: 'us-east-1',
 });
 
+
 // -----------
 // API QUERIES
 // -----------
