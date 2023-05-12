@@ -1,12 +1,18 @@
 'use strict';
 
-// Import Varables
+// Import Moules
 const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
+
+// Import AWS
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-const BUCKET = process.env.BUCKET;
+
+// DynamoDB Varables
 const consistentRead = false;
+
+// S3 Varables
+const BUCKET = process.env.BUCKET;
 
 // Import S3 Modules
 const {
@@ -18,6 +24,15 @@ const {
 
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
+// Import DynamoDB Modules
+const {
+    DynamoDBClient, 
+    QueryCommand,
+    ScanCommand,
+    PutItemCommand,
+    DeleteItemCommand
+} = require('@aws-sdk/client-dynamodb');
+
 // Defining S3 Client
 const s3Client = new S3Client({ 
     credentials: {
@@ -27,14 +42,6 @@ const s3Client = new S3Client({
     region: 'us-east-1',
 });
 
-// Import DynamoDB Modules
-const {
-    DynamoDBClient, 
-    QueryCommand,
-    ScanCommand,
-    PutItemCommand,
-    DeleteItemCommand
-} = require('@aws-sdk/client-dynamodb');
 
 // Defining DynamoDB Client
 const ddbClient = new DynamoDBClient({ 
@@ -45,6 +52,7 @@ const ddbClient = new DynamoDBClient({
     region: 'us-east-1',
 });
 
+// Defining List All Music Files API
 const listMusic = async (request, response) => {
     
 
@@ -63,6 +71,7 @@ const listMusic = async (request, response) => {
     }
 };
 
+// Defining Get Music by Name API
 const getMusic = async (request, response) => {
 
 
@@ -81,6 +90,7 @@ const getMusic = async (request, response) => {
     }
 };
 
+// Defining Get PreSigned URL API
 const getMusicUrl = async (request, response) => {
 
 
@@ -99,6 +109,7 @@ const getMusicUrl = async (request, response) => {
     }
 };
 
+// Defining Post Music API
 const postMusic = async (request, response) => {
 
 
@@ -117,6 +128,7 @@ const postMusic = async (request, response) => {
     }
 };
 
+// Defining Delete Music API
 const deleteMusic = async (request, response) => {
 
 
