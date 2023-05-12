@@ -11,7 +11,7 @@ const {
     getMusicUrl,
     postMusic,
     deleteMusic,
-} = require('../helpers/musicQueries.js');
+} = require('../api/musicAPIs.js');
 
 
 // Music API Routes
