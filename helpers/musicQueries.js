@@ -1,18 +1,12 @@
 'use strict';
 
+// --------------
+// Module Imports
+// --------------
+
 // Import Moules
 const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
-
-// Import AWS
-const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
-const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-
-// DynamoDB Varables
-const consistentRead = false;
-
-// S3 Varables
-const BUCKET = process.env.BUCKET;
 
 // Import S3 Modules
 const {
@@ -32,6 +26,26 @@ const {
     PutItemCommand,
     DeleteItemCommand
 } = require('@aws-sdk/client-dynamodb');
+
+
+// --------
+// Varables
+// --------
+
+// Import AWS Access Keys
+const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+
+// DynamoDB Varables
+const consistentRead = false;
+
+// S3 Varables
+const BUCKET = process.env.BUCKET;
+
+
+// ---------------
+// AWS SDK Clients
+// ---------------
 
 // Defining S3 Client
 const s3Client = new S3Client({ 
@@ -55,7 +69,6 @@ const ddbClient = new DynamoDBClient({
 // -----------
 // API QUERIES
 // -----------
-
 
 // Defining List All Music Files API
 const listMusic = async (request, response) => {
@@ -151,6 +164,11 @@ const deleteMusic = async (request, response) => {
         });
     }
 };
+
+
+// ------------
+// Export API's
+// ------------
 
 //Export Queries
 module.exports = {
