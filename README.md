@@ -73,6 +73,7 @@ npm install
 - Setup Cognito for Auth
 - Setup Lambda and API Gateway
     - Setup CI/CD Pipeline
+    - SAM Templates
     - Setup Paramater Store 
 
 
