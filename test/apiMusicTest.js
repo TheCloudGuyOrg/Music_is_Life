@@ -160,7 +160,7 @@ describe('POST /api', () => {
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl);
+            .post(excerciseUrl);
 
         const result = response.status;
 
@@ -175,7 +175,7 @@ describe('POST /api', () => {
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl);
+            .post(excerciseUrl);
 
         const result = response._body.status;
 
@@ -190,7 +190,7 @@ describe('POST /api', () => {
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl);
+            .post(excerciseUrl);
 
         const result = response._body.status;
 
@@ -205,7 +205,7 @@ describe('POST /api', () => {
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl);
+            .post(excerciseUrl);
 
         const result = response._body.status;
 
@@ -223,7 +223,7 @@ describe('DELETE /api/:name', () => {
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl);
+            .delete(excerciseUrl);
 
         const result = response.status;
 
@@ -239,7 +239,7 @@ describe('DELETE /api/:name', () => {
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl);
+            .delete(excerciseUrl);
 
         const result = response._body.status;
 
@@ -255,7 +255,7 @@ describe('DELETE /api/:name', () => {
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl);
+            .delete(excerciseUrl);
 
         const result = response._body.status;
 
@@ -271,7 +271,7 @@ describe('DELETE /api/:name', () => {
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl);
+            .delete(excerciseUrl);
 
         const result = response._body.status;
 
