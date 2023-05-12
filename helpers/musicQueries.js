@@ -42,7 +42,6 @@ const s3Client = new S3Client({
     region: 'us-east-1',
 });
 
-
 // Defining DynamoDB Client
 const ddbClient = new DynamoDBClient({ 
     credentials: {
@@ -51,6 +50,11 @@ const ddbClient = new DynamoDBClient({
     },
     region: 'us-east-1',
 });
+
+// -----------
+// API QUERIES
+// -----------
+
 
 // Defining List All Music Files API
 const listMusic = async (request, response) => {
