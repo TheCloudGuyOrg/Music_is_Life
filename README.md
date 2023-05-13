@@ -58,8 +58,6 @@ npm install
 
 ## Project Requirements
 - Setup DynamoDB
-    - Add TrackId and auto increment 
-        - if not possible then make Track sort key
     - connect DynamoDB and S3 API's to work as a unit 
     - Add DynamoDB Error Checks
     - Implement Exponential Retries
