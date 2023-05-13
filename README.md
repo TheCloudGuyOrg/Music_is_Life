@@ -77,6 +77,7 @@ npm install
     - SAM Templates
     - Setup Paramater Store 
 - Setup CI/CD Pipeline
+    - Move Project Requirements to GitHub Project
     - Define DEV, QA, and Prod Env
     - Setup Code Tools
 
