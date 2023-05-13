@@ -77,7 +77,7 @@ npm install
     - SAM Templates
     - Setup Paramater Store 
 - Setup CI/CD Pipeline
-    - Move Project Requirements to GitHub Project
+    - https://github.com/awslabs/aws-devops-essential
     - Define DEV, QA, and Prod Env
     - Setup Code Tools
 
