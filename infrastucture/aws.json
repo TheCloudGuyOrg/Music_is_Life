@@ -50,10 +50,6 @@
               {
                 "Key" : "Project",
                 "Value" : "Music-Is-Life"
-              },
-              {
-                "Key" : "Name",
-                "Value" : "Music-Is-Life"
               }
             ]
           }
@@ -90,10 +86,6 @@
             "Tags" : [
               {
                 "Key" : "Project",
-                "Value" : "Music-Is-Life"
-              },
-              {
-                "Key" : "Name",
                 "Value" : "Music-Is-Life"
               }
             ]
