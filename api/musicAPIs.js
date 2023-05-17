@@ -8,16 +8,10 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
 
-// Import S3 Modules
+// Import awsHelperFunctions
 const {
-    S3Client, 
-    ListObjectsCommand,
-    GetObjectAttributesCommand,
-    GetObjectCommand,
-    DeleteObjectCommand,
-} = require('@aws-sdk/client-s3');
-
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+    getS3ObjectProperties
+} = require('../helpers/awsHelperFunctions.js');
 
 // Import DynamoDB Modules
 const {
@@ -48,15 +42,6 @@ const BUCKET = process.env.BUCKET;
 // AWS SDK Clients
 // ---------------
 
-// Defining S3 Client
-const s3Client = new S3Client({ 
-    credentials: {
-        accessKeyId: AWS_ACCESS_KEY,
-        secretAccessKey: AWS_SECRET_KEY,
-    },
-    region: 'us-east-1',
-});
-
 // Defining DynamoDB Client
 const ddbClient = new DynamoDBClient({ 
     credentials: {
@@ -65,31 +50,6 @@ const ddbClient = new DynamoDBClient({
     },
     region: 'us-east-1',
 });
-
-// ----------------
-// HELPER FUNCTIONS
-// ----------------
-
-const getS3ObjectProperties = async (bucket, key) => {
-    const getS3Object = new GetObjectAttributesCommand({
-        Bucket: bucket,
-        Key: key,
-        ObjectAttributes: [ 
-            'ETag',
-            'Checksum',
-            'StorageClass',
-            'ObjectSize'
-        ]
-    });
-
-    try {
-        const s3ObjectData = await s3Client.send(getS3Object);
-        return s3ObjectData;
-    }
-    catch (error) {
-        console.log(error);
-    }
-};
 
 // -----------
 // API QUERIES
