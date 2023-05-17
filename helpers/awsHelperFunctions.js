@@ -59,7 +59,7 @@ const getS3ObjectProperties = async (bucket, key) => {
         return s3ObjectData;
     }
     catch (error) {
-        console.log(error);
+        console.log(error.$$metadata);
     }
 };
 

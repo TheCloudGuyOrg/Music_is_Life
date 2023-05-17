@@ -25,24 +25,32 @@ const listMusic = async (request, response) => {
     try {
         const s3Data = [];
         const DDBdata = await ddbClient.send(listDDBObjects);
-        for (let i=0; i < DDBdata.Items.length; i++) {
-            const s3_uri = DDBdata.Items[i].s3_uri.S;
-            const bucketName = s3_uri.split('/')[2];
-            const objectKey = s3_uri.split('/')[3];
-            const s3Properties = await getS3ObjectProperties(bucketName, objectKey);
-            s3Data.push(objectKey, s3Properties);
-        };
+
+        if(DDBdata.Items.length <= 0) {
+            response.status(404).send({
+                message: 'Music not found'
+            });
+        }
+        else {
+            for (let i=0; i < DDBdata.Items.length; i++) {
+                const s3_uri = DDBdata.Items[i].s3_uri.S;
+                const bucketName = s3_uri.split('/')[2];
+                const objectKey = s3_uri.split('/')[3];
+                const s3Properties = await getS3ObjectProperties(bucketName, objectKey);
+                s3Data.push(objectKey, s3Properties);
+            };
     
-        response.status(200).send({
-            status: 'Success',
-            message: 'DynamoDB Music information retrieved',
-            DDBdata: DDBdata,
-            S3data: s3Data
-        });
+            response.status(200).send({
+                status: 'Success',
+                message: 'DynamoDB Music information retrieved',
+                DDBdata: DDBdata,
+                S3data: s3Data
+            });
+        }
     }
     catch (error) {
         response.status(500).send({
-            error: error.message
+            error: error.$$metadata
         });
     }
 };
@@ -52,11 +60,17 @@ const getMusic = async (request, response) => {
 
     try {
         const data = await client.send(getObject);
-        response.status(200).send({
-            status: 'Success',
-            message: 'Music information retrieved',
-            data: data
-        });
+        if(!data) {
+            response.status(404).send({
+                message: 'Music not found'
+            });
+        } else {
+            response.status(200).send({
+                status: 'Success',
+                message: 'Music information retrieved',
+                data: data
+            });
+        }
     }
     catch (error) {
         response.status(500).send({
