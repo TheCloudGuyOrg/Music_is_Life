@@ -12,6 +12,7 @@ dotenv.config({ path: './../config/.env' });
 const {
     S3Client, 
     ListObjectsCommand,
+    GetObjectAttributesCommand,
     GetObjectCommand,
     DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
@@ -65,6 +66,30 @@ const ddbClient = new DynamoDBClient({
     region: 'us-east-1',
 });
 
+// ----------------
+// HELPER FUNCTIONS
+// ----------------
+
+const getS3ObjectProperties = async (bucket, key) => {
+    const getS3Object = new GetObjectAttributesCommand({
+        Bucket: bucket,
+        Key: key,
+        ObjectAttributes: [ 
+            'ETag',
+            'Checksum',
+            'StorageClass',
+            'ObjectSize'
+        ]
+    });
+
+    try {
+        const s3ObjectData = await s3Client.send(getS3Object);
+        return s3ObjectData;
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
 
 // -----------
 // API QUERIES
@@ -72,14 +97,27 @@ const ddbClient = new DynamoDBClient({
 
 // Defining List All Music Files API
 const listMusic = async (request, response) => {
-    
+    const listDDBObjects = new ScanCommand({
+        'TableName': 'Music-Is-Life-Artist-Track',
+        'ConsistentRead': consistentRead,
+    });
 
     try {
-        const data = await client.send(listObjects);
+        const s3Array = [];
+        const data = await ddbClient.send(listDDBObjects);
+        for (let i=0; i < data.Items.length; i++) {
+            const s3_uri = data.Items[i].s3_uri.S;
+            const bucketName = s3_uri.split('/')[2];
+            const objectKey = s3_uri.split('/')[3];
+            const s3Properties = await getS3ObjectProperties(bucketName, objectKey);
+            s3Array.push(objectKey, s3Properties);
+        };
+    
         response.status(200).send({
             status: 'Success',
-            message: 'Music information retrieved',
-            data: data
+            message: 'DynamoDB Music information retrieved',
+            DDBdata: data,
+            S3data: s3Array
         });
     }
     catch (error) {
