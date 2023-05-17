@@ -1,7 +1,18 @@
+'use strict';
+
+// --------------
+// Module Imports
+// --------------
+
 //Import Modules
 const request = require('supertest');
 const assert = require('assert');
 const app = require('../app.js');
+
+
+// --------------
+// GET /api Tests
+// --------------
 
 //Test: GET /api
 describe('GET /api', () => {
@@ -51,6 +62,11 @@ describe('GET /api', () => {
         assert.equal(result, expected);
     });
 });
+
+
+// ---------------------------
+// GET /api Tests by File Name
+// ---------------------------
 
 describe('GET /api/:name', () => {
     it('status_code: 200', async () => {
@@ -102,6 +118,11 @@ describe('GET /api/:name', () => {
     });
 });
 
+
+// --------------------------
+// GET S3 Presigned URL Tests
+// --------------------------
+
 describe('GET /api/url/:name', () => {
     it('status_code: 200', async () => {
         // Setup
@@ -151,6 +172,11 @@ describe('GET /api/url/:name', () => {
         assert.equal(result, expected);
     });
 });
+
+
+// ---------------
+// POST /api Tests
+// ---------------
 
 describe('POST /api', () => {
     it('status_code: 200', async () => {
@@ -213,6 +239,11 @@ describe('POST /api', () => {
         assert.equal(result, expected);
     });
 });
+
+
+// ------------------------------
+// DELETE /api Tests by File Name
+// ------------------------------
 
 describe('DELETE /api/:name', () => {
     it('status_code: 200', async () => {

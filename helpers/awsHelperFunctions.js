@@ -1,17 +1,30 @@
 'use strict';
 
-// Import Varables
-const dotenv = require('dotenv');
-dotenv.config({ path: './../config/.env' });
-const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
-const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-const BUCKET = process.env.BUCKET;
+// --------------
+// Module Imports
+// --------------
 
 // Import S3 Modules
 const {
     S3Client, 
     GetObjectAttributesCommand
 } = require('@aws-sdk/client-s3');
+
+
+// --------
+// Varables
+// --------
+
+// Import Varables
+const dotenv = require('dotenv');
+dotenv.config({ path: './../config/.env' });
+const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+
+
+// ----------
+// S3 Helpers
+// ----------
 
 // Defining S3 Client
 const s3client = new S3Client({ 
@@ -22,6 +35,7 @@ const s3client = new S3Client({
     region: 'us-east-1',
 });
 
+// Get S3 Object Properties
 const getS3ObjectProperties = async (bucket, key) => {
     const getS3Object = new GetObjectAttributesCommand({
         Bucket: bucket,
@@ -42,6 +56,11 @@ const getS3ObjectProperties = async (bucket, key) => {
         console.log(error);
     }
 };
+
+
+// ------------
+// Export API's
+// ------------
 
 //Export Queries
 module.exports = {

@@ -1,9 +1,8 @@
 'use strict';
 
-// Import Varables
-const dotenv = require('dotenv');
-dotenv.config({ path: './config/.env' });
-const SESSION_SECRET = process.env.SESSION_SECRET;
+// --------------
+// Module Imports
+// --------------
 
 // Use Express
 const express = require('express');
@@ -17,6 +16,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Use Helmet
 const helmet = require('helmet');
 app.use(helmet());
+
+
+// --------
+// Varables
+// --------
+
+// Import Varables
+const dotenv = require('dotenv');
+dotenv.config({ path: './config/.env' });
+const SESSION_SECRET = process.env.SESSION_SECRET;
+
+// Define Port
+const serverPort = process.env.PORT || 3000;
+
+
+// -------------------
+// Define User Session
+// -------------------
 
 // Defining User Sessions 
 const session = require('express-session');
@@ -36,6 +53,11 @@ app.use(
     })
 );
 
+
+// ----------
+// API Routes
+// ----------
+
 // Service Routers
 const s3MusicRouter = require('./routes/s3MusicRoutes.js');
 app.use('/musicrepo', s3MusicRouter);
@@ -46,13 +68,20 @@ app.use('/db', ddbMusicRouter);
 const musicRouter = require('./routes/musicRoutes.js');
 app.use('/api', musicRouter);
 
-// Define Port
-const serverPort = process.env.PORT || 3000;
+
+// -----------
+// Init Server
+// -----------
 
 // Initialize Server
 app.listen(serverPort, () => {
     console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort); 
 });
+
+
+// ------------
+// Export API's
+// ------------
 
 // Export App
 module.exports = app;

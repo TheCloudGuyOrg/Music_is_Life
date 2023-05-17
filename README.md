@@ -42,6 +42,7 @@ npm install
 - client-S3
     - ListObject
     - GetObject
+    - GetObjectAttributesCommand
     - DeleteObject
     - AbortMultiPartUpload
     - MultiPartUpload

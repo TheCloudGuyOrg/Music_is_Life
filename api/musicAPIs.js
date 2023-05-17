@@ -4,11 +4,11 @@
 // Module Imports
 // --------------
 
-// Import Moules
+// Import ENV Modules
 const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
 
-// Import awsHelperFunctions
+// Import AWS Helper Functions
 const {
     getS3ObjectProperties
 } = require('../helpers/awsHelperFunctions.js');
@@ -16,10 +16,7 @@ const {
 // Import DynamoDB Modules
 const {
     DynamoDBClient, 
-    QueryCommand,
-    ScanCommand,
-    PutItemCommand,
-    DeleteItemCommand
+    ScanCommand
 } = require('@aws-sdk/client-dynamodb');
 
 
@@ -33,9 +30,6 @@ const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 
 // DynamoDB Varables
 const consistentRead = false;
-
-// S3 Varables
-const BUCKET = process.env.BUCKET;
 
 
 // ---------------
