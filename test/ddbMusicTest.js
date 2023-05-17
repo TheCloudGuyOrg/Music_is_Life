@@ -70,7 +70,12 @@ describe('GET /db/:name', () => {
         const teardownUrl = `/db/${name}`;
  
         await request(app)
-            .delete(teardownUrl);
+            .delete(teardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
     });
 
     it('Status: Sucess', async () => {  
@@ -105,7 +110,12 @@ describe('GET /db/:name', () => {
         const teardownUrl = `/db/${name}`;
  
         await request(app)
-            .delete(teardownUrl);
+            .delete(teardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
     });
 
     it('Validate: Database Retrieval', async () => {
@@ -143,10 +153,16 @@ describe('GET /db/:name', () => {
 
         //Teardown
         const teardownUrl = `/db/${name}`;
- 
+
         await request(app)
-            .delete(teardownUrl);
+            .delete(teardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
     });
+
 });
 
 //Test: Post /db
@@ -178,7 +194,12 @@ describe('POST /db', () => {
         const teardownUrl = `/db/${name}`;
  
         await request(app)
-            .delete(teardownUrl);
+            .delete(teardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
     });
 
     it('Status: Success', async () => {  
@@ -208,7 +229,12 @@ describe('POST /db', () => {
         const teardownUrl = `/db/${name}`;
  
         await request(app)
-            .delete(teardownUrl);
+            .delete(teardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
     });
 
     it('Validate: Database Retrieval', async () => { 
@@ -238,7 +264,12 @@ describe('POST /db', () => {
         const teardownUrl = `/db/${name}`;
  
         await request(app)
-            .delete(teardownUrl);
+            .delete(teardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
     });
 });
 
@@ -265,7 +296,12 @@ describe('DELETE /db/:name', () => {
 
         // Exercise
         const response = await request(app)
-            .delete(excerciseUrl);
+            .delete(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
 
         const result = response.status;
 
@@ -294,7 +330,12 @@ describe('DELETE /db/:name', () => {
 
         // Exercise
         const response = await request(app)
-            .delete(excerciseUrl);
+            .delete(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
 
         const result = response._body.status;
 

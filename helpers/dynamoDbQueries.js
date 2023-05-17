@@ -27,7 +27,7 @@ const client = new DynamoDBClient({
 
 const listMusic = async (request, response) => {
     const listObjects = new ScanCommand({
-        'TableName': 'Music-Is-Life',
+        'TableName': 'Music-Is-Life-Artist-Track',
         'ConsistentRead': consistentRead,
     });
 
@@ -50,7 +50,7 @@ const getMusic = async (request, response) => {
     const name = request.params.name;
     
     const getObject = new QueryCommand({
-        'TableName': 'Music-Is-Life',
+        'TableName': 'Music-Is-Life-Artist-Track',
         'Select': 'ALL_ATTRIBUTES',
         'ExpressionAttributeValues': {
             ':v1': {
@@ -83,7 +83,7 @@ const postMusic = async (request, response) => {
     const s3_uri = request.body.s3_uri;
 
     const putObject = new PutItemCommand({
-        'TableName': 'Music-Is-Life',
+        'TableName': 'Music-Is-Life-Artist-Track',
         'Item': {
             'Artist': {
                 'S': name
@@ -116,12 +116,17 @@ const postMusic = async (request, response) => {
 };
 
 const deleteMusic = async (request, response) => {
-    const name = request.params.name;
+    const name = request.body.name;
+    const track = request.body.track;
+
     const deleteObject = new DeleteItemCommand({
-        'TableName': 'Music-Is-Life',
+        'TableName': 'Music-Is-Life-Artist-Track',
         'Key': {
             'Artist': {
                 'S': name
+            },
+            'Track': {
+                'S': track
             }
         }
     });
