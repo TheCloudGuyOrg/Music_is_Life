@@ -46,17 +46,31 @@ describe('GET /api', () => {
         assert.equal(result, expected);
     });
 
-    it('Validate Database Retrieval', async () => {    
+    it('DB status_code: 200', async () => {
         // Setup
-        const name = '';
-        const excerciseUrl = `/api/${name}`;
-        const expected = 'Success';
+        const excerciseUrl = '/api';
+        const expected = 200;
 
         // Exercise
         const response = await request(app)
             .get(excerciseUrl);
 
-        const result = response._body.status;
+        const result = response._body.DDBdata.$metadata.httpStatusCode;
+
+        // Verify
+        assert.equal(result, expected);
+    });
+
+    it('S3 status_code: 200', async () => {
+        // Setup
+        const excerciseUrl = '/api';
+        const expected = 200;
+
+        // Exercise
+        const response = await request(app)
+            .get(excerciseUrl);
+
+        const result = response._body.S3data[1].$metadata.httpStatusCode;
 
         // Verify
         assert.equal(result, expected);
@@ -71,7 +85,7 @@ describe('GET /api', () => {
 describe('GET /api/:name', () => {
     it('status_code: 200', async () => {
         // Setup
-        const name = '';
+        const name = 'Test.m4a';
         const excerciseUrl = `/api/${name}`;
         const expected = 200;
 
@@ -87,7 +101,7 @@ describe('GET /api/:name', () => {
 
     it('Status: Success', async () => {    
         // Setup
-        const name = '';
+        const name = 'Test.m4a';
         const excerciseUrl = `/api/${name}`;
         const expected = 'Success';
 
@@ -103,9 +117,9 @@ describe('GET /api/:name', () => {
 
     it('Validate Database Retrieval', async () => {    
         // Setup
-        const name = '';
+        const name = 'Test.m4a';
         const excerciseUrl = `/api/${name}`;
-        const expected = 'Success';
+        const expected = '';
 
         // Exercise
         const response = await request(app)

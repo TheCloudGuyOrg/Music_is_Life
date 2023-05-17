@@ -10,40 +10,11 @@ dotenv.config({ path: './../config/.env' });
 
 // Import AWS Helper Functions
 const {
-    getS3ObjectProperties
+    getS3ObjectProperties,
+    listDDBObjects,
+    ddbClient,
 } = require('../helpers/awsHelperFunctions.js');
 
-// Import DynamoDB Modules
-const {
-    DynamoDBClient, 
-    ScanCommand
-} = require('@aws-sdk/client-dynamodb');
-
-
-// --------
-// Varables
-// --------
-
-// Import AWS Access Keys
-const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
-const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-
-// DynamoDB Varables
-const consistentRead = false;
-
-
-// ---------------
-// AWS SDK Clients
-// ---------------
-
-// Defining DynamoDB Client
-const ddbClient = new DynamoDBClient({ 
-    credentials: {
-        accessKeyId: AWS_ACCESS_KEY,
-        secretAccessKey: AWS_SECRET_KEY,
-    },
-    region: 'us-east-1',
-});
 
 // -----------
 // API QUERIES
@@ -51,27 +22,22 @@ const ddbClient = new DynamoDBClient({
 
 // Defining List All Music Files API
 const listMusic = async (request, response) => {
-    const listDDBObjects = new ScanCommand({
-        'TableName': 'Music-Is-Life-Artist-Track',
-        'ConsistentRead': consistentRead,
-    });
-
     try {
-        const s3Array = [];
-        const data = await ddbClient.send(listDDBObjects);
-        for (let i=0; i < data.Items.length; i++) {
-            const s3_uri = data.Items[i].s3_uri.S;
+        const s3Data = [];
+        const DDBdata = await ddbClient.send(listDDBObjects);
+        for (let i=0; i < DDBdata.Items.length; i++) {
+            const s3_uri = DDBdata.Items[i].s3_uri.S;
             const bucketName = s3_uri.split('/')[2];
             const objectKey = s3_uri.split('/')[3];
             const s3Properties = await getS3ObjectProperties(bucketName, objectKey);
-            s3Array.push(objectKey, s3Properties);
+            s3Data.push(objectKey, s3Properties);
         };
     
         response.status(200).send({
             status: 'Success',
             message: 'DynamoDB Music information retrieved',
-            DDBdata: data,
-            S3data: s3Array
+            DDBdata: DDBdata,
+            S3data: s3Data
         });
     }
     catch (error) {
@@ -83,7 +49,6 @@ const listMusic = async (request, response) => {
 
 // Defining Get Music by Name API
 const getMusic = async (request, response) => {
-
 
     try {
         const data = await client.send(getObject);
