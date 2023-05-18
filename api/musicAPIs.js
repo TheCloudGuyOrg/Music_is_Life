@@ -90,7 +90,7 @@ const listMusic = async (request, response) => {
 
 // Defining Get Music by Name API - GET /api/:name
 const getMusic = async (request, response) => {
-    const name = request.body.name;
+    const name = request.params.name;
     
     const getDDBObject = new QueryCommand({
         'TableName': 'Music-Is-Life-Artist-Track',
