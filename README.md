@@ -37,6 +37,9 @@ npm install
 ### AWS Cloudformation
 - S3 Bucket
 - DynamoDB
+    - Music-Is-Life Table
+        - Primary Key: Artist
+        - Sort Key: Track
 
 ### AWS S3
 - client-S3
