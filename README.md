@@ -75,6 +75,7 @@ npm install
 - Setup Lambda and API Gateway
     - SAM Templates
     - Setup Paramater Store 
+    - Convert DynamoDB/S3 Upload to a Lambda trigger that triggers on the file upload and then adds to DyanmoDB
 - Setup CI/CD Pipeline
     - https://github.com/awslabs/aws-devops-essential
     - Define DEV, QA, and Prod Env
