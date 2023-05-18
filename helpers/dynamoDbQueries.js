@@ -25,36 +25,6 @@ const client = new DynamoDBClient({
     region: 'us-east-1',
 });
 
-const getMusic = async (request, response) => {
-    const name = request.params.name;
-    
-    const getObject = new QueryCommand({
-        'TableName': 'Music-Is-Life-Artist-Track',
-        'Select': 'ALL_ATTRIBUTES',
-        'ExpressionAttributeValues': {
-            ':v1': {
-                'S': name
-            }
-        },
-        'KeyConditionExpression': 'Artist = :v1',
-        'ConsistentRead': consistentRead,
-    });
-
-    try {
-        const data = await client.send(getObject);
-        response.status(200).send({
-            status: 'Success',
-            message: 'Music information retrieved',
-            data: data
-        });
-    }
-    catch (error) {
-        response.status(500).send({
-            error: error.message
-        });
-    }
-};
-
 const postMusic = async (request, response) => {
     const name = request.body.name;
     const track = request.body.track;

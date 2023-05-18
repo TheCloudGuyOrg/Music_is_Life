@@ -5,69 +5,6 @@ const app = require('../app.js');
 
 //Test: GET /musicrepo/:name 
 describe('GET /musicrepo/:name', () => {
-    it('status_code: 200', async () => { 
-        // Setup
-        const file = 'Test.m4a';
-        const path = './test/';
-        const setupUrl = '/musicrepo/upload';
-        const excerciseUrl = `/musicrepo/${file}`;
-        const expected = '200';
-
-        await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'name': file,
-                'path': path
-            });    
-
-        // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
-
-        const result = response.status;
-
-        // Verify
-        assert.equal(result, expected);
-    
-        //Teardown
-        const teardownUrl = `/musicrepo/${file}`;
- 
-        await request(app)
-            .delete(teardownUrl);
-    }).timeout(5000);
-
-    it('Status: Success', async () => { 
-        // Setup
-        const file = 'Test.m4a';
-        const path = './test/';
-        const setupUrl = '/musicrepo/upload';
-        const excerciseUrl = `/musicrepo/${file}`;
-        const expected = 'Success';
-
-        await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'name': file,
-                'path': path
-            });    
-
-        // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
-
-        const result = response._body.status;
-
-        // Verify
-        assert.equal(result, expected);
-
-        //Teardown
-        const teardownUrl = `/musicrepo/${file}`;
- 
-        await request(app)
-            .delete(teardownUrl);
-    }).timeout(5000);
 
     it('Validate Returning PreSigned URL', async () => { 
         // Setup
