@@ -13,7 +13,6 @@ const {
 
 
 // Photo API Routes
-ddbMusicApi.get('/:name', getMusic);
 ddbMusicApi.post('/', postMusic);
 ddbMusicApi.delete('/:name', deleteMusic);
 
