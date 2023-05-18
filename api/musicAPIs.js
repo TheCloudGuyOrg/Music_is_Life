@@ -69,8 +69,8 @@ const listMusic = async (request, response) => {
                 const s3_uri = DDBdata.Items[i].s3_uri.S;
                 const bucketName = s3_uri.split('/')[2];
                 const objectKey = s3_uri.split('/')[3];
-                const s3Properties = await getS3ObjectAttributes(bucketName, objectKey);
-                s3Data.push(objectKey, s3Properties);
+                const s3Attributes = await getS3ObjectAttributes(bucketName, objectKey);
+                s3Data.push(objectKey, s3Attributes);
             };
     
             response.status(200).send({
@@ -116,8 +116,8 @@ const getMusic = async (request, response) => {
             const s3_uri = DDBdata.Items[0].s3_uri.S;
             const bucketName = s3_uri.split('/')[2];
             const objectKey = s3_uri.split('/')[3];
-            const s3Properties = await getS3ObjectAttributes(bucketName, objectKey);
-            s3Data.push(objectKey, s3Properties);
+            const s3Attributes = await getS3ObjectAttributes(bucketName, objectKey);
+            s3Data.push(objectKey, s3Attributes);
             
             response.status(200).send({
                 status: 'Success',
