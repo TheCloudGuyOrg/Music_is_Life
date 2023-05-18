@@ -40,12 +40,8 @@ npm install
 
 ### AWS S3
 - client-S3
-    - ListObject
-    - GetObject
+    - S3Client
     - GetObjectAttributesCommand
-    - DeleteObject
-    - AbortMultiPartUpload
-    - MultiPartUpload
 - s3-request-presigner
     - getSignedUrl
 
@@ -54,8 +50,7 @@ npm install
     - DynamoDBClient
     - QueryCommand
     - ScanCommand
-    - PutItemCommand
-    - DeleteItemCommand
+
 
 ## Project Requirements
 - Setup DynamoDB
