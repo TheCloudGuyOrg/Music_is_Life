@@ -4,17 +4,15 @@
 // Module Imports
 // --------------
 
+// Import ENV Modules
+const dotenv = require('dotenv');
+dotenv.config({ path: './../config/.env' });
+
 // Import S3 Modules
 const {
     S3Client, 
     GetObjectAttributesCommand
 } = require('@aws-sdk/client-s3');
-
-// Import DynamoDB Modules
-const {
-    DynamoDBClient, 
-    ScanCommand
-} = require('@aws-sdk/client-dynamodb');
 
 
 // --------
@@ -22,8 +20,6 @@ const {
 // --------
 
 // Import ENV Varables
-const dotenv = require('dotenv');
-dotenv.config({ path: './../config/.env' });
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 
@@ -59,27 +55,9 @@ const getS3ObjectProperties = async (bucket, key) => {
         return s3ObjectData;
     }
     catch (error) {
-        console.log(error.$$metadata);
+        console.log(error);
     }
 };
-
-// ----------------
-// DynamoDB Helpers
-// ----------------
-
-// Defining DynamoDB Client
-const ddbClient = new DynamoDBClient({ 
-    credentials: {
-        accessKeyId: AWS_ACCESS_KEY,
-        secretAccessKey: AWS_SECRET_KEY,
-    },
-    region: 'us-east-1',
-});
-
-const listDDBObjects = new ScanCommand({
-    'TableName': 'Music-Is-Life-Artist-Track',
-    'ConsistentRead': false,
-});
 
 
 // ------------
@@ -88,7 +66,5 @@ const listDDBObjects = new ScanCommand({
 
 //Export Queries
 module.exports = {
-    getS3ObjectProperties,
-    listDDBObjects,
-    ddbClient
+    getS3ObjectProperties
 };

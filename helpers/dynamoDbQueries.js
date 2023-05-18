@@ -25,27 +25,6 @@ const client = new DynamoDBClient({
     region: 'us-east-1',
 });
 
-const listMusic = async (request, response) => {
-    const listObjects = new ScanCommand({
-        'TableName': 'Music-Is-Life-Artist-Track',
-        'ConsistentRead': consistentRead,
-    });
-
-    try {
-        const data = await client.send(listObjects);
-        response.status(200).send({
-            status: 'Success',
-            message: 'Music information retrieved',
-            data: data
-        });
-    }
-    catch (error) {
-        response.status(500).send({
-            error: error.message
-        });
-    }
-};
-
 const getMusic = async (request, response) => {
     const name = request.params.name;
     
@@ -148,7 +127,6 @@ const deleteMusic = async (request, response) => {
 
 //Export Queries
 module.exports = {
-    listMusic,
     getMusic,
     postMusic,
     deleteMusic

@@ -26,26 +26,6 @@ const client = new S3Client({
     region: 'us-east-1',
 });
 
-//List S3 Music Objects
-const listS3Music = async (request,response) => {  
-    const listObjects = new ListObjectsCommand({
-        Bucket: BUCKET, 
-    });
-
-    try {
-        const data = await client.send(listObjects);
-        response.status(200).send({
-            status: 'Success',
-            message: 'Music information retrieved',
-            data: data.Contents
-        });
-    } 
-    catch (error) {
-        response.status(500).send({
-            error: error.message
-        });
-    }
-};
 
 //Get S3 Music Signed URL 
 const GetS3ObjectSignedUrl = async (request,response) => {
@@ -100,7 +80,6 @@ const deleteS3Music = async (request,response) => {
 
 //Export Queries
 module.exports = {
-    listS3Music,
     GetS3ObjectSignedUrl,
     deleteS3Music
 };

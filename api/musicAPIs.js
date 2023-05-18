@@ -10,10 +10,38 @@ dotenv.config({ path: './../config/.env' });
 
 // Import AWS Helper Functions
 const {
-    getS3ObjectProperties,
-    listDDBObjects,
-    ddbClient,
+    getS3ObjectProperties
 } = require('../helpers/awsHelperFunctions.js');
+
+// Import DynamoDB Modules
+const {
+    DynamoDBClient, 
+    ScanCommand,
+    QueryCommand
+} = require('@aws-sdk/client-dynamodb');
+
+
+// --------
+// Varables
+// --------
+
+// Import ENV Varables
+const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
+
+
+// -----------
+// AWS Clients
+// -----------
+
+// Defining DynamoDB Client
+const ddbClient = new DynamoDBClient({ 
+    credentials: {
+        accessKeyId: AWS_ACCESS_KEY,
+        secretAccessKey: AWS_SECRET_KEY,
+    },
+    region: 'us-east-1',
+});
 
 
 // -----------
@@ -22,9 +50,14 @@ const {
 
 // Defining List All Music Files API
 const listMusic = async (request, response) => {
+    const listDDBObjects = new ScanCommand({
+        'TableName': 'Music-Is-Life-Artist-Track',
+        'ConsistentRead': false,
+    });
+    
     try {
-        const s3Data = [];
         const DDBdata = await ddbClient.send(listDDBObjects);
+        const s3Data = [];
 
         if(DDBdata.Items.length <= 0) {
             response.status(404).send({
@@ -57,18 +90,40 @@ const listMusic = async (request, response) => {
 
 // Defining Get Music by Name API
 const getMusic = async (request, response) => {
+    const name = request.body.name;
+    
+    const getDDBObject = new QueryCommand({
+        'TableName': 'Music-Is-Life-Artist-Track',
+        'Select': 'ALL_ATTRIBUTES',
+        'ExpressionAttributeValues': {
+            ':v1': {
+                'S': name
+            }
+        },
+        'KeyConditionExpression': 'Artist = :v1',
+        'ConsistentRead': false,
+    });
 
     try {
-        const data = await client.send(getObject);
-        if(!data) {
+        const DDBdata = await ddbClient.send(getDDBObject);
+        const s3Data = [];
+
+        if(!DDBdata) {
             response.status(404).send({
                 message: 'Music not found'
             });
         } else {
+            const s3_uri = DDBdata.Items[0].s3_uri.S;
+            const bucketName = s3_uri.split('/')[2];
+            const objectKey = s3_uri.split('/')[3];
+            const s3Properties = await getS3ObjectProperties(bucketName, objectKey);
+            s3Data.push(objectKey, s3Properties);
+            
             response.status(200).send({
                 status: 'Success',
                 message: 'Music information retrieved',
-                data: data
+                DDBdata: DDBdata,
+                S3data: s3Data
             });
         }
     }
