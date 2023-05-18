@@ -61,7 +61,7 @@ const listMusic = async (request, response) => {
 
         if(DDBdata.Items.length <= 0) {
             response.status(404).send({
-                message: 'Music not found'
+                message: 'The Artist/Track selected does not exist'
             });
         }
         else {
@@ -75,7 +75,7 @@ const listMusic = async (request, response) => {
     
             response.status(200).send({
                 status: 'Success',
-                message: 'DynamoDB Music information retrieved',
+                message: 'Artist/Track infomation retrieved from Database',
                 DDBdata: DDBdata,
                 S3data: s3Data
             });
@@ -83,7 +83,7 @@ const listMusic = async (request, response) => {
     }
     catch (error) {
         response.status(500).send({
-            error: error.$$metadata
+            error: error.message
         });
     }
 };
@@ -110,7 +110,7 @@ const getMusic = async (request, response) => {
 
         if(DDBdata.Items[0] === undefined) {
             response.status(404).send({
-                message: 'Music not found'
+                message: 'The Artist/Track selected does not exist'
             });
         } else {
             const s3_uri = DDBdata.Items[0].s3_uri.S;
@@ -121,7 +121,7 @@ const getMusic = async (request, response) => {
             
             response.status(200).send({
                 status: 'Success',
-                message: 'Music information retrieved',
+                message: 'The Artist/Track information was retrived',
                 DDBdata: DDBdata,
                 S3data: s3Data
             });
@@ -140,11 +140,18 @@ const getMusicUrl = async (request, response) => {
 
     try {
         const data = await client.send(getObject);
-        response.status(200).send({
-            status: 'Success',
-            message: 'Music information retrieved',
-            data: data
-        });
+
+        if(DDBdata.Items[0] === undefined) {
+            response.status(404).send({
+                message: 'The Artist/Track selected does not exist'
+            });
+        } else {
+            response.status(200).send({
+                status: 'Success',
+                message: 'The Presigned URL has been created',
+                data: data
+            });
+        }
     }
     catch (error) {
         response.status(500).send({
@@ -159,11 +166,18 @@ const postMusic = async (request, response) => {
 
     try {
         const data = await client.send(putObject);
-        response.status(200).send({
-            status: 'Success',
-            message: 'Music information added',
-            data: data
-        });
+
+        if(DDBdata.Items[0] === undefined) {
+            response.status(404).send({
+                message: 'Cound not complete the Artist/Track upload'
+            });
+        } else {
+            response.status(200).send({
+                status: 'Success',
+                message: 'The Artist/Track has been upldaded',
+                data: data
+            });
+        }
     } 
     catch (error) {
         response.status(500).send({
@@ -178,11 +192,18 @@ const deleteMusic = async (request, response) => {
 
     try {
         const data = await client.send(deleteObject);
-        response.status(200).send({
-            status: 'Success',
-            message: 'Music information deleted',
-            data: data
-        });
+
+        if(DDBdata.Items[0] === undefined) {
+            response.status(404).send({
+                message: 'The Artist/Track selected does not exist'
+            });
+        } else {
+            response.status(200).send({
+                status: 'Success',
+                message: 'The Artist/Track has been deleted',
+                data: data
+            });
+        }
     } 
     catch (error) {
         response.status(500).send({

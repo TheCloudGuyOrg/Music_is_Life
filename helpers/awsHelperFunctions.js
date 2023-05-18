@@ -39,6 +39,7 @@ const s3client = new S3Client({
 
 // Get S3 Object Properties
 const getS3ObjectProperties = async (bucket, key) => {
+
     const getS3Object = new GetObjectAttributesCommand({
         Bucket: bucket,
         Key: key,
@@ -51,11 +52,17 @@ const getS3ObjectProperties = async (bucket, key) => {
     });
 
     try {
-        const s3ObjectData = await s3client.send(getS3Object);
-        return s3ObjectData;
+        if(!bucket || !key) {
+            return 'The bucket or key does not exist';
+        }
+        else {
+            const s3ObjectData = await s3client.send(getS3Object);
+            return s3ObjectData;
+        }
+
     }
     catch (error) {
-        console.log(error);
+        return error;
     }
 };
 
