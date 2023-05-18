@@ -108,7 +108,7 @@ const getMusic = async (request, response) => {
         const DDBdata = await ddbClient.send(getDDBObject);
         const s3Data = [];
 
-        if(!DDBdata) {
+        if(DDBdata.Items[0] === undefined) {
             response.status(404).send({
                 message: 'Music not found'
             });
