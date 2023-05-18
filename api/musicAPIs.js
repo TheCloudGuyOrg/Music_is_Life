@@ -10,7 +10,7 @@ dotenv.config({ path: './../config/.env' });
 
 // Import AWS Helper Functions
 const {
-    getS3ObjectProperties
+    getS3ObjectAttributes
 } = require('../helpers/awsHelperFunctions.js');
 
 // Import DynamoDB Modules
@@ -48,7 +48,7 @@ const ddbClient = new DynamoDBClient({
 // API QUERIES
 // -----------
 
-// Defining List All Music Files API
+// Defining List All Music Files API - GET /api
 const listMusic = async (request, response) => {
     const listDDBObjects = new ScanCommand({
         'TableName': 'Music-Is-Life-Artist-Track',
@@ -69,7 +69,7 @@ const listMusic = async (request, response) => {
                 const s3_uri = DDBdata.Items[i].s3_uri.S;
                 const bucketName = s3_uri.split('/')[2];
                 const objectKey = s3_uri.split('/')[3];
-                const s3Properties = await getS3ObjectProperties(bucketName, objectKey);
+                const s3Properties = await getS3ObjectAttributes(bucketName, objectKey);
                 s3Data.push(objectKey, s3Properties);
             };
     
@@ -88,7 +88,7 @@ const listMusic = async (request, response) => {
     }
 };
 
-// Defining Get Music by Name API
+// Defining Get Music by Name API - GET /api/:name
 const getMusic = async (request, response) => {
     const name = request.body.name;
     
@@ -116,7 +116,7 @@ const getMusic = async (request, response) => {
             const s3_uri = DDBdata.Items[0].s3_uri.S;
             const bucketName = s3_uri.split('/')[2];
             const objectKey = s3_uri.split('/')[3];
-            const s3Properties = await getS3ObjectProperties(bucketName, objectKey);
+            const s3Properties = await getS3ObjectAttributes(bucketName, objectKey);
             s3Data.push(objectKey, s3Properties);
             
             response.status(200).send({
@@ -134,7 +134,7 @@ const getMusic = async (request, response) => {
     }
 };
 
-// Defining Get PreSigned URL API
+// Defining Get PreSigned URL API - GET /api/url/:name
 const getMusicUrl = async (request, response) => {
 
 
@@ -160,7 +160,7 @@ const getMusicUrl = async (request, response) => {
     }
 };
 
-// Defining Post Music API
+// Defining Post Music API - POST /api
 const postMusic = async (request, response) => {
 
 
@@ -186,7 +186,7 @@ const postMusic = async (request, response) => {
     }
 };
 
-// Defining Delete Music API
+// Defining Delete Music API - DELETE /api/:name
 const deleteMusic = async (request, response) => {
 
 

@@ -37,8 +37,8 @@ const s3client = new S3Client({
     region: 'us-east-1',
 });
 
-// Get S3 Object Properties
-const getS3ObjectProperties = async (bucket, key) => {
+// Get S3 Object Attributes
+const getS3ObjectAttributes = async (bucket, key) => {
 
     const getS3Object = new GetObjectAttributesCommand({
         Bucket: bucket,
@@ -73,5 +73,5 @@ const getS3ObjectProperties = async (bucket, key) => {
 
 //Export Queries
 module.exports = {
-    getS3ObjectProperties
+    getS3ObjectAttributes
 };
