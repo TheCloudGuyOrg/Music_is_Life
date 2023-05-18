@@ -97,7 +97,6 @@ const deleteMusic = async (request, response) => {
 
 //Export Queries
 module.exports = {
-    getMusic,
     postMusic,
     deleteMusic
 };
