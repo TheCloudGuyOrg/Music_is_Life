@@ -66,7 +66,6 @@ npm install
     - Move Session Data into DynamoDB
 - S3 Deep Dive with A Cloud Guru
     - Add S3 Error Checks
-    - remove bucket name from S3 Tests
     - Implement Exponential Retries
 - Cloudformation Deep Dive with A Cloud Guru
     - Break out CFN into Stacks
