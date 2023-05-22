@@ -10,7 +10,8 @@ dotenv.config({ path: './../config/.env' });
 
 // Import AWS Helper Functions
 const {
-    getS3ObjectAttributes
+    getS3ObjectAttributes,
+    GetS3ObjectSignedUrl
 } = require('../helpers/awsHelperFunctions.js');
 
 // Import DynamoDB Modules
@@ -19,6 +20,9 @@ const {
     ScanCommand,
     QueryCommand
 } = require('@aws-sdk/client-dynamodb');
+
+// Import S3 Modules
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
 
 // --------
@@ -136,20 +140,39 @@ const getMusic = async (request, response) => {
 
 // Defining Get PreSigned URL API - GET /api/url/:name
 const getMusicUrl = async (request, response) => {
-
+    const name = request.params.name;
+    
+    const getDDBObject = new QueryCommand({
+        'TableName': 'Music-Is-Life-Artist-Track',
+        'Select': 'ALL_ATTRIBUTES',
+        'ExpressionAttributeValues': {
+            ':v1': {
+                'S': name
+            }
+        },
+        'KeyConditionExpression': 'Artist = :v1',
+        'ConsistentRead': false,
+    });
 
     try {
-        const data = await client.send(getObject);
+        const DDBdata = await ddbClient.send(getDDBObject);
 
         if(DDBdata.Items[0] === undefined) {
             response.status(404).send({
                 message: 'The Artist/Track selected does not exist'
             });
         } else {
+            const s3_uri = DDBdata.Items[0].s3_uri.S;
+            const bucketName = s3_uri.split('/')[2];
+            const objectKey = s3_uri.split('/')[3];
+            const url = await GetS3ObjectSignedUrl(bucketName, objectKey);
+            
+            
             response.status(200).send({
                 status: 'Success',
-                message: 'The Presigned URL has been created',
-                data: data
+                message: 'The Artist/Track information was retrived',
+                DDBdata: DDBdata,
+                S3PreSignedURL: url
             });
         }
     }

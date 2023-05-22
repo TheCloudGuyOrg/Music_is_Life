@@ -27,32 +27,32 @@ const client = new S3Client({
 });
 
 
-//Get S3 Music Signed URL 
-const GetS3ObjectSignedUrl = async (request,response) => {
-    const name = request.params.name;
-    const getObject = new GetObjectCommand({
-        Bucket: BUCKET, 
-        Key: name,
-    });
+// //Get S3 Music Signed URL 
+// const GetS3ObjectSignedUrl = async (request,response) => {
+//     const name = request.params.name;
+//     const getObject = new GetObjectCommand({
+//         Bucket: BUCKET, 
+//         Key: name,
+//     });
 
-    try {
-        const url = await getSignedUrl(
-            client, 
-            getObject, { 
-                expiresIn: 60 * 60 * 6 //seconds * minutes * hours
-            });
-        response.status(200).send({
-            status: 'Success',
-            message: 'Music information retrieved',
-            data: url
-        });
-    } 
-    catch (error) {
-        response.status(500).send({
-            error: error.message
-        });
-    }
-}; 
+//     try {
+//         const url = await getSignedUrl(
+//             client, 
+//             getObject, { 
+//                 expiresIn: 60 * 60 * 6 //seconds * minutes * hours
+//             });
+//         response.status(200).send({
+//             status: 'Success',
+//             message: 'Music information retrieved',
+//             data: url
+//         });
+//     } 
+//     catch (error) {
+//         response.status(500).send({
+//             error: error.message
+//         });
+//     }
+// }; 
 
 //Delete S3 Music
 const deleteS3Music = async (request,response) => {
@@ -80,7 +80,7 @@ const deleteS3Music = async (request,response) => {
 
 //Export Queries
 module.exports = {
-    GetS3ObjectSignedUrl,
+    //GetS3ObjectSignedUrl,
     deleteS3Music
 };
   

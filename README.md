@@ -58,7 +58,6 @@ npm install
 ## Project Requirements
 - Setup DynamoDB
     - connect DynamoDB and S3 API's to work as a unit 
-        - Presigned URL
         - Post Music
             - Find Smaller Test File
         - Delete Music

@@ -3,42 +3,42 @@ const request = require('supertest');
 const assert = require('assert');
 const app = require('../app.js');
 
-//Test: GET /musicrepo/:name 
-describe('GET /musicrepo/:name', () => {
+// //Test: GET /musicrepo/:name 
+// describe('GET /musicrepo/:name', () => {
 
-    it('Validate Returning PreSigned URL', async () => { 
-        // Setup
-        const file = 'Test.m4a';
-        const path = './test/';
-        const setupUrl = '/musicrepo/upload';
-        const excerciseUrl = `/musicrepo/${file}`;
-        const expected = 'https://music-is-life-s3bucket-mkqpsuorwz66.s3.us-east-1.amazonaws.com/Test.m4a';
-        const regex = /https:\/\/music-is-life-s3bucket-mkqpsuorwz66\.s3\.us-east-1\.amazonaws\.com\/Test\.m4a/i;
+//     it('Validate Returning PreSigned URL', async () => { 
+//         // Setup
+//         const file = 'Test.m4a';
+//         const path = './test/';
+//         const setupUrl = '/musicrepo/upload';
+//         const excerciseUrl = `/musicrepo/${file}`;
+//         const expected = 'https://music-is-life-s3bucket-mkqpsuorwz66.s3.us-east-1.amazonaws.com/Test.m4a';
+//         const regex = /https:\/\/music-is-life-s3bucket-mkqpsuorwz66\.s3\.us-east-1\.amazonaws\.com\/Test\.m4a/i;
 
-        await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'name': file,
-                'path': path
-            });    
+//         await request(app)
+//             .post(setupUrl)
+//             .set('Content-Type', 'application/x-www-form-urlencoded')
+//             .send({
+//                 'name': file,
+//                 'path': path
+//             });    
 
-        // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+//         // Exercise
+//         const response = await request(app)
+//             .get(excerciseUrl);
 
-        const result = response._body.data;
+//         const result = response._body.data;
 
-        // Verify
-        assert.match(result, regex, expected);
+//         // Verify
+//         assert.match(result, regex, expected);
 
-        //Teardown
-        const teardownUrl = `/musicrepo/${file}`;
+//         //Teardown
+//         const teardownUrl = `/musicrepo/${file}`;
  
-        await request(app)
-            .delete(teardownUrl);
-    }).timeout(5000);
-});
+//         await request(app)
+//             .delete(teardownUrl);
+//     }).timeout(5000);
+// });
 
 //Test: Post /musicrepo/upload
 describe('POST /musicrepo/upload', () => {

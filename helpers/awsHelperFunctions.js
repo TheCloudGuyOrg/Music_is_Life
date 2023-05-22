@@ -11,9 +11,11 @@ dotenv.config({ path: './../config/.env' });
 // Import S3 Modules
 const {
     S3Client, 
+    GetObjectCommand,
     GetObjectAttributesCommand
 } = require('@aws-sdk/client-s3');
 
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
 // --------
 // Varables
@@ -66,6 +68,26 @@ const getS3ObjectAttributes = async (bucket, key) => {
     }
 };
 
+//Get S3 Music Signed URL 
+const GetS3ObjectSignedUrl = async (bucket, key) => {
+    const getObject = new GetObjectCommand({
+        Bucket: bucket, 
+        Key: key,
+    });
+
+    try {
+        const url = await getSignedUrl(
+            s3client, 
+            getObject, { 
+                expiresIn: 60 * 60 * 6 //seconds * minutes * hours
+            });
+        return url;
+    } 
+    catch (error) {
+        return error;
+    }
+}; 
+
 
 // ------------
 // Export API's
@@ -73,5 +95,6 @@ const getS3ObjectAttributes = async (bucket, key) => {
 
 //Export Queries
 module.exports = {
-    getS3ObjectAttributes
+    getS3ObjectAttributes,
+    GetS3ObjectSignedUrl
 };
