@@ -4,14 +4,23 @@
 // Module Imports
 // --------------
 
-//Import Modules
-const request = require('supertest');
-const assert = require('assert');
-const app = require('../app.js');
-
-// Import Varables
+// Import ENV Modules
 const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
+
+//Import Mocha Test Modules
+const request = require('supertest');
+const assert = require('assert');
+
+//Import Express App
+const app = require('../app.js');
+
+
+// --------
+// Varables
+// --------
+
+// Import ENV Varables
 const BUCKET = process.env.BUCKET;
 
 

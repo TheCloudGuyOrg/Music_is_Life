@@ -21,9 +21,6 @@ const {
     QueryCommand
 } = require('@aws-sdk/client-dynamodb');
 
-// Import S3 Modules
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
-
 
 // --------
 // Varables
