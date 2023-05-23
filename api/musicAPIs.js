@@ -167,7 +167,7 @@ const getMusicUrl = async (request, response) => {
             
             response.status(200).send({
                 status: 'Success',
-                message: 'The Artist/Track information was retrived',
+                message: 'The URL was retrived',
                 DDBdata: DDBdata,
                 S3PreSignedURL: url
             });
