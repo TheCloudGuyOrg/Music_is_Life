@@ -476,7 +476,7 @@ describe('GET /api/:name', () => {
 // --------------------------
 
 describe('GET /api/url/:name', () => {
-    it('S3 status_code: 200', async () => {
+    it('status_code: 200', async () => {
         // Setup
         const DDBsetupUrl = '/db'; //Fix Path
         const name = 'Test';
