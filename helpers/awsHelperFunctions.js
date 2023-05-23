@@ -42,7 +42,7 @@ const s3client = new S3Client({
 // Get S3 Object Attributes
 const getS3ObjectAttributes = async (bucket, key) => {
 
-    const getS3Object = new GetObjectAttributesCommand({
+    const getS3Attributes = await new GetObjectAttributesCommand({
         Bucket: bucket,
         Key: key,
         ObjectAttributes: [ 
@@ -58,8 +58,8 @@ const getS3ObjectAttributes = async (bucket, key) => {
             return 'The bucket or key does not exist';
         }
         else {
-            const s3ObjectData = await s3client.send(getS3Object);
-            return s3ObjectData;
+            const s3AttributeData = await s3client.send(getS3Attributes);
+            return s3AttributeData;
         }
 
     }
@@ -70,7 +70,7 @@ const getS3ObjectAttributes = async (bucket, key) => {
 
 //Get S3 Music Signed URL 
 const GetS3ObjectSignedUrl = async (bucket, key) => {
-    const getObject = new GetObjectCommand({
+    const getObject = await new GetObjectCommand({
         Bucket: bucket, 
         Key: key,
     });

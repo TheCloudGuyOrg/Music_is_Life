@@ -44,6 +44,7 @@ npm install
 ### AWS S3
 - client-S3
     - S3Client
+    - GetObjectCommand
     - GetObjectAttributesCommand
 - s3-request-presigner
     - getSignedUrl
