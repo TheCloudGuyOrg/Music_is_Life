@@ -76,12 +76,18 @@ const GetS3ObjectSignedUrl = async (bucket, key) => {
     });
 
     try {
-        const url = await getSignedUrl(
-            s3client, 
-            getObject, { 
-                expiresIn: 60 * 60 * 6 //seconds * minutes * hours
-            });
-        return url;
+        if (!getObject) {
+            return 'The request is invalid';
+        }
+        else {
+            const url = await getSignedUrl(
+                s3client, 
+                getObject, { 
+                    expiresIn: 60 * 60 * 6 //seconds * minutes * hours
+                });
+            return url;
+        }
+
     } 
     catch (error) {
         return error;
