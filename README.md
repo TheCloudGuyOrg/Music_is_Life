@@ -64,7 +64,6 @@ npm install
         - Delete Music
     - Add DynamoDB Error Checks
     - Implement Exponential Retries
-    - Move Session Data into DynamoDB
 - S3 Deep Dive with A Cloud Guru
     - Add S3 Error Checks
     - Implement Exponential Retries
@@ -76,6 +75,7 @@ npm install
     - SAM Templates
     - Setup Paramater Store 
     - Convert DynamoDB/S3 Upload to a Lambda trigger that triggers on the file upload and then adds to DyanmoDB
+    - Move Session Data into DynamoDB
 - Setup CI/CD Pipeline
     - https://github.com/awslabs/aws-devops-essential
     - Define DEV, QA, and Prod Env
