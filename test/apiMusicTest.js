@@ -132,7 +132,7 @@ describe('GET /api/:name', () => {
         // Verify
         assert.equal(result, expected);
 
-        //Teardown
+        // Teardown
         const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
         const DDBteardownUrl = `/db/${name}`; //Fix Path
  
@@ -147,7 +147,7 @@ describe('GET /api/:name', () => {
         await request(app)
             .delete(S3teardownUrl);
 
-    }).timeout(10000);
+    }).timeout(5000);
 
     it('Status: Success', async () => {
         // Setup
@@ -184,7 +184,7 @@ describe('GET /api/:name', () => {
         // Verify
         assert.equal(result, expected);
 
-        //Teardown
+        // Teardown
         const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
         const DDBteardownUrl = `/db/${name}`; //Fix Path
  
@@ -199,7 +199,7 @@ describe('GET /api/:name', () => {
         await request(app)
             .delete(S3teardownUrl);
 
-    }).timeout(10000);
+    }).timeout(5000);
 
     it('DB status_code: 200', async () => {
         // Setup
@@ -236,7 +236,7 @@ describe('GET /api/:name', () => {
         // Verify
         assert.equal(result, expected);
 
-        //Teardown
+        // Teardown
         const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
         const DDBteardownUrl = `/db/${name}`; //Fix Path
  
@@ -251,7 +251,7 @@ describe('GET /api/:name', () => {
         await request(app)
             .delete(S3teardownUrl);
 
-    }).timeout(10000);
+    }).timeout(5000);
 
     it('S3 status_code: 200', async () => {
         // Setup
@@ -288,7 +288,7 @@ describe('GET /api/:name', () => {
         // Verify
         assert.equal(result, expected);
 
-        //Teardown
+        // Teardown
         const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
         const DDBteardownUrl = `/db/${name}`; //Fix Path
  
@@ -303,113 +303,7 @@ describe('GET /api/:name', () => {
         await request(app)
             .delete(S3teardownUrl);
 
-    }).timeout(10000);
-
-    it('Validate: Database Retrieval', async () => {
-        // Setup
-        // Setup
-        const setupUrl = '/api'; 
-        const name = 'Test';
-        const year = 1900;
-        const file = 'Test.m4a';
-        const path = './test/';
-
-        await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'artist': name,
-                'track': name,
-                'year': year,
-                'name': file,
-                'path': path,
-            }); 
-	
-        const excerciseUrl = `/api/${name}`;
-        const expected = 'Test';
-
-        // Exercise
-        const response = await request(app)
-            .get(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'name': name
-            });
-
-        const result = response._body.DDBdata.Items[0].Artist.S;
-
-        // Verify
-        assert.equal(result, expected);
-
-        //Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
-        await request(app)
-            .delete(DDBteardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'name': name,
-                'track': name
-            });
-
-        await request(app)
-            .delete(S3teardownUrl);
-
-    }).timeout(10000);
-
-    it('Validate: Storage Retrieval', async () => {
-        // Setup
-        // Setup
-        const setupUrl = '/api'; 
-        const name = 'Test';
-        const year = 1900;
-        const file = 'Test.m4a';
-        const path = './test/';
-
-        await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'artist': name,
-                'track': name,
-                'year': year,
-                'name': file,
-                'path': path,
-            }); 
-	
-        const excerciseUrl = `/api/${name}`;
-        const expected = 'Test.m4a';
-
-        // Exercise
-        const response = await request(app)
-            .get(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'name': name
-            });
-
-        const result = response._body.S3data[0];
-
-        // Verify
-        assert.equal(result, expected);
-
-        //Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
-        await request(app)
-            .delete(DDBteardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'name': name,
-                'track': name
-            });
-
-        await request(app)
-            .delete(S3teardownUrl);
-
-    }).timeout(10000);
+    }).timeout(5000);
 });
 
 
@@ -453,7 +347,7 @@ describe('GET /api/url/:name', () => {
         // Verify
         assert.equal(result, expected);
 
-        //Teardown
+        // Teardown
         const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
         const DDBteardownUrl = `/db/${name}`; //Fix Path
  
@@ -468,7 +362,7 @@ describe('GET /api/url/:name', () => {
         await request(app)
             .delete(S3teardownUrl);
 
-    }).timeout(10000);
+    }).timeout(5000);
 
     it('Status: Success', async () => {
         // Setup
@@ -505,7 +399,7 @@ describe('GET /api/url/:name', () => {
         // Verify
         assert.equal(result, expected);
 
-        //Teardown
+        // Teardown
         const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
         const DDBteardownUrl = `/db/${name}`; //Fix Path
  
@@ -520,7 +414,7 @@ describe('GET /api/url/:name', () => {
         await request(app)
             .delete(S3teardownUrl);
 
-    }).timeout(10000);
+    }).timeout(5000);
 
     it('Validate Returning PreSigned URL', async () => {
         // Setup
@@ -545,7 +439,6 @@ describe('GET /api/url/:name', () => {
         const excerciseUrl = `/api/url/${name}`;
         const expected = `${bucket}.s3.us-east-1.amazonaws.com/${file}`;
     
-
         // Exercise
         const response = await request(app)
             .get(excerciseUrl);
@@ -556,7 +449,7 @@ describe('GET /api/url/:name', () => {
         // Verify
         assert.equal(result, expected);
 
-        //Teardown
+        // Teardown
         const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
         const DDBteardownUrl = `/db/${name}`; //Fix Path
          
@@ -570,7 +463,7 @@ describe('GET /api/url/:name', () => {
         
         await request(app)
             .delete(S3teardownUrl);
-    }).timeout(10000);
+    }).timeout(5000);
 });
 
 
@@ -579,65 +472,196 @@ describe('GET /api/url/:name', () => {
 // ---------------
 
 describe('POST /api', () => {
-    // it('status_code: 200', async () => {
-    //     // Setup
-    //     const excerciseUrl = '/api';
-    //     const expected = 200;
+    it('status_code: 200', async () => {
+        // Setup
+        const name = 'Test';
+        const year = 1900;
+        const file = 'Test.m4a';
+        const path = './test/';
 
-    //     // Exercise
-    //     const response = await request(app)
-    //         .post(excerciseUrl);
+        const excerciseUrl = '/api';
+        const expected = 200;
 
-    //     const result = response.status;
+        // Exercise
+        const response = await request(app)
+            .post(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'artist': name,
+                'track': name,
+                'year': year,
+                'name': file,
+                'path': path,
+            }); 
 
-    //     // Verify
-    //     assert.equal(result, expected);
-    // });
 
-    // it('Status: Success', async () => {    
-    //     // Setup
-    //     const excerciseUrl = '/api';
-    //     const expected = 'Success';
+        const result = response.status;
 
-    //     // Exercise
-    //     const response = await request(app)
-    //         .post(excerciseUrl);
+        // Verify
+        assert.equal(result, expected);
 
-    //     const result = response._body.status;
+        // Teardown
+        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
+        const DDBteardownUrl = `/db/${name}`; //Fix Path
+          
+        await request(app)
+            .delete(DDBteardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
+         
+        await request(app)
+            .delete(S3teardownUrl);       
+    }).timeout(5000);
 
-    //     // Verify
-    //     assert.equal(result, expected);
-    // });
+    it('Status: Success', async () => {    
+        // Setup
+        const name = 'Test';
+        const year = 1900;
+        const file = 'Test.m4a';
+        const path = './test/';
 
-    // it('Validate DB Entry', async () => {    
-    //     // Setup
-    //     const excerciseUrl = '/api';
-    //     const expected = 'Success';
+        const excerciseUrl = '/api';
+        const expected = 'Success';
 
-    //     // Exercise
-    //     const response = await request(app)
-    //         .post(excerciseUrl);
+        // Exercise
+        const response = await request(app)
+            .post(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'artist': name,
+                'track': name,
+                'year': year,
+                'name': file,
+                'path': path,
+            }); 
 
-    //     const result = response._body.status;
+        const result = response._body.status;
 
-    //     // Verify
-    //     assert.equal(result, expected);
-    // });
+        // Verify
+        assert.equal(result, expected);
 
-    // it('Validate S3 Entry', async () => {    
-    //     // Setup
-    //     const excerciseUrl = '/api';
-    //     const expected = 'Success';
+        // Teardown
+        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
+        const DDBteardownUrl = `/db/${name}`; //Fix Path
+          
+        await request(app)
+            .delete(DDBteardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
+         
+        await request(app)
+            .delete(S3teardownUrl);       
+    }).timeout(5000);    
 
-    //     // Exercise
-    //     const response = await request(app)
-    //         .post(excerciseUrl);
+    it('Validate: Database Retrieval', async () => {
+        // Setup
+        const setupUrl = '/api'; 
+        const name = 'Test';
+        const year = 1900;
+        const file = 'Test.m4a';
+        const path = './test/';
 
-    //     const result = response._body.status;
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'artist': name,
+                'track': name,
+                'year': year,
+                'name': file,
+                'path': path,
+            }); 
+	
+        const excerciseUrl = `/api/${name}`;
+        const expected = 'Test';
 
-    //     // Verify
-    //     assert.equal(result, expected);
-    // });
+        // Exercise
+        const response = await request(app)
+            .get(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name
+            });
+
+        const result = response._body.DDBdata.Items[0].Artist.S;
+
+        // Verify
+        assert.equal(result, expected);
+
+        // Teardown
+        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
+        const DDBteardownUrl = `/db/${name}`; //Fix Path
+ 
+        await request(app)
+            .delete(DDBteardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
+
+        await request(app)
+            .delete(S3teardownUrl);
+
+    }).timeout(5000);
+
+    it('Validate: Storage Retrieval', async () => {
+        // Setup
+        const setupUrl = '/api'; 
+        const name = 'Test';
+        const year = 1900;
+        const file = 'Test.m4a';
+        const path = './test/';
+
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'artist': name,
+                'track': name,
+                'year': year,
+                'name': file,
+                'path': path,
+            }); 
+	
+        const excerciseUrl = `/api/${name}`;
+        const expected = 'Test.m4a';
+
+        // Exercise
+        const response = await request(app)
+            .get(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name
+            });
+
+        const result = response._body.S3data[0];
+
+        // Verify
+        assert.equal(result, expected);
+
+        // Teardown
+        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
+        const DDBteardownUrl = `/db/${name}`; //Fix Path
+ 
+        await request(app)
+            .delete(DDBteardownUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'name': name,
+                'track': name
+            });
+
+        await request(app)
+            .delete(S3teardownUrl);
+
+    }).timeout(5000);
 });
 
 
