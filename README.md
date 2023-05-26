@@ -61,6 +61,7 @@ npm install
     - connect DynamoDB and S3 API's to work as a unit 
         - Post Music
             - Find Smaller Test File
+            - Fix Post Tests
         - Delete Music
     - Add DynamoDB Error Checks
     - Implement Exponential Retries
