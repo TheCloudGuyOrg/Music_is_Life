@@ -7,13 +7,11 @@ const ddbMusicApi = express.Router();
 // Import Queries
 const {
     getMusic,
-    postMusic,
     deleteMusic,
 } = require('../helpers/dynamoDbQueries.js');
 
 
 // Photo API Routes
-ddbMusicApi.post('/', postMusic);
 ddbMusicApi.delete('/:name', deleteMusic);
 
 // Export API

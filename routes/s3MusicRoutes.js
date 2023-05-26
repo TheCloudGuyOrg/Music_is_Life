@@ -13,7 +13,6 @@ const {
 const { multiPartUpload } = require('../helpers/s3MultiPartUpload.js');
 
 // Photo API Routes
-s3MusicApi.post('/upload', multiPartUpload);
 s3MusicApi.delete('/:name', deleteS3Music);
 
 // Export API

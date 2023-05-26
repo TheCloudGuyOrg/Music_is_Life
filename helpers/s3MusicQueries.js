@@ -10,12 +10,11 @@ const BUCKET = process.env.BUCKET;
 // Import S3 Modules
 const {
     S3Client, 
-    ListObjectsCommand,
-    GetObjectCommand,
+
     DeleteObjectCommand,
 } = require('@aws-sdk/client-s3');
 
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+
 
 // Defining S3 Client
 const client = new S3Client({ 
@@ -55,7 +54,6 @@ const deleteS3Music = async (request,response) => {
 
 //Export Queries
 module.exports = {
-    //GetS3ObjectSignedUrl,
     deleteS3Music
 };
   

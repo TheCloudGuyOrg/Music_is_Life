@@ -99,31 +99,21 @@ describe('GET /api', () => {
 describe('GET /api/:name', () => {
     it('status_code: 200', async () => {
         // Setup
-        const DDBsetupUrl = '/db'; //Fix Path
+        const setupUrl = '/api'; 
         const name = 'Test';
         const year = 1900;
-        const bucket = BUCKET;
         const file = 'Test.m4a';
         const path = './test/';
-        const s3_uri = `s3://${bucket}/${file}`;
-        const S3setupUrl = '/musicrepo/upload'; //Fix Path
 
         await request(app)
-            .post(DDBsetupUrl)
+            .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name,
+                'artist': name,
                 'track': name,
                 'year': year,
-                's3_uri': s3_uri
-            });  
-
-        await request(app)
-            .post(S3setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
                 'name': file,
-                'path': path
+                'path': path,
             });  
 	
         const excerciseUrl = `/api/${name}`;
@@ -161,31 +151,21 @@ describe('GET /api/:name', () => {
 
     it('Status: Success', async () => {
         // Setup
-        const DDBsetupUrl = '/db'; //Fix Path
+        const setupUrl = '/api'; 
         const name = 'Test';
         const year = 1900;
-        const bucket = BUCKET;
         const file = 'Test.m4a';
         const path = './test/';
-        const s3_uri = `s3://${bucket}/${file}`;
-        const S3setupUrl = '/musicrepo/upload'; //Fix Path
 
         await request(app)
-            .post(DDBsetupUrl)
+            .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name,
+                'artist': name,
                 'track': name,
                 'year': year,
-                's3_uri': s3_uri
-            });  
-
-        await request(app)
-            .post(S3setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
                 'name': file,
-                'path': path
+                'path': path,
             });  
 	
         const excerciseUrl = `/api/${name}`;
@@ -223,31 +203,21 @@ describe('GET /api/:name', () => {
 
     it('DB status_code: 200', async () => {
         // Setup
-        const DDBsetupUrl = '/db'; //Fix Path
+        const setupUrl = '/api'; 
         const name = 'Test';
         const year = 1900;
-        const bucket = BUCKET;
         const file = 'Test.m4a';
         const path = './test/';
-        const s3_uri = `s3://${bucket}/${file}`;
-        const S3setupUrl = '/musicrepo/upload'; //Fix Path
 
         await request(app)
-            .post(DDBsetupUrl)
+            .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name,
+                'artist': name,
                 'track': name,
                 'year': year,
-                's3_uri': s3_uri
-            });  
-
-        await request(app)
-            .post(S3setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
                 'name': file,
-                'path': path
+                'path': path,
             });  
 	
         const excerciseUrl = `/api/${name}`;
@@ -285,32 +255,22 @@ describe('GET /api/:name', () => {
 
     it('S3 status_code: 200', async () => {
         // Setup
-        const DDBsetupUrl = '/db'; //Fix Path
+        const setupUrl = '/api'; 
         const name = 'Test';
         const year = 1900;
-        const bucket = BUCKET;
         const file = 'Test.m4a';
         const path = './test/';
-        const s3_uri = `s3://${bucket}/${file}`;
-        const S3setupUrl = '/musicrepo/upload'; //Fix Path
 
         await request(app)
-            .post(DDBsetupUrl)
+            .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name,
+                'artist': name,
                 'track': name,
                 'year': year,
-                's3_uri': s3_uri
-            });  
-
-        await request(app)
-            .post(S3setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
                 'name': file,
-                'path': path
-            });  
+                'path': path,
+            }); 
 	
         const excerciseUrl = `/api/${name}`;
         const expected = '200';
@@ -347,32 +307,23 @@ describe('GET /api/:name', () => {
 
     it('Validate: Database Retrieval', async () => {
         // Setup
-        const DDBsetupUrl = '/db'; //Fix Path
+        // Setup
+        const setupUrl = '/api'; 
         const name = 'Test';
         const year = 1900;
-        const bucket = BUCKET;
         const file = 'Test.m4a';
         const path = './test/';
-        const s3_uri = `s3://${bucket}/${file}`;
-        const S3setupUrl = '/musicrepo/upload'; //Fix Path
 
         await request(app)
-            .post(DDBsetupUrl)
+            .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name,
+                'artist': name,
                 'track': name,
                 'year': year,
-                's3_uri': s3_uri
-            });  
-
-        await request(app)
-            .post(S3setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
                 'name': file,
-                'path': path
-            });  
+                'path': path,
+            }); 
 	
         const excerciseUrl = `/api/${name}`;
         const expected = 'Test';
@@ -409,32 +360,23 @@ describe('GET /api/:name', () => {
 
     it('Validate: Storage Retrieval', async () => {
         // Setup
-        const DDBsetupUrl = '/db'; //Fix Path
+        // Setup
+        const setupUrl = '/api'; 
         const name = 'Test';
         const year = 1900;
-        const bucket = BUCKET;
         const file = 'Test.m4a';
         const path = './test/';
-        const s3_uri = `s3://${bucket}/${file}`;
-        const S3setupUrl = '/musicrepo/upload'; //Fix Path
 
         await request(app)
-            .post(DDBsetupUrl)
+            .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name,
+                'artist': name,
                 'track': name,
                 'year': year,
-                's3_uri': s3_uri
-            });  
-
-        await request(app)
-            .post(S3setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
                 'name': file,
-                'path': path
-            });  
+                'path': path,
+            }); 
 	
         const excerciseUrl = `/api/${name}`;
         const expected = 'Test.m4a';
@@ -478,32 +420,22 @@ describe('GET /api/:name', () => {
 describe('GET /api/url/:name', () => {
     it('status_code: 200', async () => {
         // Setup
-        const DDBsetupUrl = '/db'; //Fix Path
+        const setupUrl = '/api'; 
         const name = 'Test';
         const year = 1900;
-        const bucket = BUCKET;
         const file = 'Test.m4a';
         const path = './test/';
-        const s3_uri = `s3://${bucket}/${file}`;
-        const S3setupUrl = '/musicrepo/upload'; //Fix Path
 
         await request(app)
-            .post(DDBsetupUrl)
+            .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name,
+                'artist': name,
                 'track': name,
                 'year': year,
-                's3_uri': s3_uri
-            });  
-
-        await request(app)
-            .post(S3setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
                 'name': file,
-                'path': path
-            });  
+                'path': path,
+            }); 
 	
         const excerciseUrl = `/api/url/${name}`;
         const expected = '200';
@@ -540,32 +472,22 @@ describe('GET /api/url/:name', () => {
 
     it('Status: Success', async () => {
         // Setup
-        const DDBsetupUrl = '/db'; //Fix Path
+        const setupUrl = '/api'; 
         const name = 'Test';
         const year = 1900;
-        const bucket = BUCKET;
         const file = 'Test.m4a';
         const path = './test/';
-        const s3_uri = `s3://${bucket}/${file}`;
-        const S3setupUrl = '/musicrepo/upload'; //Fix Path
 
         await request(app)
-            .post(DDBsetupUrl)
+            .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name,
+                'artist': name,
                 'track': name,
                 'year': year,
-                's3_uri': s3_uri
-            });  
-
-        await request(app)
-            .post(S3setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
                 'name': file,
-                'path': path
-            });  
+                'path': path,
+            }); 
 	
         const excerciseUrl = `/api/url/${name}`;
         const expected = 'Success';
@@ -602,32 +524,23 @@ describe('GET /api/url/:name', () => {
 
     it('Validate Returning PreSigned URL', async () => {
         // Setup
-        const DDBsetupUrl = '/db'; //Fix Path
+        const setupUrl = '/api'; 
         const name = 'Test';
         const year = 1900;
-        const bucket = BUCKET;
         const file = 'Test.m4a';
         const path = './test/';
-        const s3_uri = `s3://${bucket}/${file}`;
-        const S3setupUrl = '/musicrepo/upload'; //Fix Path
+        const bucket = BUCKET;
 
         await request(app)
-            .post(DDBsetupUrl)
+            .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name,
+                'artist': name,
                 'track': name,
                 'year': year,
-                's3_uri': s3_uri
-            });  
-
-        await request(app)
-            .post(S3setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
                 'name': file,
-                'path': path
-            });  
+                'path': path,
+            }); 
 	
         const excerciseUrl = `/api/url/${name}`;
         const expected = `${bucket}.s3.us-east-1.amazonaws.com/${file}`;

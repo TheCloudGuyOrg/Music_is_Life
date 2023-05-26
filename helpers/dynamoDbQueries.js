@@ -10,9 +10,6 @@ const consistentRead = false;
 // Import DynamoDB Modules
 const {
     DynamoDBClient, 
-    QueryCommand,
-    ScanCommand,
-    PutItemCommand,
     DeleteItemCommand
 } = require('@aws-sdk/client-dynamodb');
 
@@ -25,44 +22,6 @@ const client = new DynamoDBClient({
     region: 'us-east-1',
 });
 
-const postMusic = async (request, response) => {
-    const name = request.body.name;
-    const track = request.body.track;
-    const year = request.body.year;
-    const s3_uri = request.body.s3_uri;
-
-    const putObject = new PutItemCommand({
-        'TableName': 'Music-Is-Life-Artist-Track',
-        'Item': {
-            'Artist': {
-                'S': name
-            },
-            'Track': {
-                'S': track
-            },
-            'Year': {
-                'N': year
-            },
-            's3_uri': {
-                'S': s3_uri
-            }
-        }
-    });
-
-    try {
-        const data = await client.send(putObject);
-        response.status(200).send({
-            status: 'Success',
-            message: 'Music information added',
-            data: data
-        });
-    } 
-    catch (error) {
-        response.status(500).send({
-            error: error.message
-        });
-    }
-};
 
 const deleteMusic = async (request, response) => {
     const name = request.body.name;
@@ -97,6 +56,5 @@ const deleteMusic = async (request, response) => {
 
 //Export Queries
 module.exports = {
-    postMusic,
     deleteMusic
 };
