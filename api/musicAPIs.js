@@ -14,11 +14,14 @@ const {
     GetS3ObjectSignedUrl
 } = require('../helpers/awsHelperFunctions.js');
 
+const { multiPartUpload } = require('../helpers/s3MultiPartUpload');
+
 // Import DynamoDB Modules
 const {
     DynamoDBClient, 
     ScanCommand,
-    QueryCommand
+    QueryCommand,
+    PutItemCommand
 } = require('@aws-sdk/client-dynamodb');
 
 
@@ -182,20 +185,64 @@ const getMusicUrl = async (request, response) => {
 
 // Defining Post Music API - POST /api
 const postMusic = async (request, response) => {
+    const artist = request.body.artist;
+    const track = request.body.track;
+    const year = request.body.year;
+    const fileName = request.body.name;
+    const filePath = request.body.path + fileName; 
 
+    const s3_uri = await multiPartUpload(fileName, filePath);
 
+    const bucketName = s3_uri.split('/')[2];
+    const objectKey = s3_uri.split('/')[3];
+    const s3Attributes = await getS3ObjectAttributes(bucketName, objectKey);
+    
+    const etag = s3Attributes.ETag;
+    const objectSize = String(s3Attributes.ObjectSize);
+    const storageClass = s3Attributes.StorageClass;
+
+    const putObject = new PutItemCommand({
+        'TableName': 'Music-Is-Life-Artist-Track',
+        'Item': {
+            'Artist': {
+                'S': artist
+            },
+            'Track': {
+                'S': track
+            },
+            'Year': {
+                'N': year
+            },
+            's3_uri': {
+                'S': s3_uri
+            },
+            'fileName': {
+                'S': fileName
+            },
+            'ObjectSize': {
+                'N': objectSize
+            },
+            'StorageClass': {
+                'S': storageClass
+            },
+            'ETag': {
+                'S': etag
+            }
+        }
+    });
+ 
     try {
-        const data = await client.send(putObject);
+        const DDBdata = await ddbClient.send(putObject);
 
-        if(DDBdata.Items[0] === undefined) {
+        if(DDBdata === undefined) {
             response.status(404).send({
-                message: 'Cound not complete the Artist/Track upload'
+                message: 'Could not complete the Artist/Track upload'
             });
         } else {
             response.status(200).send({
                 status: 'Success',
-                message: 'The Artist/Track has been upldaded',
-                data: data
+                message: 'The Artist/Track has been uploaded',
+                data: DDBdata
             });
         }
     } 

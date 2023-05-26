@@ -29,9 +29,7 @@ const client = new S3Client({
 });
 
 // Multi-Part File Upload Logic 
-const multiPartUpload = async (request, response) => {
-    const fileName = request.body.name;
-    const filePath = request.body.path + fileName; 
+const multiPartUpload = async (fileName, filePath) => { 
     const fileKey = fileName;
     const fileStream = fs.readFileSync(filePath);
     const fileSize = fs.statSync(filePath).size;
@@ -112,11 +110,9 @@ const multiPartUpload = async (request, response) => {
 
     try{
         const finish = await client.send(complete);
-        response.status(200).send({
-            status: 'Success',
-            Message: 'Music file Uploaded',
-            data: finish
-        });
+        const s3_uri = `s3://${finish.Bucket}/${finish.Key}`;
+        return s3_uri;
+
     }
     catch (error) {
         console.log(error);
