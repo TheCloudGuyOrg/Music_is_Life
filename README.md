@@ -65,8 +65,6 @@ npm install
 
 
 ## Project Requirements
-- API Calls
-    - Remove need to use URL Paramaters on getMusic and getMusicURL
 - S3 Deep Dive with A Cloud Guru
 - Setup Cognito for Auth
 - Cloudformation Deep Dive with A Cloud Guru

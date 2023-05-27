@@ -141,16 +141,16 @@ const getMusic = async (request, response) => {
     }
 };
 
-// Defining Get PreSigned URL API - GET /api/url/:name
+// Defining Get PreSigned URL API - GET /api/url
 const getMusicUrl = async (request, response) => {
-    const name = request.params.name;
+    const artist = request.body.artist;
     
     const getDDBObject = new QueryCommand({
         'TableName': 'Music-Is-Life-Artist-Track',
         'Select': 'ALL_ATTRIBUTES',
         'ExpressionAttributeValues': {
             ':v1': {
-                'S': name
+                'S': artist
             }
         },
         'KeyConditionExpression': 'Artist = :v1',

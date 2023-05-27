@@ -295,7 +295,7 @@ describe('GET /api/artist', () => {
 // GET S3 Presigned URL Tests
 // --------------------------
 
-describe('GET /api/url/:name', () => {
+describe('GET /api/url', () => {
     it('Status_code: 200', async () => {
         // Setup
         const setupUrl = '/api'; 
@@ -315,7 +315,7 @@ describe('GET /api/url/:name', () => {
                 'path': path,
             }); 
 	
-        const excerciseUrl = `/api/url/${name}`;
+        const excerciseUrl = '/api/url';
         const expected = '200';
 
         // Exercise
@@ -323,7 +323,7 @@ describe('GET /api/url/:name', () => {
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name
+                'artist': name
             });
 
         const result = response.status;
@@ -363,7 +363,7 @@ describe('GET /api/url/:name', () => {
                 'path': path,
             }); 
 	
-        const excerciseUrl = `/api/url/${name}`;
+        const excerciseUrl = '/api/url';
         const expected = 'Success';
 
         // Exercise
@@ -371,7 +371,7 @@ describe('GET /api/url/:name', () => {
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name
+                'artist': name
             });
 
         const result = response._body.status;
@@ -412,12 +412,16 @@ describe('GET /api/url/:name', () => {
                 'path': path,
             }); 
 	
-        const excerciseUrl = `/api/url/${name}`;
+        const excerciseUrl = '/api/url';
         const expected = `${bucket}.s3.us-east-1.amazonaws.com/${file}`;
     
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl);
+            .get(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'artist': name
+            });           
 
         const s3Url = response._body.S3PreSignedURL;
         const result = s3Url.split('/')[2] + '/' + file;
