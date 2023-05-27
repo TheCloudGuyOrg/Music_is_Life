@@ -67,9 +67,9 @@ npm install
 ## Project Requirements
 - S3 Deep Dive with A Cloud Guru
 - Setup Cognito for Auth
+- Java Deep Dive
 - Cloudformation Deep Dive with A Cloud Guru
     - Break out CFN into Stacks
-- Java Deep Dive
 - Setup Lambda and API Gateway
     - SAM Templates
     - Setup Paramater Store 
