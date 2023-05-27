@@ -257,15 +257,26 @@ const postMusic = async (request, response) => {
 
 // Defining Delete Music API - DELETE /api
 const deleteMusic = async (request, response) => {
-    const fileName = request.body.fileName;
-    const name = request.body.name;
+    const artist = request.body.artist;
     const track = request.body.track;
+    
+    const getDDBObject = new QueryCommand({
+        'TableName': 'Music-Is-Life-Artist-Track',
+        'Select': 'ALL_ATTRIBUTES',
+        'ExpressionAttributeValues': {
+            ':v1': {
+                'S': artist
+            }
+        },
+        'KeyConditionExpression': 'Artist = :v1',
+        'ConsistentRead': false,
+    });
 
-    const deleteObject = new DeleteItemCommand({
+    const deleteDDBObject = new DeleteItemCommand({
         'TableName': 'Music-Is-Life-Artist-Track',
         'Key': {
             'Artist': {
-                'S': name
+                'S': artist
             },
             'Track': {
                 'S': track
@@ -274,23 +285,29 @@ const deleteMusic = async (request, response) => {
     });
 
     try {
-        const deleteS3file = await deleteS3Object(fileName);
+        const getDDBdata = await ddbClient.send(getDDBObject);
 
-        const DDBdata = await ddbClient.send(deleteObject);
-        
-        if(DDBdata === undefined) {
+        if(getDDBdata.Items[0] === undefined) {
             response.status(404).send({
                 message: 'The Artist/Track selected does not exist'
             });
         } else {
+            const s3_uri = getDDBdata.Items[0].s3_uri.S;
+            const bucketName = s3_uri.split('/')[2];
+            const objectKey = s3_uri.split('/')[3];
+            
+            const S3Data = await deleteS3Object(bucketName, objectKey);
+
+            const DDBdata = await ddbClient.send(deleteDDBObject);
+
             response.status(200).send({
                 status: 'Success',
-                message: 'The Artist/Track has been deleted',
+                message: 'The file was deleted',
                 DDBdata: DDBdata,
-                S3data: deleteS3file
+                S3data: S3Data
             });
         }
-    } 
+    }
     catch (error) {
         response.status(500).send({
             error: error.message

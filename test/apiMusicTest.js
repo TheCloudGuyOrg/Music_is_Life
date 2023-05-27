@@ -139,8 +139,7 @@ describe('GET /api/:name', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -188,8 +187,7 @@ describe('GET /api/:name', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -237,8 +235,7 @@ describe('GET /api/:name', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -286,8 +283,7 @@ describe('GET /api/:name', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -342,8 +338,7 @@ describe('GET /api/url/:name', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -391,8 +386,7 @@ describe('GET /api/url/:name', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -438,8 +432,7 @@ describe('GET /api/url/:name', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -487,8 +480,7 @@ describe('POST /api', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -528,8 +520,7 @@ describe('POST /api', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -577,8 +568,7 @@ describe('POST /api', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -626,8 +616,7 @@ describe('POST /api', () => {
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -642,8 +631,22 @@ describe('POST /api', () => {
 describe('DELETE /api', () => {
     it('Status_code: 200', async () => {
         // Setup
+        const setupUrl = '/api'; 
         const name = 'Test';
+        const year = 1900;
         const file = 'Test.m4a';
+        const path = './test/';
+
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'artist': name,
+                'track': name,
+                'year': year,
+                'name': file,
+                'path': path,
+            }); 
 
         const excerciseUrl = '/api';
         const expected = 200;
@@ -653,8 +656,7 @@ describe('DELETE /api', () => {
             .delete(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -667,8 +669,23 @@ describe('DELETE /api', () => {
 
     it('Status: Success', async () => {
         // Setup
+        // Setup
+        const setupUrl = '/api'; 
         const name = 'Test';
+        const year = 1900;
         const file = 'Test.m4a';
+        const path = './test/';
+
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'artist': name,
+                'track': name,
+                'year': year,
+                'name': file,
+                'path': path,
+            }); 
 
         const excerciseUrl = '/api';
         const expected = 'Success';
@@ -678,8 +695,7 @@ describe('DELETE /api', () => {
             .delete(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -692,8 +708,22 @@ describe('DELETE /api', () => {
 
     it('DB Status_code: 200', async () => {
         // Setup
+        const setupUrl = '/api'; 
         const name = 'Test';
+        const year = 1900;
         const file = 'Test.m4a';
+        const path = './test/';
+
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'artist': name,
+                'track': name,
+                'year': year,
+                'name': file,
+                'path': path,
+            }); 
 
         const excerciseUrl = '/api';
         const expected = 200;
@@ -703,8 +733,7 @@ describe('DELETE /api', () => {
             .delete(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 
@@ -717,8 +746,22 @@ describe('DELETE /api', () => {
 
     it('S3 Status_code: 204', async () => {
         // Setup
+        const setupUrl = '/api'; 
         const name = 'Test';
+        const year = 1900;
         const file = 'Test.m4a';
+        const path = './test/';
+
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'artist': name,
+                'track': name,
+                'year': year,
+                'name': file,
+                'path': path,
+            }); 
 
         const excerciseUrl = '/api';
         const expected = 204;
@@ -728,8 +771,7 @@ describe('DELETE /api', () => {
             .delete(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'fileName': file,
-                'name': name,
+                'artist': name,
                 'track': name
             });
 

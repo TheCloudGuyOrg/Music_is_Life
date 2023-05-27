@@ -26,7 +26,6 @@ const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 // Import ENV Varables
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-const BUCKET = process.env.BUCKET;
 
 
 // ----------
@@ -71,7 +70,7 @@ const getS3ObjectAttributes = async (bucket, key) => {
     }
 };
 
-//Get S3 Music Signed URL 
+// Get S3 Music Signed URL 
 const getS3ObjectSignedUrl = async (bucket, key) => {
     const getObject = await new GetObjectCommand({
         Bucket: bucket, 
@@ -97,11 +96,11 @@ const getS3ObjectSignedUrl = async (bucket, key) => {
     }
 }; 
 
-//Delete S3 Music
-const deleteS3Object = async (name) => {
+// Delete S3 Music
+const deleteS3Object = async (bucket, key) => {
     const deleteObject = new DeleteObjectCommand({
-        Bucket: BUCKET, 
-        Key: name,
+        Bucket: bucket, 
+        Key: key,
     });
 
     try {
