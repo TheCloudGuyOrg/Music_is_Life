@@ -639,68 +639,104 @@ describe('POST /api', () => {
 // DELETE /api Tests by File Name
 // ------------------------------
 
-describe('DELETE /api/:name', () => {
-    // it('status_code: 200', async () => {
-    //     // Setup
-    //     const name = '';
-    //     const excerciseUrl = `/api/${name}`;
-    //     const expected = 200;
+describe('DELETE /api', () => {
+    it('status_code: 200', async () => {
+        // Setup
+        const name = 'Test';
+        const file = 'Test.m4a';
 
-    //     // Exercise
-    //     const response = await request(app)
-    //         .delete(excerciseUrl);
+        const excerciseUrl = '/api';
+        const expected = 200;
 
-    //     const result = response.status;
+        // Exercise
+        const response = await request(app)
+            .delete(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'fileName': file,
+                'name': name,
+                'track': name
+            });
 
-    //     // Verify
-    //     assert.equal(result, expected);
-    // });
+        const result = response.status;
 
-    // it('Status: Success', async () => {    
-    //     // Setup
-    //     const name = '';
-    //     const excerciseUrl = `/api/${name}`;
-    //     const expected = 'Success';
+        // Verify
+        assert.equal(result, expected);
 
-    //     // Exercise
-    //     const response = await request(app)
-    //         .delete(excerciseUrl);
+    }).timeout(5000);
 
-    //     const result = response._body.status;
+    it('Status: Success', async () => {
+        // Setup
+        const name = 'Test';
+        const file = 'Test.m4a';
 
-    //     // Verify
-    //     assert.equal(result, expected);
-    // });
+        const excerciseUrl = '/api';
+        const expected = 'Success';
 
-    // it('Validate DB Removal', async () => {    
-    //     // Setup
-    //     const name = '';
-    //     const excerciseUrl = `/api/${name}`;
-    //     const expected = 'Success';
+        // Exercise
+        const response = await request(app)
+            .delete(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'fileName': file,
+                'name': name,
+                'track': name
+            });
 
-    //     // Exercise
-    //     const response = await request(app)
-    //         .delete(excerciseUrl);
+        const result = response._body.status;
 
-    //     const result = response._body.status;
+        // Verify
+        assert.equal(result, expected);
 
-    //     // Verify
-    //     assert.equal(result, expected);
-    //});
+    }).timeout(5000);
 
-    // it('Validate S3 Removal', async () => {    
-    //     // Setup
-    //     const name = '';
-    //     const excerciseUrl = `/api/${name}`;
-    //     const expected = 'Success';
+    it('DB status_code: 200', async () => {
+        // Setup
+        const name = 'Test';
+        const file = 'Test.m4a';
 
-    //     // Exercise
-    //     const response = await request(app)
-    //         .delete(excerciseUrl);
+        const excerciseUrl = '/api';
+        const expected = 200;
 
-    //     const result = response._body.status;
+        // Exercise
+        const response = await request(app)
+            .delete(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'fileName': file,
+                'name': name,
+                'track': name
+            });
 
-    //     // Verify
-    //     assert.equal(result, expected);
-    // });
+        const result = response._body.DDBdata.$metadata.httpStatusCode;
+
+        // Verify
+        assert.equal(result, expected);
+
+    }).timeout(5000);
+
+    it('S3 status_code: 204', async () => {
+        // Setup
+        const name = 'Test';
+        const file = 'Test.m4a';
+
+        const excerciseUrl = '/api';
+        const expected = 204;
+
+        // Exercise
+        const response = await request(app)
+            .delete(excerciseUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'fileName': file,
+                'name': name,
+                'track': name
+            });
+
+        const result = response._body.S3data.$metadata.httpStatusCode;
+
+        // Verify
+        assert.equal(result, expected);
+
+    }).timeout(5000);
 });
