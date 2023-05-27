@@ -59,7 +59,7 @@ npm install
 ## Project Requirements
 - Setup DynamoDB
     - connect DynamoDB and S3 API's to work as a unit 
-        - Delete Music
+        - Complete Delete Tests
 - S3 Deep Dive with A Cloud Guru
 - Cloudformation Deep Dive with A Cloud Guru
     - Break out CFN into Stacks
