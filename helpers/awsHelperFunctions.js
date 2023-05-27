@@ -12,7 +12,8 @@ dotenv.config({ path: './../config/.env' });
 const {
     S3Client, 
     GetObjectCommand,
-    GetObjectAttributesCommand
+    GetObjectAttributesCommand,
+    DeleteObjectCommand
 } = require('@aws-sdk/client-s3');
 
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
@@ -24,7 +25,7 @@ const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 // Import ENV Varables
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
-
+const BUCKET = process.env.BUCKET;
 
 // ----------
 // S3 Helpers
@@ -69,7 +70,7 @@ const getS3ObjectAttributes = async (bucket, key) => {
 };
 
 //Get S3 Music Signed URL 
-const GetS3ObjectSignedUrl = async (bucket, key) => {
+const getS3ObjectSignedUrl = async (bucket, key) => {
     const getObject = await new GetObjectCommand({
         Bucket: bucket, 
         Key: key,
@@ -94,6 +95,27 @@ const GetS3ObjectSignedUrl = async (bucket, key) => {
     }
 }; 
 
+//Delete S3 Music
+const deleteS3Music = async (name) => {
+    const deleteObject = new DeleteObjectCommand({
+        Bucket: BUCKET, 
+        Key: name,
+    });
+
+    try {
+        if (!deleteObject) {
+            return 'The request is invalid';
+        }
+        else {
+            const data = await s3client.send(deleteObject);
+            return data;
+        }
+    } 
+    catch (error) {
+        return error;
+    }
+}; 
+
 
 // ------------
 // Export API's
@@ -102,5 +124,6 @@ const GetS3ObjectSignedUrl = async (bucket, key) => {
 //Export Queries
 module.exports = {
     getS3ObjectAttributes,
-    GetS3ObjectSignedUrl
+    getS3ObjectSignedUrl,
+    deleteS3Music
 };

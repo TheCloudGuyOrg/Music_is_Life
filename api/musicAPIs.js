@@ -11,7 +11,8 @@ dotenv.config({ path: './../config/.env' });
 // Import AWS Helper Functions
 const {
     getS3ObjectAttributes,
-    GetS3ObjectSignedUrl
+    getS3ObjectSignedUrl,
+    deleteS3Music
 } = require('../helpers/awsHelperFunctions.js');
 
 const { multiPartUpload } = require('../helpers/s3MultiPartUpload');
@@ -21,7 +22,8 @@ const {
     DynamoDBClient, 
     ScanCommand,
     QueryCommand,
-    PutItemCommand
+    PutItemCommand,
+    DeleteItemCommand
 } = require('@aws-sdk/client-dynamodb');
 
 
@@ -165,7 +167,7 @@ const getMusicUrl = async (request, response) => {
             const s3_uri = DDBdata.Items[0].s3_uri.S;
             const bucketName = s3_uri.split('/')[2];
             const objectKey = s3_uri.split('/')[3];
-            const url = await GetS3ObjectSignedUrl(bucketName, objectKey);
+            const url = await getS3ObjectSignedUrl(bucketName, objectKey);
             
             
             response.status(200).send({
@@ -253,14 +255,30 @@ const postMusic = async (request, response) => {
     }
 };
 
-// Defining Delete Music API - DELETE /api/:name
+// Defining Delete Music API - DELETE /api
 const deleteMusic = async (request, response) => {
+    const fileName = request.body.fileName;
+    const name = request.body.name;
+    const track = request.body.track;
 
+    const deleteObject = new DeleteItemCommand({
+        'TableName': 'Music-Is-Life-Artist-Track',
+        'Key': {
+            'Artist': {
+                'S': name
+            },
+            'Track': {
+                'S': track
+            }
+        }
+    });
 
     try {
-        const data = await client.send(deleteObject);
+        const deleteS3file = await deleteS3Music(fileName);
 
-        if(DDBdata.Items[0] === undefined) {
+        const DDBdata = await ddbClient.send(deleteObject);
+        
+        if(DDBdata === undefined) {
             response.status(404).send({
                 message: 'The Artist/Track selected does not exist'
             });
@@ -268,7 +286,8 @@ const deleteMusic = async (request, response) => {
             response.status(200).send({
                 status: 'Success',
                 message: 'The Artist/Track has been deleted',
-                data: data
+                DDBdata: DDBdata,
+                S3data: deleteS3file
             });
         }
     } 
