@@ -12,7 +12,7 @@ dotenv.config({ path: './../config/.env' });
 const {
     getS3ObjectAttributes,
     getS3ObjectSignedUrl,
-    deleteS3Music
+    deleteS3Object
 } = require('../helpers/awsHelperFunctions.js');
 
 const { multiPartUpload } = require('../helpers/s3MultiPartUpload');
@@ -274,7 +274,7 @@ const deleteMusic = async (request, response) => {
     });
 
     try {
-        const deleteS3file = await deleteS3Music(fileName);
+        const deleteS3file = await deleteS3Object(fileName);
 
         const DDBdata = await ddbClient.send(deleteObject);
         

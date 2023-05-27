@@ -98,7 +98,7 @@ const getS3ObjectSignedUrl = async (bucket, key) => {
 }; 
 
 //Delete S3 Music
-const deleteS3Music = async (name) => {
+const deleteS3Object = async (name) => {
     const deleteObject = new DeleteObjectCommand({
         Bucket: BUCKET, 
         Key: name,
@@ -127,5 +127,5 @@ const deleteS3Music = async (name) => {
 module.exports = {
     getS3ObjectAttributes,
     getS3ObjectSignedUrl,
-    deleteS3Music
+    deleteS3Object
 };
