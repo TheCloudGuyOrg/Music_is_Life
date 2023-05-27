@@ -92,11 +92,11 @@ describe('GET /api', () => {
 });
 
 
-// ---------------------------
-// GET /api Tests by File Name
-// ---------------------------
+// ----------------------------------
+// GET /api/artist Tests by File Name
+// ----------------------------------
 
-describe('GET /api/:name', () => {
+describe('GET /api/artist', () => {
     it('Status_code: 200', async () => {
         // Setup
         const setupUrl = '/api'; 
@@ -116,7 +116,7 @@ describe('GET /api/:name', () => {
                 'path': path,
             });  
 	
-        const excerciseUrl = `/api/${name}`;
+        const excerciseUrl = '/api/artist';
         const expected = '200';
 
         // Exercise
@@ -124,7 +124,7 @@ describe('GET /api/:name', () => {
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name
+                'artist': name
             });
 
         const result = response.status;
@@ -164,7 +164,7 @@ describe('GET /api/:name', () => {
                 'path': path,
             });  
 	
-        const excerciseUrl = `/api/${name}`;
+        const excerciseUrl = '/api/artist';
         const expected = 'Success';
 
         // Exercise
@@ -172,7 +172,7 @@ describe('GET /api/:name', () => {
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name
+                'artist': name
             });
 
         const result = response._body.status;
@@ -212,7 +212,7 @@ describe('GET /api/:name', () => {
                 'path': path,
             });  
 	
-        const excerciseUrl = `/api/${name}`;
+        const excerciseUrl = '/api/artist';
         const expected = '200';
 
         // Exercise
@@ -220,7 +220,7 @@ describe('GET /api/:name', () => {
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name
+                'artist': name
             });
 
         const result = response._body.DDBdata.$metadata.httpStatusCode;
@@ -260,7 +260,7 @@ describe('GET /api/:name', () => {
                 'path': path,
             }); 
 	
-        const excerciseUrl = `/api/${name}`;
+        const excerciseUrl = '/api/artist';
         const expected = '200';
 
         // Exercise
@@ -268,7 +268,7 @@ describe('GET /api/:name', () => {
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name
+                'artist': name
             });
 
         const result = response._body.S3data[1].$metadata.httpStatusCode;
@@ -545,7 +545,7 @@ describe('POST /api', () => {
                 'path': path,
             }); 
 	
-        const excerciseUrl = `/api/${name}`;
+        const excerciseUrl = '/api/artist';
         const expected = 'Test';
 
         // Exercise
@@ -553,7 +553,7 @@ describe('POST /api', () => {
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name
+                'artist': name
             });
 
         const result = response._body.DDBdata.Items[0].Artist.S;
@@ -593,7 +593,7 @@ describe('POST /api', () => {
                 'path': path,
             }); 
 	
-        const excerciseUrl = `/api/${name}`;
+        const excerciseUrl = '/api/artist';
         const expected = 'Test.m4a';
 
         // Exercise
@@ -601,7 +601,7 @@ describe('POST /api', () => {
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
-                'name': name
+                'artist': name
             });
 
         const result = response._body.S3data[0];

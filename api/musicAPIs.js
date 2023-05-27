@@ -94,16 +94,16 @@ const listMusic = async (request, response) => {
     }
 };
 
-// Defining Get Music by Name API - GET /api/:name
+// Defining Get Music by Name API - GET /api/artist
 const getMusic = async (request, response) => {
-    const name = request.params.name;
+    const artist = request.body.artist;
     
     const getDDBObject = new QueryCommand({
         'TableName': 'Music-Is-Life-Artist-Track',
         'Select': 'ALL_ATTRIBUTES',
         'ExpressionAttributeValues': {
             ':v1': {
-                'S': name
+                'S': artist
             }
         },
         'KeyConditionExpression': 'Artist = :v1',
@@ -122,9 +122,10 @@ const getMusic = async (request, response) => {
             const s3_uri = DDBdata.Items[0].s3_uri.S;
             const bucketName = s3_uri.split('/')[2];
             const objectKey = s3_uri.split('/')[3];
+            
             const s3Attributes = await getS3ObjectAttributes(bucketName, objectKey);
             s3Data.push(objectKey, s3Attributes);
-            
+
             response.status(200).send({
                 status: 'Success',
                 message: 'The Artist/Track information was retrived',

@@ -24,7 +24,7 @@ const {
 
 // Music API Routes
 musicApi.get('/', listMusic);
-musicApi.get('/:name', getMusic);
+musicApi.get('/artist', getMusic);
 musicApi.get('/url/:name', getMusicUrl);
 musicApi.post('/', postMusic);
 musicApi.delete('/', deleteMusic);
