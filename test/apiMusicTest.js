@@ -30,7 +30,7 @@ const BUCKET = process.env.BUCKET;
 
 //Test: GET /api
 describe('GET /api', () => {
-    it('status_code: 200', async () => {
+    it('Status_code: 200', async () => {
         // Setup
         const excerciseUrl = '/api';
         const expected = 200;
@@ -60,7 +60,7 @@ describe('GET /api', () => {
         assert.equal(result, expected);
     });
 
-    it('DB status_code: 200', async () => {
+    it('DB Status_code: 200', async () => {
         // Setup
         const excerciseUrl = '/api';
         const expected = 200;
@@ -75,7 +75,7 @@ describe('GET /api', () => {
         assert.equal(result, expected);
     });
 
-    it('S3 status_code: 200', async () => {
+    it('S3 Status_code: 200', async () => {
         // Setup
         const excerciseUrl = '/api';
         const expected = 200;
@@ -97,7 +97,7 @@ describe('GET /api', () => {
 // ---------------------------
 
 describe('GET /api/:name', () => {
-    it('status_code: 200', async () => {
+    it('Status_code: 200', async () => {
         // Setup
         const setupUrl = '/api'; 
         const name = 'Test';
@@ -195,7 +195,7 @@ describe('GET /api/:name', () => {
 
     }).timeout(5000);
 
-    it('DB status_code: 200', async () => {
+    it('DB Status_code: 200', async () => {
         // Setup
         const setupUrl = '/api'; 
         const name = 'Test';
@@ -244,7 +244,7 @@ describe('GET /api/:name', () => {
 
     }).timeout(5000);
 
-    it('S3 status_code: 200', async () => {
+    it('S3 Status_code: 200', async () => {
         // Setup
         const setupUrl = '/api'; 
         const name = 'Test';
@@ -300,7 +300,7 @@ describe('GET /api/:name', () => {
 // --------------------------
 
 describe('GET /api/url/:name', () => {
-    it('status_code: 200', async () => {
+    it('Status_code: 200', async () => {
         // Setup
         const setupUrl = '/api'; 
         const name = 'Test';
@@ -452,7 +452,7 @@ describe('GET /api/url/:name', () => {
 // ---------------
 
 describe('POST /api', () => {
-    it('status_code: 200', async () => {
+    it('Status_code: 200', async () => {
         // Setup
         const name = 'Test';
         const year = 1900;
@@ -640,7 +640,7 @@ describe('POST /api', () => {
 // ------------------------------
 
 describe('DELETE /api', () => {
-    it('status_code: 200', async () => {
+    it('Status_code: 200', async () => {
         // Setup
         const name = 'Test';
         const file = 'Test.m4a';
@@ -690,7 +690,7 @@ describe('DELETE /api', () => {
 
     }).timeout(5000);
 
-    it('DB status_code: 200', async () => {
+    it('DB Status_code: 200', async () => {
         // Setup
         const name = 'Test';
         const file = 'Test.m4a';
@@ -715,7 +715,7 @@ describe('DELETE /api', () => {
 
     }).timeout(5000);
 
-    it('S3 status_code: 204', async () => {
+    it('S3 Status_code: 204', async () => {
         // Setup
         const name = 'Test';
         const file = 'Test.m4a';

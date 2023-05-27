@@ -13,7 +13,7 @@ const {
     getS3ObjectAttributes,
     getS3ObjectSignedUrl,
     deleteS3Object
-} = require('../helpers/awsHelperFunctions.js');
+} = require('../helpers/s3HelperFunctions.js');
 
 const { multiPartUpload } = require('../helpers/s3MultiPartUpload');
 
