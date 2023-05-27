@@ -59,12 +59,6 @@ app.use(
 // ----------
 
 // Service Routers
-const s3MusicRouter = require('./routes/s3MusicRoutes.js');
-app.use('/musicrepo', s3MusicRouter);
-
-const ddbMusicRouter = require('./routes/ddbMusicRoutes.js');
-app.use('/db', ddbMusicRouter);
-
 const musicRouter = require('./routes/musicRoutes.js');
 app.use('/api', musicRouter);
 

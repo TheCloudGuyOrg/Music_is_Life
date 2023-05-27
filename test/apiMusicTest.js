@@ -133,19 +133,16 @@ describe('GET /api/:name', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-
-        await request(app)
-            .delete(S3teardownUrl);
 
     }).timeout(5000);
 
@@ -185,19 +182,16 @@ describe('GET /api/:name', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-
-        await request(app)
-            .delete(S3teardownUrl);
 
     }).timeout(5000);
 
@@ -237,19 +231,16 @@ describe('GET /api/:name', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-
-        await request(app)
-            .delete(S3teardownUrl);
 
     }).timeout(5000);
 
@@ -289,19 +280,16 @@ describe('GET /api/:name', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-
-        await request(app)
-            .delete(S3teardownUrl);
 
     }).timeout(5000);
 });
@@ -348,19 +336,16 @@ describe('GET /api/url/:name', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-
-        await request(app)
-            .delete(S3teardownUrl);
 
     }).timeout(5000);
 
@@ -400,19 +385,16 @@ describe('GET /api/url/:name', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-
-        await request(app)
-            .delete(S3teardownUrl);
 
     }).timeout(5000);
 
@@ -450,19 +432,17 @@ describe('GET /api/url/:name', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
-         
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-        
-        await request(app)
-            .delete(S3teardownUrl);
+
     }).timeout(5000);
 });
 
@@ -501,19 +481,17 @@ describe('POST /api', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
-          
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-         
-        await request(app)
-            .delete(S3teardownUrl);       
+
     }).timeout(5000);
 
     it('Status: Success', async () => {    
@@ -544,19 +522,17 @@ describe('POST /api', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
-          
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-         
-        await request(app)
-            .delete(S3teardownUrl);       
+
     }).timeout(5000);    
 
     it('Validate: Database Retrieval', async () => {
@@ -595,19 +571,16 @@ describe('POST /api', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-
-        await request(app)
-            .delete(S3teardownUrl);
 
     }).timeout(5000);
 
@@ -647,19 +620,16 @@ describe('POST /api', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const S3teardownUrl = `/musicrepo/${file}`; //Fix Path
-        const DDBteardownUrl = `/db/${name}`; //Fix Path
- 
+        const teardownUrl = '/api';
+
         await request(app)
-            .delete(DDBteardownUrl)
+            .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
+                'fileName': file,
                 'name': name,
                 'track': name
             });
-
-        await request(app)
-            .delete(S3teardownUrl);
 
     }).timeout(5000);
 });
