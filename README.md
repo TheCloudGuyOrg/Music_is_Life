@@ -71,7 +71,7 @@ npm install
 - Java Deep Dive
 
 # Front End
-
+- Customize Cognito Login Page
 
 # Full Stack
 - AWS Amplify Deep Dive
