@@ -106,7 +106,7 @@ const getUserByEmail = async (request, response) => {
             response.status(200).send({
                 status: 'Success',
                 message: 'The User information was retrived',
-                DDBdata: data
+                data: data
             });
         }
     }
@@ -227,7 +227,7 @@ const deleteUser = async (request, response) => {
     try {
         const data = await ddbClient.send(deleteObject);
 
-        if(data.Items[0] === undefined) {
+        if(data === undefined) {
             response.status(404).send({
                 message: 'The User selected does not exist'
             });
@@ -235,7 +235,7 @@ const deleteUser = async (request, response) => {
             response.status(200).send({
                 status: 'Success',
                 message: 'The User was deleted',
-                DDBdata: data
+                data: data
             });
         }
     }
