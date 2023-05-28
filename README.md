@@ -68,6 +68,7 @@ npm install
 # Backend
 - Set up Authentication
     - Enable Authentication
+    - Update Notes with API info
 - S3 Deep Dive with A Cloud Guru
 - Java Deep Dive
 
