@@ -16,11 +16,13 @@ const passport = require('passport');
 
 // POST register user API - POST /register
 authApi.post('/register', async (request, response) => {
-    const username = request.body.username;
+    const email = request.body.email;
     const password  = request.body.password;
+    const firstName = request.body.firstName;
+    const lastName = request.body.lastName;
 
-    const url = `http://localhost:3000/route/users/?name=${username}&email=${username}@testdomain.com&password=${password}`;
-    
+    const url = `http://localhost:3000/users/upload/?email=${email}&password=${password}&firstName=${firstName}&lastName=${lastName}`;
+    console.log(url);
     try {
         const user = await fetch(url, {
             method: 'POST',

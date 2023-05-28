@@ -60,18 +60,11 @@ describe('GET /users/list', () => {
 describe('GET /users/user', () => {
     it('Status_code: 200', async () => {
         // Setup
-        const setupUrl = '/users/upload';
         const name = 'User_Test';
+        const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
    
         await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name,
-                'password': name,
-                'firstName': name,
-                'lastName': name
-            });
+            .post(setupUrl);
 
         const excerciseUrl = '/users/user';
         const expected = 200;
@@ -102,18 +95,11 @@ describe('GET /users/user', () => {
 
     it('Status: Sucess', async () => {  
         // Setup
-        const setupUrl = '/users/upload';
         const name = 'User_Test';
+        const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
    
         await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name,
-                'password': name,
-                'firstName': name,
-                'lastName': name
-            });
+            .post(setupUrl);
 
         const excerciseUrl = '/users/user';
         const expected = 'Success';
@@ -153,19 +139,12 @@ describe('POST /users/upload', () => {
         // Setup
         const name = 'User_Test';
 
-        const excerciseUrl = '/users/upload';
+        const excerciseUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
         const expected = 200;
 
         // Exercise
         const response = await request(app)
-            .post(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name,
-                'password': name,
-                'firstName': name,
-                'lastName': name
-            });
+            .post(excerciseUrl);
 
         const result = response.status;
 
@@ -187,19 +166,12 @@ describe('POST /users/upload', () => {
         // Setup
         const name = 'User_Test';
 
-        const excerciseUrl = '/users/upload';
+        const excerciseUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
         const expected = 'Success';
 
         // Exercise
         const response = await request(app)
-            .post(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name,
-                'password': name,
-                'firstName': name,
-                'lastName': name
-            });
+            .post(excerciseUrl);
 
         const result = response._body.status;
 
@@ -219,18 +191,11 @@ describe('POST /users/upload', () => {
   
     it('Validate: Database Retrieval', async () => {
         // Setup
-        const setupUrl = '/users/upload';
         const name = 'User_Test';
-   
+        const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
+
         await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name,
-                'password': name,
-                'firstName': name,
-                'lastName': name
-            });
+            .post(setupUrl);
 
         const excerciseUrl = '/users/user';
         const expected = 'User_Test';
@@ -268,34 +233,20 @@ describe('POST /users/upload', () => {
 describe('PUT /users/update', () => {
     it('Status_code: 200', async () => { 
         // Setup
-        const setupUrl = '/users/upload';
         const setupName = 'User_Test';
+        const setupUrl = `/users/upload/?email=${setupName}&password=${setupName}&firstName=${setupName}&lastName=${setupName}`;
    
         await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName,
-                'password': setupName,
-                'firstName': setupName,
-                'lastName': setupName
-            });
+            .post(setupUrl);
 
-        const excerciseUrl = '/users/update';
         const excerciseName = 'User_Test2';
+        const excerciseUrl = `/users/update/?email=${excerciseName}&password=${excerciseName}&firstName=${excerciseName}&lastName=${excerciseName}`;
 
         const expected = 200;
 
         // Exercise
         const response = await request(app)
-            .put(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName,
-                'password': excerciseName,
-                'firstName': excerciseName,
-                'lastName': excerciseName
-            });
+            .put(excerciseUrl);
 
         const result = response.status;
 
@@ -315,33 +266,20 @@ describe('PUT /users/update', () => {
 
     it('Status: Success', async () => {    
         // Setup
-        const setupUrl = '/users/upload';
         const setupName = 'User_Test';
+        const setupUrl = `/users/upload/?email=${setupName}&password=${setupName}&firstName=${setupName}&lastName=${setupName}`;
    
         await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName,
-                'password': setupName,
-                'firstName': setupName,
-                'lastName': setupName
-            });
+            .post(setupUrl);
 
-        const excerciseUrl = '/users/update';
         const excerciseName = 'User_Test2';
+        const excerciseUrl = `/users/update/?email=${excerciseName}&password=${excerciseName}&firstName=${excerciseName}&lastName=${excerciseName}`;
+        
         const expected = 'Success';
 
         // Exercise
         const response = await request(app)
-            .put(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName,
-                'password': excerciseName,
-                'firstName': excerciseName,
-                'lastName': excerciseName
-            });
+            .put(excerciseUrl);
 
         const result = response._body.status;
 
@@ -368,18 +306,11 @@ describe('PUT /users/update', () => {
 describe('DELETE /users/delete', () => {
     it('Status_code: 200', async () => { 
         // Setup
-        const setupUrl = '/users/upload';
         const name = 'User_Test';
+        const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
    
         await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name,
-                'password': name,
-                'firstName': name,
-                'lastName': name
-            });
+            .post(setupUrl);
 
         const excerciseUrl = '/users/delete';
         const expected = 200;
@@ -400,18 +331,11 @@ describe('DELETE /users/delete', () => {
 
     it('Status: Success', async () => {  
         // Setup
-        const setupUrl = '/users/upload';
         const name = 'User_Test';
+        const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
    
         await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name,
-                'password': name,
-                'firstName': name,
-                'lastName': name
-            });
+            .post(setupUrl);
 
         const excerciseUrl = '/users/delete';
         const expected = 'Success';

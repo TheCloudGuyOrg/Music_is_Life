@@ -18,7 +18,6 @@ const {
     ScanCommand,
     QueryCommand,
     PutItemCommand,
-    UpdateItemCommand,
     DeleteItemCommand
 } = require('@aws-sdk/client-dynamodb');
 
@@ -119,10 +118,10 @@ const getUserByEmail = async (request, response) => {
 
 // POST new user API - GET /users/upload
 const addUser = async (request, response) => {
-    const email = request.body.email;
-    const password = request.body.password;
-    const firstName = request.body.firstName;
-    const lastName = request.body.lastName;
+    const email = request.query.email;
+    const password = request.query.password;
+    const firstName = request.query.firstName;
+    const lastName = request.query.lastName;
 
     try {
         bcrypt.hash(password, saltRounds, async function(error, hash) {
@@ -169,10 +168,10 @@ const addUser = async (request, response) => {
 
 // UPDATE existing user API - GET /users/update
 const updateUser = async (request, response) => {
-    const email = request.body.email;
-    const password = request.body.password;
-    const firstName = request.body.firstName;
-    const lastName = request.body.lastName;
+    const email = request.query.email;
+    const password = request.query.password;
+    const firstName = request.query.firstName;
+    const lastName = request.query.lastName;
 
 
     try {
