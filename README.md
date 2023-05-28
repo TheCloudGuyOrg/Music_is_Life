@@ -67,6 +67,7 @@ npm install
 ## Project Requirements
 - S3 Deep Dive with A Cloud Guru
 - Setup Cognito for Auth
+- AWS Amplify Deep Dive
 - Java Deep Dive
 - Cloudformation Deep Dive with A Cloud Guru
     - Break out CFN into Stacks
