@@ -54,13 +54,19 @@ describe('GET /users/list', () => {
     it('Validate: Database Retrieval', async () => {
         // Setup
         const setupUrl = '/users/upload';
+        const name = 'User_Test';
    
-        const idResponse = await request(app)
-            .post(setupUrl);
+        await request(app)
+            .post(setupUrl)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .send({
+                'email': name,
+                'password': name,
+                'firstName': name,
+                'lastName': name
+            });
 
-        const userId = idResponse._body.data.id;
-
-        const excerciseUrl = 'users/list';
+        const excerciseUrl = '/users/list';
         const expected = 'User_Test';
 
         // Exercise
@@ -74,7 +80,7 @@ describe('GET /users/list', () => {
         assert.equal(result, expected);
 
         //Teardown
-        const teardownUrl = 'users\delete';
+        const teardownUrl = '/users/delete';
  
         await request(app)
             .delete(teardownUrl);
