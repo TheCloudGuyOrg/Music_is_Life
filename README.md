@@ -65,10 +65,21 @@ npm install
 
 
 ## Project Requirements
+# Backend
 - S3 Deep Dive with A Cloud Guru
 - Setup Cognito for Auth
-- AWS Amplify Deep Dive
 - Java Deep Dive
+
+# Front End
+
+
+# Full Stack
+
+- AWS Amplify Deep Dive
+- Setup CI/CD Pipeline
+    - https://github.com/awslabs/aws-devops-essential
+    - Define DEV, QA, and Prod Env
+    - Setup Code Tools
 - Cloudformation Deep Dive with A Cloud Guru
     - Break out CFN into Stacks
 - Setup Lambda and API Gateway
@@ -76,13 +87,6 @@ npm install
     - Setup Paramater Store 
     - Convert DynamoDB/S3 Upload to a Lambda trigger that triggers on the file upload and then adds to DyanmoDB
     - Move Session Data into DynamoDB
-- Setup CI/CD Pipeline
-    - https://github.com/awslabs/aws-devops-essential
-    - Define DEV, QA, and Prod Env
-    - Setup Code Tools
-
-
-
 
 
 
