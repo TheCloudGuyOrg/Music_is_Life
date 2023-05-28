@@ -90,7 +90,36 @@
               }
             ]
           }  
-        }   
+        },   
+        "DynamoDBUserTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "Email",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "Email",
+                "KeyType": "HASH"
+              }
+            ],
+            "BillingMode": "PAY_PER_REQUEST",
+            "TableName": "Music-Is-Life-Users",
+            "PointInTimeRecoverySpecification": {
+              "PointInTimeRecoveryEnabled": true
+            },
+            "DeletionProtectionEnabled": true,
+            "Tags" : [
+              {
+                "Key" : "Project",
+                "Value" : "Music-Is-Life"
+              }
+            ]
+          }  
+        } 
       },   
   "Outputs": {
     "S3BucketArn": {

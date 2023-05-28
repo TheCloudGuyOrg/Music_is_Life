@@ -67,7 +67,6 @@ npm install
 ## Project Requirements
 # Backend
 - Set up Authentication
-    - Setup User Table in DynamoDB
     - Setup User Queries 
     - Enable Authentication
 - S3 Deep Dive with A Cloud Guru
