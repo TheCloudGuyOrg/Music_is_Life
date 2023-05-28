@@ -8,9 +8,18 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
 
+//Import bcrypt
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 // Import DynamoDB Modules
 const {
-    DynamoDBClient
+    DynamoDBClient,    
+    ScanCommand,
+    QueryCommand,
+    PutItemCommand,
+    UpdateItemCommand,
+    DeleteItemCommand
 } = require('@aws-sdk/client-dynamodb');
 
 
@@ -43,9 +52,25 @@ const ddbClient = new DynamoDBClient({
 
 // GET all Users API - GET /users/list
 const getUsers = async (request, response) => {
-    
+    const listObjects = new ScanCommand({
+        'TableName': 'Music-Is-Life-Users',
+        'ConsistentRead': false,
+    });
     try {
+        const data = await ddbClient.send(listObjects);
 
+        if(data.Items.length <= 0) {
+            response.status(404).send({
+                message: 'The User selected does not exist'
+            });
+        }
+        else {  
+            response.status(200).send({
+                status: 'Success',
+                message: 'User infomation retrieved from Database',
+                data: data,
+            });
+        }
     }
     catch (error) {
         response.status(500).send({
@@ -54,11 +79,36 @@ const getUsers = async (request, response) => {
     }
 };
 
-// GET User by name API - GET /users/user
-const getUserById = async (request, response) => {
+// GET User by Email API - GET /users/user
+const getUserByEmail = async (request, response) => {
+    const email = request.body.email;
     
-    try {
+    const getObject = new QueryCommand({
+        'TableName': 'Music-Is-Life-Users',
+        'Select': 'ALL_ATTRIBUTES',
+        'ExpressionAttributeValues': {
+            ':v1': {
+                'S': email
+            }
+        },
+        'KeyConditionExpression': 'Email = :v1',
+        'ConsistentRead': false,
+    });
 
+    try {
+        const data = await ddbClient.send(getObject);
+
+        if(data.Items[0] === undefined) {
+            response.status(404).send({
+                message: 'The User selected does not exist'
+            });
+        } else {
+            response.status(200).send({
+                status: 'Success',
+                message: 'The User information was retrived',
+                DDBdata: data
+            });
+        }
     }
     catch (error) {
         response.status(500).send({
@@ -69,9 +119,43 @@ const getUserById = async (request, response) => {
 
 // POST new user API - GET /users/upload
 const addUser = async (request, response) => {
-    
-    try {
+    const email = request.body.email;
+    const password = request.body.password;
+    const firstName = request.body.firstName;
+    const lastName = request.body.lastName;
 
+    const postObject = new PutItemCommand({
+        'TableName': 'Music-Is-Life-Users',
+        'Item': {
+            'Email': {
+                'S': email
+            },
+            'Password': {
+                'S': password
+            },
+            'First Name': {
+                'S': firstName
+            },
+            'Last Name': {
+                'S': lastName
+            }
+        }
+    });
+
+    try {
+        const data = await ddbClient.send(postObject);
+
+        if(data === undefined) {
+            response.status(404).send({
+                message: 'Could not complete the User upload'
+            });
+        } else {
+            response.status(200).send({
+                status: 'Success',
+                message: 'The User has been uploaded',
+                data: data
+            });
+        }
     }
     catch (error) {
         response.status(500).send({
@@ -82,9 +166,43 @@ const addUser = async (request, response) => {
 
 // UPDATE existing user API - GET /users/update
 const updateUser = async (request, response) => {
-    
-    try {
+    const email = request.body.email;
+    const password = request.body.password;
+    const firstName = request.body.firstName;
+    const lastName = request.body.lastName;
 
+    const postObject = new PutItemCommand({
+        'TableName': 'Music-Is-Life-Users',
+        'Item': {
+            'Email': {
+                'S': email
+            },
+            'Password': {
+                'S': password
+            },
+            'First Name': {
+                'S': firstName
+            },
+            'Last Name': {
+                'S': lastName
+            }
+        }
+    });
+
+    try {
+        const data = await ddbClient.send(postObject);
+
+        if(data === undefined) {
+            response.status(404).send({
+                message: 'Could not complete the User upload'
+            });
+        } else {
+            response.status(200).send({
+                status: 'Success',
+                message: 'The User has been uploaded',
+                data: data
+            });
+        }
     }
     catch (error) {
         response.status(500).send({
@@ -95,9 +213,31 @@ const updateUser = async (request, response) => {
 
 // DELETE user API - GET /users/delete
 const deleteUser = async (request, response) => {
-    
-    try {
+    const email = request.body.email;
 
+    const deleteObject = new DeleteItemCommand({
+        'TableName': 'Music-Is-Life-Users',
+        'Key': {
+            'Email': {
+                'S': email
+            }
+        }
+    });
+
+    try {
+        const data = await ddbClient.send(deleteObject);
+
+        if(data.Items[0] === undefined) {
+            response.status(404).send({
+                message: 'The User selected does not exist'
+            });
+        } else {
+            response.status(200).send({
+                status: 'Success',
+                message: 'The User was deleted',
+                DDBdata: data
+            });
+        }
     }
     catch (error) {
         response.status(500).send({
@@ -113,7 +253,7 @@ const deleteUser = async (request, response) => {
 //Export Queries
 module.exports = {
     getUsers,
-    getUserById,
+    getUserByEmail,
     addUser,
     updateUser,
     deleteUser

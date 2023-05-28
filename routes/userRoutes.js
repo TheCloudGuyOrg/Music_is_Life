@@ -11,7 +11,7 @@ const userApi = express.Router();
 // Import Queries
 const {
     getUsers,
-    getUserById,
+    getUserByEmail,
     addUser,
     updateUser,
     deleteUser
@@ -24,7 +24,7 @@ const {
 
 // User API Routes
 userApi.get('/list', getUsers);
-userApi.get('/user', getUserById);
+userApi.get('/user', getUserByEmail);
 userApi.post('/upload', addUser);
 userApi.put('/update', updateUser);
 userApi.delete('/delete', deleteUser);

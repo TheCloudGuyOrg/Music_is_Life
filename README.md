@@ -68,6 +68,7 @@ npm install
 # Backend
 - Set up Authentication
     - Setup User Queries 
+    - Enable Bcrypt
     - Enable Authentication
 - S3 Deep Dive with A Cloud Guru
 - Java Deep Dive
