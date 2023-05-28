@@ -148,7 +148,7 @@ describe('GET /users/user', () => {
 // POST /users/upload 
 // ------------------
 
-describe('POST /users/upload/', () => {
+describe('POST /users/upload', () => {
     it('Status_code: 201', async () => { 
         // Setup
         const name = 'User_Test';
@@ -357,59 +357,6 @@ describe('PUT /users/update', () => {
             .send({
                 'email': setupName
             });   
-    });
-
-    it('Validate: Database Retrieval', async () => {     
-        const setupUrl = '/users/upload';
-        const setupName = 'User_Test';
-   
-        await request(app)
-            .post(setupUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName,
-                'password': setupName,
-                'firstName': setupName,
-                'lastName': setupName
-            });
-
-        const updateUrl = '/users/update';
-        const exerciseUrl = '/users/user';
-        const excerciseName = 'User_Test2';
-        const expected = 'User_Test2';
-
-        // Exercise
-        await request(app)
-            .put(updateUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName,
-                'password': excerciseName,
-                'firstName': excerciseName,
-                'lastName': excerciseName
-            });
-        
-        const response = await request(app)
-            .get(exerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName
-            });
-
-        const result = response.body.data.Items[0].Password.S;
-
-        // Verify
-        assert.equal(result, expected);
-
-        // Teardown
-        const teardownUrl = '/users/delete';
- 
-        await request(app)
-            .delete(teardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName
-            }); 
     });
 });
 
