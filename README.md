@@ -67,7 +67,6 @@ npm install
 ## Project Requirements
 # Backend
 - Set up Authentication
-    - Enable Bcrypt
     - Enable Authentication
 - S3 Deep Dive with A Cloud Guru
 - Java Deep Dive

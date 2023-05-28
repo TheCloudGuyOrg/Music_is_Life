@@ -124,38 +124,41 @@ const addUser = async (request, response) => {
     const firstName = request.body.firstName;
     const lastName = request.body.lastName;
 
-    const postObject = new PutItemCommand({
-        'TableName': 'Music-Is-Life-Users',
-        'Item': {
-            'Email': {
-                'S': email
-            },
-            'Password': {
-                'S': password
-            },
-            'First Name': {
-                'S': firstName
-            },
-            'Last Name': {
-                'S': lastName
-            }
-        }
-    });
-
     try {
-        const data = await ddbClient.send(postObject);
+        bcrypt.hash(password, saltRounds, async function(error, hash) {
+            const postObject = new PutItemCommand({
+                'TableName': 'Music-Is-Life-Users',
+                'Item': {
+                    'Email': {
+                        'S': email
+                    },
+                    'Password': {
+                        'S': hash
+                    },
+                    'First Name': {
+                        'S': firstName
+                    },
+                    'Last Name': {
+                        'S': lastName
+                    }
+                }
+            });
+            
+            const data = await ddbClient.send(postObject);
 
-        if(data === undefined) {
-            response.status(404).send({
-                message: 'Could not complete the User upload'
-            });
-        } else {
-            response.status(200).send({
-                status: 'Success',
-                message: 'The User has been uploaded',
-                data: data
-            });
-        }
+            if(data === undefined) {
+                response.status(404).send({
+                    message: 'Could not complete the User upload'
+                });
+            } 
+            else {
+                response.status(200).send({
+                    status: 'Success',
+                    message: 'The User has been uploaded',
+                    data: data
+                });
+            }
+        });
     }
     catch (error) {
         response.status(500).send({
@@ -171,38 +174,42 @@ const updateUser = async (request, response) => {
     const firstName = request.body.firstName;
     const lastName = request.body.lastName;
 
-    const postObject = new PutItemCommand({
-        'TableName': 'Music-Is-Life-Users',
-        'Item': {
-            'Email': {
-                'S': email
-            },
-            'Password': {
-                'S': password
-            },
-            'First Name': {
-                'S': firstName
-            },
-            'Last Name': {
-                'S': lastName
-            }
-        }
-    });
 
     try {
-        const data = await ddbClient.send(postObject);
+        bcrypt.hash(password, saltRounds, async function(error,hash) {
+            const postObject = new PutItemCommand({
+                'TableName': 'Music-Is-Life-Users',
+                'Item': {
+                    'Email': {
+                        'S': email
+                    },
+                    'Password': {
+                        'S': hash
+                    },
+                    'First Name': {
+                        'S': firstName
+                    },
+                    'Last Name': {
+                        'S': lastName
+                    }
+                }
+            });
 
-        if(data === undefined) {
-            response.status(404).send({
-                message: 'Could not complete the User upload'
-            });
-        } else {
-            response.status(200).send({
-                status: 'Success',
-                message: 'The User has been uploaded',
-                data: data
-            });
-        }
+            const data = await ddbClient.send(postObject);
+
+            if(data === undefined) {
+                response.status(404).send({
+                    message: 'Could not complete the User upload'
+                });
+            } 
+            else {
+                response.status(200).send({
+                    status: 'Success',
+                    message: 'The User has been uploaded',
+                    data: data
+                });
+            }
+        });
     }
     catch (error) {
         response.status(500).send({
