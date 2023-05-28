@@ -28,11 +28,11 @@ const BUCKET = process.env.BUCKET;
 // GET /api Tests
 // --------------
 
-//Test: GET /api
-describe('GET /api', () => {
+//Test: GET /api/list
+describe('GET /api/list', () => {
     it('Status_code: 200', async () => {
         // Setup
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/list';
         const expected = 200;
 
         // Exercise
@@ -47,7 +47,7 @@ describe('GET /api', () => {
 
     it('Status: Success', async () => {    
         // Setup
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/list';
         const expected = 'Success';
 
         // Exercise
@@ -62,7 +62,7 @@ describe('GET /api', () => {
 
     it('DB Status_code: 200', async () => {
         // Setup
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/list';
         const expected = 200;
 
         // Exercise
@@ -77,7 +77,7 @@ describe('GET /api', () => {
 
     it('S3 Status_code: 200', async () => {
         // Setup
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/list';
         const expected = 200;
 
         // Exercise
@@ -99,7 +99,7 @@ describe('GET /api', () => {
 describe('GET /api/artist', () => {
     it('Status_code: 200', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -133,7 +133,7 @@ describe('GET /api/artist', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -147,7 +147,7 @@ describe('GET /api/artist', () => {
 
     it('Status: Success', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -181,7 +181,7 @@ describe('GET /api/artist', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -195,7 +195,7 @@ describe('GET /api/artist', () => {
 
     it('DB Status_code: 200', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -229,7 +229,7 @@ describe('GET /api/artist', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -243,7 +243,7 @@ describe('GET /api/artist', () => {
 
     it('S3 Status_code: 200', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -277,7 +277,7 @@ describe('GET /api/artist', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -298,7 +298,7 @@ describe('GET /api/artist', () => {
 describe('GET /api/url', () => {
     it('Status_code: 200', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -332,7 +332,7 @@ describe('GET /api/url', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -346,7 +346,7 @@ describe('GET /api/url', () => {
 
     it('Status: Success', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -380,7 +380,7 @@ describe('GET /api/url', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -394,7 +394,7 @@ describe('GET /api/url', () => {
 
     it('Validate Returning PreSigned URL', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -430,7 +430,7 @@ describe('GET /api/url', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -445,10 +445,10 @@ describe('GET /api/url', () => {
 
 
 // ---------------
-// POST /api Tests
+// POST /api/upload Tests
 // ---------------
 
-describe('POST /api', () => {
+describe('POST /api/upload', () => {
     it('Status_code: 200', async () => {
         // Setup
         const name = 'Test';
@@ -456,7 +456,7 @@ describe('POST /api', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/upload';
         const expected = 200;
 
         // Exercise
@@ -478,7 +478,7 @@ describe('POST /api', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -497,7 +497,7 @@ describe('POST /api', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/upload';
         const expected = 'Success';
 
         // Exercise
@@ -518,7 +518,7 @@ describe('POST /api', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -532,7 +532,7 @@ describe('POST /api', () => {
 
     it('Validate: Database Retrieval', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -566,7 +566,7 @@ describe('POST /api', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -580,7 +580,7 @@ describe('POST /api', () => {
 
     it('Validate: Storage Retrieval', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -614,7 +614,7 @@ describe('POST /api', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/api';
+        const teardownUrl = '/api/delete';
 
         await request(app)
             .delete(teardownUrl)
@@ -635,7 +635,7 @@ describe('POST /api', () => {
 describe('DELETE /api', () => {
     it('Status_code: 200', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -652,7 +652,7 @@ describe('DELETE /api', () => {
                 'path': path,
             }); 
 
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/delete';
         const expected = 200;
 
         // Exercise
@@ -674,7 +674,7 @@ describe('DELETE /api', () => {
     it('Status: Success', async () => {
         // Setup
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -691,7 +691,7 @@ describe('DELETE /api', () => {
                 'path': path,
             }); 
 
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/delete';
         const expected = 'Success';
 
         // Exercise
@@ -712,7 +712,7 @@ describe('DELETE /api', () => {
 
     it('DB Status_code: 200', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -729,7 +729,7 @@ describe('DELETE /api', () => {
                 'path': path,
             }); 
 
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/delete';
         const expected = 200;
 
         // Exercise
@@ -750,7 +750,7 @@ describe('DELETE /api', () => {
 
     it('S3 Status_code: 204', async () => {
         // Setup
-        const setupUrl = '/api'; 
+        const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
@@ -767,7 +767,7 @@ describe('DELETE /api', () => {
                 'path': path,
             }); 
 
-        const excerciseUrl = '/api';
+        const excerciseUrl = '/api/delete';
         const expected = 204;
 
         // Exercise

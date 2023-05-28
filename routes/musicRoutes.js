@@ -23,11 +23,11 @@ const {
 // ----------
 
 // Music API Routes
-musicApi.get('/', listMusic);
+musicApi.get('/list', listMusic);
 musicApi.get('/artist', getMusic);
 musicApi.get('/url', getMusicUrl);
-musicApi.post('/', postMusic);
-musicApi.delete('/', deleteMusic);
+musicApi.post('/upload', postMusic);
+musicApi.delete('/delete', deleteMusic);
 
 
 // ------------

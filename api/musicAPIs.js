@@ -54,7 +54,7 @@ const ddbClient = new DynamoDBClient({
 // API QUERIES
 // -----------
 
-// Defining List All Music Files API - GET /api
+// Defining List All Music Files API - GET /api/list
 const listMusic = async (request, response) => {
     const listDDBObjects = new ScanCommand({
         'TableName': 'Music-Is-Life-Artist-Track',
@@ -186,7 +186,7 @@ const getMusicUrl = async (request, response) => {
     }
 };
 
-// Defining Post Music API - POST /api
+// Defining Post Music API - POST /api/upload
 const postMusic = async (request, response) => {
     const artist = request.body.artist;
     const track = request.body.track;
