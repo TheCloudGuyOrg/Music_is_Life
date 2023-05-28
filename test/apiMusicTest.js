@@ -24,11 +24,10 @@ const app = require('../app.js');
 const BUCKET = process.env.BUCKET;
 
 
-// --------------
-// GET /api Tests
-// --------------
+// -------------------
+// GET /api/list Tests
+// -------------------
 
-//Test: GET /api/list
 describe('GET /api/list', () => {
     it('Status_code: 200', async () => {
         // Setup

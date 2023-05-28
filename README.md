@@ -67,7 +67,6 @@ npm install
 ## Project Requirements
 # Backend
 - S3 Deep Dive with A Cloud Guru
-- Setup Cognito for Auth
 - Java Deep Dive
 
 # Front End
@@ -88,7 +87,10 @@ npm install
     - Move Session Data into DynamoDB
 
 # Security
+- Setup Cognito for Auth
 - Setup KMS Custom Keys
+- Remove dependancy on AWS API Keys
+
 
 
 
