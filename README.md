@@ -87,7 +87,8 @@ npm install
     - Convert DynamoDB/S3 Upload to a Lambda trigger that triggers on the file upload and then adds to DyanmoDB
     - Move Session Data into DynamoDB
 
-
+# Security
+- Setup KMS Custom Keys
 
 
 
