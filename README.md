@@ -17,6 +17,49 @@ npm start
 npm install 
 ```
 
+## APIs
+### Authentiation Routes
+- POST /register 
+    - Register New Users
+- POST /login
+    - Request Login
+- GET /
+    - Generate Home Page
+- GET /register
+    - Generate Register Page
+- GET /login
+    - Generate Login Page
+- GET /error
+    - Generate Error Page
+- GET /profile
+    - Generate Profile Page
+- GET /logout
+    - Generate Logout Page
+
+### Music Routes
+- GET /api/list
+    - List all music files
+- GET /api/artist
+    - List music by artist/track
+- GET /api/url
+    - Get S3 PreSigned URL
+- POST /api/upload
+    - Upload new music
+- DELETE /api/delete
+    - Delete Music
+
+### User Routes
+- GET /users/list
+    - Get list of users
+- GET /users/user
+    - Get user by email address
+- POST /users/upload
+    - Add new users
+- PUT /users/update
+    - Update existing users
+- DELETE /users/delete
+    - Delete a user
+
 ## Software Components
 ### GitHub
 - https://github.com/TheCloudGuyOrg/Music_is_Life
@@ -66,7 +109,6 @@ npm install
 
 ## Project Requirements
 # Backend
-- Update Notes with API info
 - S3 Deep Dive with A Cloud Guru
 - Java Deep Dive
 
