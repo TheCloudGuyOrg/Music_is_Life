@@ -9,11 +9,49 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
 
 //Import Mocha Test Modules
-const request = require('supertest');
+const supertest = require('supertest');
 const assert = require('assert');
 
 //Import Express App
 const app = require('../app.js');
+const request = supertest.agent(app);
+
+
+// --------
+// Varables
+// --------
+
+// Import ENV Varables
+const TESTUSER = process.env.TESTUSER;
+const TESTPASSWORD = process.env.TESTPASSWORD;
+
+const userCredentials = {
+    email: TESTUSER,
+    password: TESTPASSWORD
+};
+
+
+// --------------
+// Authentication
+// --------------
+
+describe('GET /login', function() {
+
+    it('Should create a session', function(done) {
+        const response = request.post('/login')
+            .send({ username: TESTUSER, password: TESTPASSWORD })
+            .end(function() {
+                done();
+            });
+    });
+  
+    it('Should return the current session', function(done) {
+        request.get('/login').end(function() {
+            done();
+        });
+    });
+});
+
 
 // --------------
 // GET /api Tests
@@ -26,8 +64,9 @@ describe('GET /users/list', () => {
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+        const response = await request
+            .get(excerciseUrl)
+            .send(userCredentials);
 
         const result = response.status;
 
@@ -41,8 +80,9 @@ describe('GET /users/list', () => {
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+        const response = await request
+            .get(excerciseUrl)
+            .send(userCredentials);;
 
         const result = response._body.status;
 
@@ -62,15 +102,17 @@ describe('GET /users/user', () => {
         const name = 'User_Test';
         const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
    
-        await request(app)
-            .post(setupUrl);
+        await request
+            .post(setupUrl)
+            .send(userCredentials);
 
         const excerciseUrl = `/users/user/?email=${name}`;
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+        const response = await request
+            .get(excerciseUrl)
+            .send(userCredentials);
 
         const result = response.status;
 
@@ -80,8 +122,9 @@ describe('GET /users/user', () => {
         // Teardown
         const teardownUrl = `/users/delete/?email=${name}`;
  
-        await request(app)
-            .delete(teardownUrl);
+        await request
+            .delete(teardownUrl)
+            .send(userCredentials);
     });
 
     it('Status: Sucess', async () => {  
@@ -89,15 +132,17 @@ describe('GET /users/user', () => {
         const name = 'User_Test';
         const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
    
-        await request(app)
-            .post(setupUrl);
+        await request
+            .post(setupUrl)
+            .send(userCredentials);
 
         const excerciseUrl = `/users/user/?email=${name}`;
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+        const response = await request
+            .get(excerciseUrl)
+            .send(userCredentials);
 
         const result = response._body.status;
 
@@ -107,8 +152,9 @@ describe('GET /users/user', () => {
         // Teardown
         const teardownUrl = `/users/delete/?email=${name}`;
  
-        await request(app)
-            .delete(teardownUrl);
+        await request
+            .delete(teardownUrl)
+            .send(userCredentials);
     });  
 });
 
@@ -126,8 +172,9 @@ describe('POST /users/upload', () => {
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
-            .post(excerciseUrl);
+        const response = await request
+            .post(excerciseUrl)
+            .send(userCredentials);
 
         const result = response.status;
 
@@ -137,8 +184,9 @@ describe('POST /users/upload', () => {
         // Teardown
         const teardownUrl = `/users/delete/?email=${name}`;
  
-        await request(app)
-            .delete(teardownUrl);
+        await request
+            .delete(teardownUrl)
+            .send(userCredentials);
     });
 
     it('Status: Success', async () => {  
@@ -149,8 +197,9 @@ describe('POST /users/upload', () => {
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
-            .post(excerciseUrl);
+        const response = await request
+            .post(excerciseUrl)
+            .send(userCredentials);
 
         const result = response._body.status;
 
@@ -160,8 +209,9 @@ describe('POST /users/upload', () => {
         // Teardown
         const teardownUrl = `/users/delete/?email=${name}`;
  
-        await request(app)
-            .delete(teardownUrl);
+        await request
+            .delete(teardownUrl)
+            .send(userCredentials);
     });  
   
     it('Validate: Database Retrieval', async () => {
@@ -169,15 +219,17 @@ describe('POST /users/upload', () => {
         const name = 'User_Test';
         const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
 
-        await request(app)
-            .post(setupUrl);
+        await request
+            .post(setupUrl)
+            .send(userCredentials);
 
         const excerciseUrl = `/users/user/?email=${name}`;
         const expected = 'User_Test';
 
         // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+        const response = await request
+            .get(excerciseUrl)
+            .send(userCredentials);
 
         const result = response.body.data.Items[0].Email.S;
 
@@ -187,8 +239,9 @@ describe('POST /users/upload', () => {
         // Teardown
         const teardownUrl = `/users/delete/?email=${name}`;
  
-        await request(app)
-            .delete(teardownUrl);
+        await request
+            .delete(teardownUrl)
+            .send(userCredentials);
     });    
 });
 
@@ -203,8 +256,9 @@ describe('PUT /users/update', () => {
         const setupName = 'User_Test';
         const setupUrl = `/users/upload/?email=${setupName}&password=${setupName}&firstName=${setupName}&lastName=${setupName}`;
    
-        await request(app)
-            .post(setupUrl);
+        await request
+            .post(setupUrl)
+            .send(userCredentials);
 
         const excerciseName = 'User_Test2';
         const excerciseUrl = `/users/update/?email=${excerciseName}&password=${excerciseName}&firstName=${excerciseName}&lastName=${excerciseName}`;
@@ -212,8 +266,9 @@ describe('PUT /users/update', () => {
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
-            .put(excerciseUrl);
+        const response = await request
+            .put(excerciseUrl)
+            .send(userCredentials);
 
         const result = response.status;
 
@@ -223,8 +278,9 @@ describe('PUT /users/update', () => {
         // Teardown
         const teardownUrl = `/users/delete/?email=${excerciseName}`;
  
-        await request(app)
-            .delete(teardownUrl); 
+        await request
+            .delete(teardownUrl)
+            .send(userCredentials); 
     });
 
     it('Status: Success', async () => {    
@@ -232,8 +288,9 @@ describe('PUT /users/update', () => {
         const setupName = 'User_Test';
         const setupUrl = `/users/upload/?email=${setupName}&password=${setupName}&firstName=${setupName}&lastName=${setupName}`;
    
-        await request(app)
-            .post(setupUrl);
+        await request
+            .post(setupUrl)
+            .send(userCredentials);
 
         const excerciseName = 'User_Test2';
         const excerciseUrl = `/users/update/?email=${excerciseName}&password=${excerciseName}&firstName=${excerciseName}&lastName=${excerciseName}`;
@@ -241,8 +298,9 @@ describe('PUT /users/update', () => {
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
-            .put(excerciseUrl);
+        const response = await request
+            .put(excerciseUrl)
+            .send(userCredentials);
 
         const result = response._body.status;
 
@@ -252,8 +310,9 @@ describe('PUT /users/update', () => {
         // Teardown
         const teardownUrl = `/users/delete/?email=${excerciseName}`;
  
-        await request(app)
-            .delete(teardownUrl);
+        await request
+            .delete(teardownUrl)
+            .send(userCredentials);
     });
 });
 
@@ -268,15 +327,17 @@ describe('DELETE /users/delete', () => {
         const name = 'User_Test';
         const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
    
-        await request(app)
-            .post(setupUrl);
+        await request
+            .post(setupUrl)
+            .send(userCredentials);
 
         const excerciseUrl = `/users/delete/?email=${name}`;
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
-            .delete(excerciseUrl);
+        const response = await request
+            .delete(excerciseUrl)
+            .send(userCredentials);
 
         const result = response.status;
 
@@ -289,15 +350,17 @@ describe('DELETE /users/delete', () => {
         const name = 'User_Test';
         const setupUrl = `/users/upload/?email=${name}&password=${name}&firstName=${name}&lastName=${name}`;
    
-        await request(app)
-            .post(setupUrl);
+        await request
+            .post(setupUrl)
+            .send(userCredentials);
 
         const excerciseUrl = `/users/delete/?email=${name}`;
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
-            .delete(excerciseUrl);
+        const response = await request
+            .delete(excerciseUrl)
+            .send(userCredentials);
 
         const result = response._body.status;
 

@@ -9,11 +9,12 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './../config/.env' });
 
 //Import Mocha Test Modules
-const request = require('supertest');
+const supertest = require('supertest');
 const assert = require('assert');
 
 //Import Express App
 const app = require('../app.js');
+const request = supertest.agent(app);
 
 
 // --------
@@ -22,6 +23,35 @@ const app = require('../app.js');
 
 // Import ENV Varables
 const BUCKET = process.env.BUCKET;
+const TESTUSER = process.env.TESTUSER;
+const TESTPASSWORD = process.env.TESTPASSWORD;
+
+const userCredentials = {
+    email: TESTUSER,
+    password: TESTPASSWORD
+};
+
+
+// --------------
+// Authentication
+// --------------
+
+describe('GET /login', function() {
+
+    it('Should create a session', function(done) {
+        const response = request.post('/login')
+            .send({ username: TESTUSER, password: TESTPASSWORD })
+            .end(function() {
+                done();
+            });
+    });
+  
+    it('Should return the current session', function(done) {
+        request.get('/login').end(function() {
+            done();
+        });
+    });
+});
 
 
 // -------------------
@@ -35,8 +65,9 @@ describe('GET /api/list', () => {
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+        const response = await request
+            .get(excerciseUrl)
+            .send(userCredentials);
 
         const result = response.status;
 
@@ -50,8 +81,9 @@ describe('GET /api/list', () => {
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+        const response = await request
+            .get(excerciseUrl)
+            .send(userCredentials);
 
         const result = response._body.status;
 
@@ -65,8 +97,9 @@ describe('GET /api/list', () => {
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+        const response = await request
+            .get(excerciseUrl)
+            .send(userCredentials);
 
         const result = response._body.DDBdata.$metadata.httpStatusCode;
 
@@ -80,8 +113,9 @@ describe('GET /api/list', () => {
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
-            .get(excerciseUrl);
+        const response = await request
+            .get(excerciseUrl)
+            .send(userCredentials);
 
         const result = response._body.S3data[1].$metadata.httpStatusCode;
 
@@ -104,7 +138,7 @@ describe('GET /api/artist', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -113,18 +147,20 @@ describe('GET /api/artist', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            });  
-	
+            })
+            .send(userCredentials);  
+
         const excerciseUrl = '/api/artist';
         const expected = '200';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response.status;
 
@@ -134,13 +170,14 @@ describe('GET /api/artist', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 
@@ -152,7 +189,7 @@ describe('GET /api/artist', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -161,18 +198,20 @@ describe('GET /api/artist', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            });  
+            })
+            .send(userCredentials);  
 	
         const excerciseUrl = '/api/artist';
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response._body.status;
 
@@ -182,13 +221,14 @@ describe('GET /api/artist', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 
@@ -200,7 +240,7 @@ describe('GET /api/artist', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -209,18 +249,20 @@ describe('GET /api/artist', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            });  
+            })
+            .send(userCredentials);  
 	
         const excerciseUrl = '/api/artist';
         const expected = '200';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response._body.DDBdata.$metadata.httpStatusCode;
 
@@ -230,13 +272,14 @@ describe('GET /api/artist', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 
@@ -248,7 +291,7 @@ describe('GET /api/artist', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -257,18 +300,20 @@ describe('GET /api/artist', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 	
         const excerciseUrl = '/api/artist';
         const expected = '200';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response._body.S3data[1].$metadata.httpStatusCode;
 
@@ -278,13 +323,14 @@ describe('GET /api/artist', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 });
@@ -303,7 +349,7 @@ describe('GET /api/url', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -312,18 +358,20 @@ describe('GET /api/url', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 	
         const excerciseUrl = '/api/url';
         const expected = '200';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response.status;
 
@@ -333,13 +381,14 @@ describe('GET /api/url', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 
@@ -351,7 +400,7 @@ describe('GET /api/url', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -360,18 +409,20 @@ describe('GET /api/url', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 	
         const excerciseUrl = '/api/url';
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response._body.status;
 
@@ -381,13 +432,14 @@ describe('GET /api/url', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 
@@ -400,7 +452,7 @@ describe('GET /api/url', () => {
         const path = './test/';
         const bucket = BUCKET;
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -409,18 +461,20 @@ describe('GET /api/url', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 	
         const excerciseUrl = '/api/url';
         const expected = `${bucket}.s3.us-east-1.amazonaws.com/${file}`;
     
         // Exercise
-        const response = await request(app)
+        const response = await request
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name
-            });           
+            })
+            .send(userCredentials);           
 
         const s3Url = response._body.S3PreSignedURL;
         const result = s3Url.split('/')[2] + '/' + file;
@@ -431,21 +485,22 @@ describe('GET /api/url', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 });
 
 
-// ---------------
+// ----------------------
 // POST /api/upload Tests
-// ---------------
+// ----------------------
 
 describe('POST /api/upload', () => {
     it('Status_code: 200', async () => {
@@ -459,7 +514,7 @@ describe('POST /api/upload', () => {
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .post(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -468,8 +523,8 @@ describe('POST /api/upload', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
-
+            })
+            .send(userCredentials); 
 
         const result = response.status;
 
@@ -479,13 +534,14 @@ describe('POST /api/upload', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 
@@ -500,7 +556,7 @@ describe('POST /api/upload', () => {
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .post(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -509,7 +565,8 @@ describe('POST /api/upload', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 
         const result = response._body.status;
 
@@ -519,14 +576,14 @@ describe('POST /api/upload', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
-
+            })
+            .send(userCredentials);
     }).timeout(5000);    
 
     it('Validate: Database Retrieval', async () => {
@@ -537,7 +594,7 @@ describe('POST /api/upload', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -546,18 +603,20 @@ describe('POST /api/upload', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 	
         const excerciseUrl = '/api/artist';
         const expected = 'Test';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response._body.DDBdata.Items[0].Artist.S;
 
@@ -567,13 +626,14 @@ describe('POST /api/upload', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 
@@ -585,7 +645,7 @@ describe('POST /api/upload', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -594,18 +654,20 @@ describe('POST /api/upload', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 	
         const excerciseUrl = '/api/artist';
         const expected = 'Test.m4a';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .get(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response._body.S3data[0];
 
@@ -615,13 +677,14 @@ describe('POST /api/upload', () => {
         // Teardown
         const teardownUrl = '/api/delete';
 
-        await request(app)
+        await request
             .delete(teardownUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
     }).timeout(5000);
 });
@@ -640,7 +703,7 @@ describe('DELETE /api', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -649,19 +712,21 @@ describe('DELETE /api', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 
         const excerciseUrl = '/api/delete';
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .delete(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response.status;
 
@@ -672,14 +737,13 @@ describe('DELETE /api', () => {
 
     it('Status: Success', async () => {
         // Setup
-        // Setup
         const setupUrl = '/api/upload'; 
         const name = 'Test';
         const year = 1900;
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -688,19 +752,21 @@ describe('DELETE /api', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 
         const excerciseUrl = '/api/delete';
         const expected = 'Success';
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .delete(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response._body.status;
 
@@ -717,7 +783,7 @@ describe('DELETE /api', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -726,19 +792,21 @@ describe('DELETE /api', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 
         const excerciseUrl = '/api/delete';
         const expected = 200;
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .delete(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response._body.DDBdata.$metadata.httpStatusCode;
 
@@ -755,7 +823,7 @@ describe('DELETE /api', () => {
         const file = 'Test.m4a';
         const path = './test/';
 
-        await request(app)
+        await request
             .post(setupUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
@@ -764,24 +832,26 @@ describe('DELETE /api', () => {
                 'year': year,
                 'name': file,
                 'path': path,
-            }); 
+            })
+            .send(userCredentials); 
 
         const excerciseUrl = '/api/delete';
         const expected = 204;
 
         // Exercise
-        const response = await request(app)
+        const response = await request
             .delete(excerciseUrl)
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send({
                 'artist': name,
                 'track': name
-            });
+            })
+            .send(userCredentials);
 
         const result = response._body.S3data.$metadata.httpStatusCode;
 
         // Verify
         assert.equal(result, expected);
-
+        
     }).timeout(5000);
 });

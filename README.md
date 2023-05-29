@@ -66,8 +66,6 @@ npm install
 
 ## Project Requirements
 # Backend
-- Set up Authentication
-    - Enable Authentication in Mocha Tests
 - Update Notes with API info
 - S3 Deep Dive with A Cloud Guru
 - Java Deep Dive
