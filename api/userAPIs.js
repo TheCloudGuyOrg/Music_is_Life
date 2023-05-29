@@ -80,7 +80,7 @@ const getUsers = async (request, response) => {
 
 // GET User by Email API - GET /users/user
 const getUserByEmail = async (request, response) => {
-    const email = request.body.email;
+    const email = request.query.email;
     
     const getObject = new QueryCommand({
         'TableName': 'Music-Is-Life-Users',
@@ -173,7 +173,6 @@ const updateUser = async (request, response) => {
     const firstName = request.query.firstName;
     const lastName = request.query.lastName;
 
-
     try {
         bcrypt.hash(password, saltRounds, async function(error,hash) {
             const postObject = new PutItemCommand({
@@ -219,7 +218,7 @@ const updateUser = async (request, response) => {
 
 // DELETE user API - GET /users/delete
 const deleteUser = async (request, response) => {
-    const email = request.body.email;
+    const email = request.query.email;
 
     const deleteObject = new DeleteItemCommand({
         'TableName': 'Music-Is-Life-Users',

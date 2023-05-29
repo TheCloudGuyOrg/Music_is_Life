@@ -66,16 +66,12 @@ describe('GET /users/user', () => {
         await request(app)
             .post(setupUrl);
 
-        const excerciseUrl = '/users/user';
+        const excerciseUrl = `/users/user/?email=${name}`;
         const expected = 200;
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });
+            .get(excerciseUrl);
 
         const result = response.status;
 
@@ -83,14 +79,10 @@ describe('GET /users/user', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/users/delete';
+        const teardownUrl = `/users/delete/?email=${name}`;
  
         await request(app)
-            .delete(teardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });
+            .delete(teardownUrl);
     });
 
     it('Status: Sucess', async () => {  
@@ -101,16 +93,12 @@ describe('GET /users/user', () => {
         await request(app)
             .post(setupUrl);
 
-        const excerciseUrl = '/users/user';
+        const excerciseUrl = `/users/user/?email=${name}`;
         const expected = 'Success';
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });
+            .get(excerciseUrl);
 
         const result = response._body.status;
 
@@ -118,14 +106,10 @@ describe('GET /users/user', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/users/delete';
+        const teardownUrl = `/users/delete/?email=${name}`;
  
         await request(app)
-            .delete(teardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });
+            .delete(teardownUrl);
     });  
 });
 
@@ -152,14 +136,10 @@ describe('POST /users/upload', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/users/delete';
+        const teardownUrl = `/users/delete/?email=${name}`;
  
         await request(app)
-            .delete(teardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });  
+            .delete(teardownUrl);
     });
 
     it('Status: Success', async () => {  
@@ -179,14 +159,10 @@ describe('POST /users/upload', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/users/delete';
+        const teardownUrl = `/users/delete/?email=${name}`;
  
         await request(app)
-            .delete(teardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });  
+            .delete(teardownUrl);
     });  
   
     it('Validate: Database Retrieval', async () => {
@@ -197,16 +173,12 @@ describe('POST /users/upload', () => {
         await request(app)
             .post(setupUrl);
 
-        const excerciseUrl = '/users/user';
+        const excerciseUrl = `/users/user/?email=${name}`;
         const expected = 'User_Test';
 
         // Exercise
         const response = await request(app)
-            .get(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });
+            .get(excerciseUrl);
 
         const result = response.body.data.Items[0].Email.S;
 
@@ -214,14 +186,10 @@ describe('POST /users/upload', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/users/delete';
+        const teardownUrl = `/users/delete/?email=${name}`;
  
         await request(app)
-            .delete(teardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });  
+            .delete(teardownUrl);
     });    
 });
 
@@ -254,14 +222,10 @@ describe('PUT /users/update', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/users/delete';
+        const teardownUrl = `/users/delete/?email=${excerciseName}`;
  
         await request(app)
-            .delete(teardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName
-            });    
+            .delete(teardownUrl); 
     });
 
     it('Status: Success', async () => {    
@@ -274,7 +238,7 @@ describe('PUT /users/update', () => {
 
         const excerciseName = 'User_Test2';
         const excerciseUrl = `/users/update/?email=${excerciseName}&password=${excerciseName}&firstName=${excerciseName}&lastName=${excerciseName}`;
-        
+
         const expected = 'Success';
 
         // Exercise
@@ -287,14 +251,10 @@ describe('PUT /users/update', () => {
         assert.equal(result, expected);
 
         // Teardown
-        const teardownUrl = '/users/delete';
+        const teardownUrl = `/users/delete/?email=${excerciseName}`;
  
         await request(app)
-            .delete(teardownUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': setupName
-            });   
+            .delete(teardownUrl);
     });
 });
 
@@ -312,16 +272,12 @@ describe('DELETE /users/delete', () => {
         await request(app)
             .post(setupUrl);
 
-        const excerciseUrl = '/users/delete';
+        const excerciseUrl = `/users/delete/?email=${name}`;
         const expected = 200;
 
         // Exercise
         const response = await request(app)
-            .delete(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });
+            .delete(excerciseUrl);
 
         const result = response.status;
 
@@ -337,16 +293,12 @@ describe('DELETE /users/delete', () => {
         await request(app)
             .post(setupUrl);
 
-        const excerciseUrl = '/users/delete';
+        const excerciseUrl = `/users/delete/?email=${name}`;
         const expected = 'Success';
 
         // Exercise
         const response = await request(app)
-            .delete(excerciseUrl)
-            .set('Content-Type', 'application/x-www-form-urlencoded')
-            .send({
-                'email': name
-            });
+            .delete(excerciseUrl);
 
         const result = response._body.status;
 

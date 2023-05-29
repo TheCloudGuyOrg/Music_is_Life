@@ -106,7 +106,6 @@ passport.use(new LocalStrategy(
                 if(user[0] == null) {
                     return done(null, false);
                 }
-    
                 const foundMatch = bcrypt.compare(password,user[0].dataValues.password);
     
                 foundMatch.then((match) => {
