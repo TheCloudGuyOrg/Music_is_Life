@@ -135,10 +135,10 @@ const authRouter = require('./routes/authRoutes.js');
 app.use('/', authRouter);
 
 const musicRouter = require('./routes/musicRoutes.js');
-app.use('/api', ensureAuthentication, musicRouter);
+app.use('/api', musicRouter);
 
 const usersRouter = require('./routes/userRoutes.js');
-app.use('/users', ensureAuthentication, usersRouter);
+app.use('/users', usersRouter);
 
 // -----------
 // Init Server

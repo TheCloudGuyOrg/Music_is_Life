@@ -22,7 +22,26 @@ const app = require('../app.js');
 
 // Import ENV Varables
 const BUCKET = process.env.BUCKET;
+const TESTUSER = process.env.TESTUSER;
+const TESTPASSWORD = process.env.TESTPASSWORD;
 
+
+// --------------
+// Authentication
+// --------------
+
+// Import ENV Varables
+const userCredentials = {
+    email: TESTUSER,
+    password: TESTPASSWORD
+};
+
+// const authenticatedUser = request.agent(app);
+// before(function(done){
+//     authenticatedUser
+//         .post('/login')
+//         .send(userCredentials);
+// });
 
 // -------------------
 // GET /api/list Tests

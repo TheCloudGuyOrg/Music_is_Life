@@ -16,6 +16,33 @@ const assert = require('assert');
 const app = require('../app.js');
 
 
+// --------
+// Varables
+// --------
+
+// Import ENV Varables
+const TESTUSER = process.env.TESTUSER;
+const TESTPASSWORD = process.env.TESTPASSWORD;
+
+
+// --------------
+// Authentication
+// --------------
+
+// Import ENV Varables
+const userCredentials = {
+    email: TESTUSER,
+    password: TESTPASSWORD
+};
+
+const authenticatedUser = request.agent(app);
+
+// before(function(done){
+//     authenticatedUser
+//         .post('/login')
+//         .send(userCredentials);
+// });
+
 // --------------
 // GET /api Tests
 // --------------
