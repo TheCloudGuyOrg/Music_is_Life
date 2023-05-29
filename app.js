@@ -90,8 +90,8 @@ passport.serializeUser((user, done) => {
     });
 }); 
 
-passport.deserializeUser((user, done) => {
-    getUserByEmail(user.email)
+passport.deserializeUser((email, done) => {
+    getUserByEmail(email)
         .then((response, error) => {
             const username = response[0].dataValues.name;
             if (error) {
