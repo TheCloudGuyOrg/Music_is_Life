@@ -107,15 +107,15 @@ npm install
     - DeleteItemCommand
 
 
-## Project Requirements
-# Backend
+# Project Requirements
+## Backend
 - S3 Deep Dive with A Cloud Guru
 - Java Deep Dive
 
-# Front End
+## Front End
 - Customize Cognito Login Page
 
-# Full Stack
+## Full Stack
 - AWS Amplify Deep Dive
 - Setup CI/CD Pipeline
     - https://github.com/awslabs/aws-devops-essential
@@ -129,7 +129,7 @@ npm install
     - Convert DynamoDB/S3 Upload to a Lambda trigger that triggers on the file upload and then adds to DyanmoDB
     - Move Session Data into DynamoDB
 
-# Security
+## Security
 - Setup Cognito for Auth
 - Setup KMS Custom Keys
 - Remove dependancy on AWS API Keys
