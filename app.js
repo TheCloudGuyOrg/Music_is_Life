@@ -85,44 +85,46 @@ app.use(passport.session());
 
 passport.serializeUser((user, done) => {
     return done(null, {
-        id: user[0].dataValues.id,
-        username: user[0].dataValues.name
+        email: user.Items[0].Email.S,
     });
 }); 
 
-passport.deserializeUser((email, done) => {
-    getUserByEmail(email)
+passport.deserializeUser((user, done) => {
+    getUserByEmail(user)
         .then((response, error) => {
-            const username = response[0].dataValues.name;
+            const email = user.email;
             if (error) {
                 return done(error);
             }
-            return done(null, username);
+            return done(null, email);
         });
 }); 
   
 passport.use(new LocalStrategy(
-    function (email, password, done) {
-        getUserByEmail(email)
+    function (username, password, done) {
+        getUserByEmail(username)
             .then((user) => {
-                if(user[0] == null) {
+                if(user == null) {
                     return done(null, false);
                 }
-                const foundMatch = bcrypt.compare(password,user[0].dataValues.password);
+                else {
+                    const foundMatch = bcrypt.compare(password, user.Items[0].Password.S);
     
-                foundMatch.then((match) => {
-                    if(match == false) {
-                        return done(null, false);
-                    } 
-  
-                    return done(null, user);
-                });
+                    foundMatch.then((match) => {
+                        if(match == false) {
+                            return done(null, false);
+                        } 
+      
+                        return done(null, user);
+                    });
+                }
             })
             .catch((error) => {
                 console.log(error);
             });
     })
 );
+
 
 // ----------
 // API Routes

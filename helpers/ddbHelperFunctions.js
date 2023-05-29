@@ -6,7 +6,7 @@
 
 // Import ENV Modules
 const dotenv = require('dotenv');
-dotenv.config({ path: './../config/.env' });
+dotenv.config({ path: './config/.env' });
 
 // Import DynamoDB Modules
 const {
@@ -64,9 +64,7 @@ const getUserByEmail = async (email) => {
         };
     }
     catch (error) {
-        response.status(500).send({
-            error: error.message
-        });
+        return error;
     }
 };
 

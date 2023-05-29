@@ -81,7 +81,7 @@ const getUsers = async (request, response) => {
 // GET User by Email API - GET /users/user
 const getUserByEmail = async (request, response) => {
     const email = request.query.email;
-    
+
     const getObject = new QueryCommand({
         'TableName': 'Music-Is-Life-Users',
         'Select': 'ALL_ATTRIBUTES',
