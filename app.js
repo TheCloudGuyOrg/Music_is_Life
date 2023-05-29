@@ -17,6 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const helmet = require('helmet');
 app.use(helmet());
 
+// Import AWS Helper Functions
+const { getUserByEmail } = require('./helpers/ddbHelperFunctions.js');
 
 // --------
 // Varables
@@ -89,7 +91,7 @@ passport.serializeUser((user, done) => {
 }); 
 
 passport.deserializeUser((user, done) => {
-    getUserById(user.id)
+    getUserByEmail(user.email)
         .then((response, error) => {
             const username = response[0].dataValues.name;
             if (error) {
@@ -100,8 +102,8 @@ passport.deserializeUser((user, done) => {
 }); 
   
 passport.use(new LocalStrategy(
-    function (username, password, done) {
-        getUserByName(username)
+    function (email, password, done) {
+        getUserByEmail(email)
             .then((user) => {
                 if(user[0] == null) {
                     return done(null, false);
