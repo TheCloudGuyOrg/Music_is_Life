@@ -22,7 +22,7 @@ authApi.post('/register', async (request, response) => {
     const lastName = request.body.lastName;
 
     const url = `http://localhost:3000/users/upload/?email=${email}&password=${password}&firstName=${firstName}&lastName=${lastName}`;
-    console.log(url);
+
     try {
         const user = await fetch(url, {
             method: 'POST',
