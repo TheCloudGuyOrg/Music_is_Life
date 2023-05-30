@@ -71,6 +71,10 @@ npm install
 - body-parser
 - helmet
 - fs
+- bycrypt
+- ejs
+- passport
+- passport-local
 
 ### Mocha Test Suite
 - mocha 
