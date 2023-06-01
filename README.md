@@ -118,8 +118,10 @@ npm install
 
 ## Front End
 - Customize Login Page
-- PHP Deep Dive
+- HTML Deep Dive
+- CSS Deep Dive
 - JavaScript Deep Dive
+- PHP Deep Dive
 
 ## Full Stack
 - AWS Amplify Deep Dive
