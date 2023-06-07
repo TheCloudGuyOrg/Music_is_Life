@@ -115,6 +115,8 @@ npm install
 ## Backend
 - S3 Deep Dive with A Cloud Guru
 - Java Deep Dive
+- AWS RDS and Database Deep Dive
+- AWS Database Cert
 
 ## Front End
 - Customize Login Page
