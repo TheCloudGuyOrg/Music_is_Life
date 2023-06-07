@@ -118,6 +118,9 @@ npm install
 
 ## Front End
 - Customize Login Page
+- Setup www.thecloudguy.org home page (Profile)
+- Setup blog.thecloudguy.org
+- Setup musicislife.thecloudguy.org
 - HTML Deep Dive
 - CSS Deep Dive
 - JavaScript Deep Dive
