@@ -33,7 +33,7 @@ const multiPartUpload = async (fileName, filePath) => {
     const fileKey = fileName;
     const fileStream = fs.readFileSync(filePath);
     const fileSize = fs.statSync(filePath).size;
-    const chunkSize = 1024 * 1024 * 5; // 5 MB
+    const chunkSize = 1024 * 1024 * 25; // 25 MB
     const numParts = Math.ceil(fileSize / chunkSize);
     const promise = [];
     let Parts = [];
